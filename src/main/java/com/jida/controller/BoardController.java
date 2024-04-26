@@ -1,9 +1,9 @@
 package com.jida.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.jida.dto.res.board.BoardListResponse;
 import com.jida.dto.res.board.BoardListResponseDto;
@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 import static com.jida.constants.SuccessCode.*;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/board")
 public class BoardController {

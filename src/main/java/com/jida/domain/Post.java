@@ -8,6 +8,7 @@ public class Post {
 	private long hit;
 	private long boardId;
 	private long memberId;
+	
 	public long getPostId() {
 		return postId;
 	}
@@ -51,4 +52,13 @@ public class Post {
 		this.memberId = memberId;
 	}
 	
+	public static Post creatPost(long memberId, long boardId, String title, String content) {
+		Post post = new Post();
+		post.memberId = memberId;
+		post.boardId = boardId;
+		post.title = title;
+		post.content = content;
+		post.hit = 0;
+		return post;
+	}
 }

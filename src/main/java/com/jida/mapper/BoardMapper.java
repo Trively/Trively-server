@@ -9,5 +9,5 @@ import com.jida.domain.Board;
 @Mapper
 public interface BoardMapper {
 	List<Board> showList();
-
+	long findId(String boardName);
 }
