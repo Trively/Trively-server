@@ -14,4 +14,9 @@
 		from board
 	</select>
 
+	<select id="findId" parameterType="string">
+		select board_id
+		from board
+    	where board_name like #{boardName}
+	</select>
 </mapper>

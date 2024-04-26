@@ -14,7 +14,8 @@ public enum SuccessCode {
     SIGNUP_SUCCESS(OK, "회원가입을 완료했습니다."),
 	
 	//Board
-	BOARD_READ_SUCCESS(OK, "게시판 전체 조회를 성공했습니다.");
+	BOARD_READ_SUCCESS(OK, "게시판 전체 조회를 성공했습니다."),
+	POST_SAVE_SUCCESS(OK, "게시판 저장을 완료했습니다.");
 	
 	private final HttpStatus status;
 	private final String message;
