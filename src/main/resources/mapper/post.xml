@@ -31,4 +31,9 @@
 		where post_id = #{postId}
 	</update>
 
+	<delete id="deletePost" parameterType="long">
+		delete from post
+		where post_id = #{postId}
+	</delete>
+
 </mapper>
