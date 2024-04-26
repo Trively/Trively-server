@@ -1,6 +1,6 @@
 package com.jida.domain;
 
-public class Attracion {
+public class Attraction {
 	private long attractionId;
 	private long typeId;
 	private String name;

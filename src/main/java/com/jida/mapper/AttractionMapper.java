@@ -1,5 +1,12 @@
 package com.jida.mapper;
 
-public interface AttractionMapper {
+import com.jida.domain.Attraction;
+import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+import java.util.Map;
+
+@Mapper
+public interface AttractionMapper {
+    List<Attraction> showList(Map<String, Object> map);
 }
