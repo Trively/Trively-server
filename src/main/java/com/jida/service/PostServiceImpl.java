@@ -60,8 +60,7 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public void deletePost(long postId) {
-		// TODO Auto-generated method stub
-		
+		postMapper.deletePost(postId);
 	}
 	
 }
