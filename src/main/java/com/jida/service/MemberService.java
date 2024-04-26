@@ -2,10 +2,11 @@ package com.jida.service;
 
 import java.util.Map;
 
-import com.jida.domain.Member;
+import com.jida.dto.req.MemberRequestDto;
+import com.jida.dto.req.MemberSaveRequestDto;
+import com.jida.dto.res.member.MemberDetailResponseDto;
 
 public interface MemberService {
-	Member loginMember(Map<String, String> map) throws Exception;
-
-	void joinMember(Member memberDto) throws Exception;
+	MemberDetailResponseDto loginMember(MemberRequestDto memberRequestDto);
+	void joinMember(MemberSaveRequestDto memberSaveRequestDto);
 }
