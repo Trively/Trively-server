@@ -19,6 +19,7 @@ public enum SuccessCode {
 	BOARD_READ_SUCCESS(OK, "게시판 전체 조회를 성공했습니다."),
 	POST_SAVE_SUCCESS(OK, "게시글 저장을 완료했습니다."),
 	POST_UPDATE_SUCCESS(OK, "게시글 수정을 완료했습니다."),
+	POST_DELETE_SUCCESS(OK, "게시글 삭제를 완료했습니다."),
 	POST_DETAIL_SUCCESS(OK, "게시글 상세 조회를 성공했습니다.");
 
 	private final HttpStatus status;
