@@ -24,5 +24,11 @@
 		from post
 		where post_id = #{postId}
 	</select>
+	
+	<update id="updatePost" parameterType="post">
+		update post
+		set title = #{title}, content = #{content}, board_id = #{boardId}
+		where post_id = #{postId}
+	</update>
 
 </mapper>

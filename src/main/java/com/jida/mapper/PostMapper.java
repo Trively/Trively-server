@@ -8,4 +8,5 @@ import com.jida.domain.Post;
 public interface PostMapper {
 	void writePost(Post post);
 	Post findById(long postId);
+	void updatePost(Post post);
 }

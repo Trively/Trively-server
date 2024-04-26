@@ -35,7 +35,7 @@ public class PostServiceImpl implements PostService {
 		Post post = Post.creatPost(userId, boardId, postSaveRequestDto.getTitle(), postSaveRequestDto.getContent());
 		postMapper.writePost(post);
 		
-		return  post.getPostId();	
+		return post.getPostId();	
 	}
 
 	@Override
@@ -47,9 +47,15 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public void modifyPost(Post postDto) {
-		// TODO Auto-generated method stub
+	public long modifyPost(long postId, PostSaveRequestDto postSaveRequestDto) {
+		//사용자 일치 확인
+		long userId = 1L;
+		long boardId = boardMapper.findId(postSaveRequestDto.getBoardName());
+		Post post = Post.creatPost(userId, boardId, postSaveRequestDto.getTitle(), postSaveRequestDto.getContent());
+		post.setPostId(postId);
+		postMapper.updatePost(post);
 		
+		return post.getPostId();
 	}
 
 	@Override
