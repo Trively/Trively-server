@@ -10,7 +10,7 @@ public interface PostService {
 	List<Post> showList(long boardId) throws Exception;
 	long writePost(PostSaveRequestDto postSaveRequestDto);
 	PostDetailResponseDto viewPost(long postId);
-	void modifyPost(Post postDto);
+	long modifyPost(long postId, PostSaveRequestDto postSaveRequestDto);
 	void deletePost(long postId);
 	
 }
