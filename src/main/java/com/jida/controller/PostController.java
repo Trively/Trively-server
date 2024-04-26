@@ -1,18 +1,9 @@
 package com.jida.controller;
 
-import static com.jida.constants.SuccessCode.POST_DETAIL_SUCCESS;
-import static com.jida.constants.SuccessCode.POST_SAVE_SUCCESS;
-import static com.jida.constants.SuccessCode.POST_UPDATE_SUCCESS;
-
+import com.jida.dto.res.post.PostResponse;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.jida.dto.req.PostSaveRequestDto;
 import com.jida.dto.res.post.PostDetailResponse;
@@ -20,6 +11,8 @@ import com.jida.dto.res.post.PostDetailResponseDto;
 import com.jida.service.PostService;
 
 import lombok.RequiredArgsConstructor;
+
+import static com.jida.constants.SuccessCode.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -52,5 +45,11 @@ public class PostController {
 		PostDetailResponseDto responseDto = postService.viewPost(updatedPostId);
 		
 		return PostDetailResponse.newResponse(POST_UPDATE_SUCCESS, responseDto);
+	}
+
+	@DeleteMapping("/{postId}")
+	public ResponseEntity<PostResponse> deletePost(@PathVariable("postId") long postId){
+		postService.deletePost(postId);
+		return PostResponse.newResponse(POST_DELETE_SUCCESS);
 	}
 }
