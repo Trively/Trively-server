@@ -47,6 +47,11 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
+	public void updateHit(long postId) {
+		postMapper.updateHit(postId);
+	}
+
+	@Override
 	public PostDetailResponseDto viewPost(long postId) {
 		Post post = postMapper.findById(postId);
 		PostDetail postDetail = new PostDetail(post.getPostId(), post.getTitle(), post.getContent(), post.getCreatedAt(), post.getHit(), post.getBoardId(), post.getMemberId());

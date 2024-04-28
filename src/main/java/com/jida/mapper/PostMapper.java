@@ -9,6 +9,7 @@ import com.jida.domain.Post;
 public interface PostMapper {
 	void writePost(Post post);
 	Post findById(long postId);
+	void updateHit(long postId);
 	void updatePost(Post post);
 	void deletePost(long PostId);
 	List<Post> findPosts(String order, long boardId, int offset, int limit);
