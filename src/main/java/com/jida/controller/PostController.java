@@ -36,7 +36,7 @@ public class PostController {
 	}
 	
 	@PutMapping("/{postId}")
-	public ResponseEntity<PostDetailResponse> viewPost(@PathVariable("postId") long postId, @RequestBody PostSaveRequestDto postSaveRequestDto) {
+	public ResponseEntity<PostDetailResponse> modifyPost(@PathVariable("postId") long postId, @RequestBody PostSaveRequestDto postSaveRequestDto) {
 		System.out.println(postSaveRequestDto.getBoardName());
 		System.out.println(postSaveRequestDto.getContent());
 		System.out.println(postSaveRequestDto.getTitle());
