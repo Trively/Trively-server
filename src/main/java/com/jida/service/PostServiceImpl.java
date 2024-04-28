@@ -41,9 +41,9 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public PostDetailResponseDto viewPost(long postId) {
 		Post post = postMapper.findById(postId);
-		PostDetail postDetial = new PostDetail(post.getPostId(), post.getTitle(), post.getContent(), post.getCreatedAt(), post.getHit(), post.getBoardId(), post.getMemberId());
+		PostDetail postDetail = new PostDetail(post.getPostId(), post.getTitle(), post.getContent(), post.getCreatedAt(), post.getHit(), post.getBoardId(), post.getMemberId());
 
-		return PostDetailResponseDto.of(postDetial);
+		return PostDetailResponseDto.of(postDetail);
 	}
 
 	@Override
