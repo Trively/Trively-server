@@ -33,7 +33,7 @@ public class PostController {
 	@GetMapping("/{postId}")
 	public ResponseEntity<PostDetailResponse> viewPost(@PathVariable("postId") long postId) {
 		PostDetailResponseDto responseDto = postService.viewPost(postId);
-		
+		postService.updateHit(postId);
 		return PostDetailResponse.newResponse(POST_DETAIL_SUCCESS, responseDto);
 	}
 	
