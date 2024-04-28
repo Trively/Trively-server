@@ -1,5 +1,7 @@
 package com.jida.controller;
 
+import com.jida.dto.res.post.PostListResponse;
+import com.jida.dto.res.post.PostListResponseDto;
 import com.jida.dto.res.post.PostResponse;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
@@ -37,10 +39,6 @@ public class PostController {
 	
 	@PutMapping("/{postId}")
 	public ResponseEntity<PostDetailResponse> modifyPost(@PathVariable("postId") long postId, @RequestBody PostSaveRequestDto postSaveRequestDto) {
-		System.out.println(postSaveRequestDto.getBoardName());
-		System.out.println(postSaveRequestDto.getContent());
-		System.out.println(postSaveRequestDto.getTitle());
-		System.out.println(postId);
 		long updatedPostId = postService.modifyPost(postId, postSaveRequestDto);
 		PostDetailResponseDto responseDto = postService.viewPost(updatedPostId);
 		
@@ -51,5 +49,15 @@ public class PostController {
 	public ResponseEntity<PostResponse> deletePost(@PathVariable("postId") long postId){
 		postService.deletePost(postId);
 		return PostResponse.newResponse(POST_DELETE_SUCCESS);
+	}
+
+	@GetMapping
+	public ResponseEntity<PostListResponse> showList(@RequestParam(name = "order", defaultValue = "latest") String order,
+													 @RequestParam(name = "boardId", defaultValue = "0") long boardId,
+													 @RequestParam(name = "pageIndex", defaultValue = "1") int pageIndex,
+													 @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
+		PostListResponseDto responseDto = postService.showList(order, boardId, pageIndex, pageSize);
+
+		return PostListResponse.newResponse(POST_LIST_SUCCESS, responseDto);
 	}
 }
