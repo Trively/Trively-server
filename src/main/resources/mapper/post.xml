@@ -36,4 +36,24 @@
 		where post_id = #{postId}
 	</delete>
 
+	<select id="findPosts" resultMap="post">
+		select post_id, title, content, created_at, hit, board_id, member_id
+		from post
+		    <where>
+				<include refid="list"></include>
+			</where>
+		<if test="order == 'latest'">
+			order by created_at desc
+		</if>
+		<if test="order == 'popularity'">
+			order by hit desc
+		</if>
+		limit #{limit} offset #{offset}
+	</select>
+	
+	<sql id="list">
+		<if test="boardId != 0">
+			and board_id = #{boardId}
+		</if>
+	</sql>
 </mapper>

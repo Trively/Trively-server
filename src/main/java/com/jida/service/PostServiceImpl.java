@@ -1,7 +1,11 @@
 package com.jida.service;
 
+import com.jida.dto.res.board.BoardListResponseDto.BoardList;
+import com.jida.dto.res.post.PostListResponseDto;
+import com.jida.dto.res.post.PostListResponseDto.PostList;
 import java.util.List;
 
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.jida.domain.Post;
@@ -21,9 +25,13 @@ public class PostServiceImpl implements PostService {
 	private final BoardMapper boardMapper;
 
 	@Override
-	public List<Post> showList(long boardId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public PostListResponseDto showList(String order, long boardId, int pageIndex, int pageSize) {
+		List<PostList> posts = postMapper.findPosts(order, boardId, (pageIndex - 1) * pageSize, pageSize).stream()
+				.map(PostList::of)
+				.collect(Collectors.toList());
+		int totalCount = posts.size();
+
+		return PostListResponseDto.of(pageIndex, pageSize, totalCount, posts);
 	}
 
 	@Override
@@ -41,9 +49,9 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public PostDetailResponseDto viewPost(long postId) {
 		Post post = postMapper.findById(postId);
-		PostDetail postDetial = new PostDetail(post.getPostId(), post.getTitle(), post.getContent(), post.getCreatedAt(), post.getHit(), post.getBoardId(), post.getMemberId());
+		PostDetail postDetail = new PostDetail(post.getPostId(), post.getTitle(), post.getContent(), post.getCreatedAt(), post.getHit(), post.getBoardId(), post.getMemberId());
 
-		return PostDetailResponseDto.of(postDetial);
+		return PostDetailResponseDto.of(postDetail);
 	}
 
 	@Override
