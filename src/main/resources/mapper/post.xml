@@ -12,6 +12,15 @@
 		<result column="hit" property="hit"/>
 		<result column="board_id" property="boardId"/>
 		<result column="member_id" property="memberId"/>
+
+		<association property="member" javaType="member">
+			<result column="email" property="email"/>
+			<result column="nickname" property="nickname"/>
+		</association>
+
+		<association property="board" javaType="board">
+			<result column="board_name" property="boardName"/>
+		</association>
 	</resultMap>
 
 	<insert id="writePost" parameterType="post" useGeneratedKeys="true" keyProperty="postId">
@@ -43,17 +52,20 @@
 		where post_id = #{postId}
 	</delete>
 
-	<select id="findPosts" resultMap="post">
-		select post_id, title, content, created_at, hit, board_id, member_id
-		from post
-		    <where>
-				<include refid="list"></include>
-			</where>
+	<select id="findPosts" parameterType="Long" resultMap="post">
+		select p.post_id, p.title, p.content, p.created_at, p.hit, p.board_id, p.member_id,
+		m.email, m.nickname, b.board_name
+		from post p
+		inner join member m on p.member_id = m.member_id
+		inner join board b on p.board_id = b.board_id
+		<where>
+			<include refid="list"></include>
+		</where>
 		<if test="order == 'latest'">
-			order by created_at desc
+			order by p.created_at desc
 		</if>
 		<if test="order == 'popularity'">
-			order by hit desc
+			order by p.hit desc
 		</if>
 		limit #{limit} offset #{offset}
 	</select>

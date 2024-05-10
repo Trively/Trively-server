@@ -29,6 +29,8 @@ public class PostListResponseDto extends PageInfo {
         private long hit;
         private long boardId;
         private long memberId;
+        private String boardName;
+        private String nickName;
 
         public static PostList of(Post post) {
             PostList postList = new PostList();
@@ -39,6 +41,8 @@ public class PostListResponseDto extends PageInfo {
             postList.hit = post.getHit();
             postList.boardId = post.getBoardId();
             postList.memberId = post.getMemberId();
+            postList.nickName = post.getMember().getNickname();
+            postList.boardName = post.getBoard().getBoardName();
             return postList;
         }
     }
