@@ -72,7 +72,7 @@
 	
 	<sql id="list">
 		<if test="boardId != 0">
-			and board_id = #{boardId}
+			and p.board_id = #{boardId}
 		</if>
 	</sql>
 </mapper>
