@@ -2,12 +2,16 @@ package com.jida.service;
 
 import com.jida.domain.Board;
 import com.jida.domain.Member;
+import com.jida.domain.PostLike;
 import com.jida.dto.res.board.BoardListResponseDto.BoardList;
 import com.jida.dto.res.post.PostListResponseDto;
 import com.jida.dto.res.post.PostListResponseDto.PostList;
+import com.jida.mapper.PostLikeMapper;
 import java.util.List;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import com.jida.domain.Post;
@@ -25,6 +29,7 @@ public class PostServiceImpl implements PostService {
 	
 	private final PostMapper postMapper;
 	private final BoardMapper boardMapper;
+	private final PostLikeMapper postLikeMapper;
 
 	//TODO: 예외 처리 및 Optional 처리
 	@Override
@@ -76,6 +81,20 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public void deletePost(long postId) {
 		postMapper.deletePost(postId);
+	}
+
+	@Override
+	public boolean clickPostLike(Long postId) {
+		Member member = getMember();
+		Optional<PostLike> existPostLike = postLikeMapper.findByUserAndPost(member.getMemberId(), postId);
+
+		if (existPostLike.isPresent()) {
+			postLikeMapper.delete(existPostLike.get());
+			return false;
+		}
+		PostLike postLike = PostLike.createPostLike(member.getMemberId(), postId);
+		postLikeMapper.save(postLike);
+		return true;
 	}
 
 

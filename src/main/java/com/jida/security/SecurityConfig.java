@@ -30,9 +30,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> {
                             authorize.requestMatchers(POST,"/api/member/login").permitAll();
                             authorize.requestMatchers(POST, "/api/member").permitAll();
-                            authorize.requestMatchers(GET, "/api/**").permitAll();
-                            authorize.requestMatchers(POST, "/api/**").permitAll();
-                            authorize.requestMatchers(DELETE, "/api/**").permitAll();
+                            authorize.anyRequest().permitAll();
+//                            authorize.requestMatchers(GET, "/api/**").permitAll();
+//                            authorize.requestMatchers(POST, "/api/**").permitAll();
+//                            authorize.requestMatchers(DELETE, "/api/**").permitAll();
 //                            authorize.requestMatchers("/api/**").hasRole(USER.name());
                         }
                 )
