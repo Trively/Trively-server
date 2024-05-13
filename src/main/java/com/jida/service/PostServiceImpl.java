@@ -70,7 +70,6 @@ public class PostServiceImpl implements PostService {
 		Board board = boardMapper.findById(postSaveRequestDto.getBoardName());
 
 		Post post = Post.creatPost(member, board, postSaveRequestDto.getTitle(), postSaveRequestDto.getContent());
-		post.setPostId(postId);
 		postMapper.updatePost(post);
 		
 		return post.getPostId();
