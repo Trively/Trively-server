@@ -78,4 +78,12 @@
 			and p.board_id = #{boardId}
 		</if>
 	</sql>
+
+	<select id="countAllPosts">
+		select count(*)
+		from post
+		<where>
+			<include refid="list"></include>
+		</where>
+	</select>
 </mapper>
