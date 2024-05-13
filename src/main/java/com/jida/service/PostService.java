@@ -1,6 +1,7 @@
 package com.jida.service;
 
 import com.jida.dto.res.post.PostListResponseDto;
+import com.jida.dto.res.post.PostListResponseDto.PostList;
 import java.util.List;
 
 import com.jida.domain.Post;
@@ -16,4 +17,5 @@ public interface PostService {
 	void deletePost(long postId);
 	boolean clickPostLike(Long postId);
 	boolean clickPostScrap(Long postId);
+	PostListResponseDto showScrap(String order, long boardId, int pageIndex, int pageSize);
 }

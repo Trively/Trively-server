@@ -32,4 +32,7 @@
         delete from post_scrap
         where member_id = #{member.memberId} and post_id = #{post.postId}
     </delete>
+
+<!--    TODO: 조회 시 전체 갯수 쿼리-->
+<!--    TODO: 멤버를 받아서 해당 멤버의 스크랩 게시글 찾는 쿼리-->
 </mapper>
