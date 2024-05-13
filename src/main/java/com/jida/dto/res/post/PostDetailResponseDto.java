@@ -26,16 +26,18 @@ public class PostDetailResponseDto {
 		private String createdAt;
 		private long hit;
 		private long boardId;
+		private String nickName;
 		private long memberId;
-		
+
 		public PostDetail(long postId, String title, String content, String createdAt, long hit, long boardId,
-				long memberId) {
+						  String nickName, long memberId) {
 			this.postId = postId;
 			this.title = title;
 			this.content = content;
 			this.createdAt = createdAt;
 			this.hit = hit;
 			this.boardId = boardId;
+			this.nickName = nickName;
 			this.memberId = memberId;
 		}
 		

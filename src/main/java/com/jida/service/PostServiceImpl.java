@@ -58,7 +58,7 @@ public class PostServiceImpl implements PostService {
 	public PostDetailResponseDto viewPost(long postId) {
 		Post post = postMapper.findById(postId);
 		PostDetail postDetail = new PostDetail(post.getPostId(), post.getTitle(), post.getContent(), post.getCreatedAt(), post.getHit(),
-				post.getBoard().getBoardId(), post.getMember().getMemberId());
+				post.getBoard().getBoardId(), post.getMember().getNickname(), post.getMember().getMemberId());
 
 		return PostDetailResponseDto.of(postDetail);
 	}
