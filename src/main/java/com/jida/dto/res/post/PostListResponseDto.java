@@ -39,8 +39,8 @@ public class PostListResponseDto extends PageInfo {
             postList.content = post.getContent();
             postList.createdAt = post.getCreatedAt();
             postList.hit = post.getHit();
-            postList.boardId = post.getBoardId();
-            postList.memberId = post.getMemberId();
+            postList.boardId = post.getBoard().getBoardId();
+            postList.memberId = post.getMember().getMemberId();
             postList.nickName = post.getMember().getNickname();
             postList.boardName = post.getBoard().getBoardName();
             return postList;

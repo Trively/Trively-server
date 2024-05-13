@@ -14,8 +14,8 @@
 		from board
 	</select>
 
-	<select id="findId" parameterType="string">
-		select board_id
+	<select id="findById" parameterType="string" resultMap="board">
+		select *
 		from board
     	where board_name like #{boardName}
 	</select>
