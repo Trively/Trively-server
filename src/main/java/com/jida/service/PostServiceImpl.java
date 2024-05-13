@@ -40,7 +40,7 @@ public class PostServiceImpl implements PostService {
 		List<PostList> posts = postMapper.findPosts(order, boardId, (pageIndex - 1) * pageSize, pageSize).stream()
 				.map(PostList::of)
 				.collect(Collectors.toList());
-		int totalCount = posts.size();
+		int totalCount = postMapper.countAllPosts(boardId);
 
 		return PostListResponseDto.of(pageIndex, pageSize, totalCount, posts);
 	}
