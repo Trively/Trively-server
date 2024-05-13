@@ -7,6 +7,7 @@ import com.jida.domain.Post;
 
 @Mapper
 public interface PostMapper {
+	//TODO: Optional 로 받기
 	void writePost(Post post);
 	Post findById(long postId);
 	void updateHit(long postId);

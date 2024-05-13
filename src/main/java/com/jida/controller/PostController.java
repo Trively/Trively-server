@@ -60,4 +60,10 @@ public class PostController {
 
 		return PostListResponse.newResponse(POST_LIST_SUCCESS, responseDto);
 	}
+
+	@PostMapping("/{postId}/like")
+	public ResponseEntity<PostResponse> postLike(@PathVariable Long postId) {
+
+		return null;
+	}
 }

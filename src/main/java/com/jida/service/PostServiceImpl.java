@@ -26,6 +26,7 @@ public class PostServiceImpl implements PostService {
 	private final PostMapper postMapper;
 	private final BoardMapper boardMapper;
 
+	//TODO: 예외 처리 및 Optional 처리
 	@Override
 	public PostListResponseDto showList(String order, long boardId, int pageIndex, int pageSize) {
 		List<PostList> posts = postMapper.findPosts(order, boardId, (pageIndex - 1) * pageSize, pageSize).stream()
@@ -38,8 +39,6 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public long writePost(PostSaveRequestDto postSaveRequestDto) {
-		//임시로 지정
-		//jwt 토큰 사용 시 변경 필요!!!!!
 		Member member = getMember();
 		Board board = boardMapper.findById(postSaveRequestDto.getBoardName());
 
@@ -65,7 +64,6 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public long modifyPost(long postId, PostSaveRequestDto postSaveRequestDto) {
-		//사용자 일치 확인
 		Member member = getMember();
 		Board board = boardMapper.findById(postSaveRequestDto.getBoardName());
 
