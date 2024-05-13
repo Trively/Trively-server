@@ -10,22 +10,23 @@
 		<result column="content" property="content"/>
 		<result column="created_at" property="createdAt"/>
 		<result column="hit" property="hit"/>
-		<result column="board_id" property="boardId"/>
-		<result column="member_id" property="memberId"/>
+		<result column="board_id" property="board.boardId"/>
+		<result column="member_id" property="member.memberId"/>
 
-		<association property="member" javaType="member">
+		<association property="member" javaType="com.jida.domain.Member">
 			<result column="email" property="email"/>
 			<result column="nickname" property="nickname"/>
 		</association>
 
-		<association property="board" javaType="board">
+		<association property="board" javaType="com.jida.domain.Board">
 			<result column="board_name" property="boardName"/>
+			<result column="board_id" property="boardId"/>
 		</association>
 	</resultMap>
 
 	<insert id="writePost" parameterType="post" useGeneratedKeys="true" keyProperty="postId">
 		insert into post (title, content, hit, board_id, member_id)
-		values (#{title}, #{content}, #{hit}, #{boardId}, #{memberId})
+		values (#{title}, #{content}, #{hit}, #{board.boardId}, #{member.memberId})
 	</insert>
 	
 	<select id="findById" parameterType="long" resultMap="post">

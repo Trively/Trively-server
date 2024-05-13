@@ -1,5 +1,7 @@
 package com.jida.service;
 
+import com.jida.domain.Board;
+import com.jida.domain.Member;
 import com.jida.dto.res.board.BoardListResponseDto.BoardList;
 import com.jida.dto.res.post.PostListResponseDto;
 import com.jida.dto.res.post.PostListResponseDto.PostList;
@@ -38,9 +40,10 @@ public class PostServiceImpl implements PostService {
 	public long writePost(PostSaveRequestDto postSaveRequestDto) {
 		//임시로 지정
 		//jwt 토큰 사용 시 변경 필요!!!!!
-		long userId = 1L;
-		long boardId = boardMapper.findId(postSaveRequestDto.getBoardName());
-		Post post = Post.creatPost(userId, boardId, postSaveRequestDto.getTitle(), postSaveRequestDto.getContent());
+		Member member = getMember();
+		Board board = boardMapper.findById(postSaveRequestDto.getBoardName());
+
+		Post post = Post.creatPost(member, board, postSaveRequestDto.getTitle(), postSaveRequestDto.getContent());
 		postMapper.writePost(post);
 		
 		return post.getPostId();	
@@ -54,7 +57,8 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public PostDetailResponseDto viewPost(long postId) {
 		Post post = postMapper.findById(postId);
-		PostDetail postDetail = new PostDetail(post.getPostId(), post.getTitle(), post.getContent(), post.getCreatedAt(), post.getHit(), post.getBoardId(), post.getMemberId());
+		PostDetail postDetail = new PostDetail(post.getPostId(), post.getTitle(), post.getContent(), post.getCreatedAt(), post.getHit(),
+				post.getBoard().getBoardId(), post.getMember().getMemberId());
 
 		return PostDetailResponseDto.of(postDetail);
 	}
@@ -62,9 +66,10 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public long modifyPost(long postId, PostSaveRequestDto postSaveRequestDto) {
 		//사용자 일치 확인
-		long userId = 1L;
-		long boardId = boardMapper.findId(postSaveRequestDto.getBoardName());
-		Post post = Post.creatPost(userId, boardId, postSaveRequestDto.getTitle(), postSaveRequestDto.getContent());
+		Member member = getMember();
+		Board board = boardMapper.findById(postSaveRequestDto.getBoardName());
+
+		Post post = Post.creatPost(member, board, postSaveRequestDto.getTitle(), postSaveRequestDto.getContent());
 		post.setPostId(postId);
 		postMapper.updatePost(post);
 		
@@ -75,5 +80,16 @@ public class PostServiceImpl implements PostService {
 	public void deletePost(long postId) {
 		postMapper.deletePost(postId);
 	}
-	
+
+
+	//TODO: jwt 토큰 구현 시 변경 필요
+	private Member getMember() {
+		Member member = new Member();
+		member.setMemberId(1L);
+		member.setEmail("ssafy@ssafy.com");
+		member.setId("ssafy");
+		member.setPassword("1234");
+		member.setNickname("김싸피");
+		return member;
+	}
 }
