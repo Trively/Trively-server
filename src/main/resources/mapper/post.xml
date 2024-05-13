@@ -14,6 +14,7 @@
 		<result column="member_id" property="member.memberId"/>
 
 		<association property="member" javaType="com.jida.domain.Member">
+			<result column="member_id" property="memberId"/>
 			<result column="email" property="email"/>
 			<result column="nickname" property="nickname"/>
 		</association>
@@ -30,7 +31,7 @@
 	</insert>
 	
 	<select id="findById" parameterType="long" resultMap="post">
-		select p.post_id, p.title, p.content, p.created_at, p.hit, p.board_id, m.nickname
+		select p.post_id, p.title, p.content, p.created_at, p.hit, p.board_id, m.member_id, m.nickname
 		from post p
 		inner join member m on m.member_id = p.member_id
 		where post_id = #{postId}
