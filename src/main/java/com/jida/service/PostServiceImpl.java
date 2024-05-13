@@ -3,10 +3,12 @@ package com.jida.service;
 import com.jida.domain.Board;
 import com.jida.domain.Member;
 import com.jida.domain.PostLike;
+import com.jida.domain.PostScrap;
 import com.jida.dto.res.board.BoardListResponseDto.BoardList;
 import com.jida.dto.res.post.PostListResponseDto;
 import com.jida.dto.res.post.PostListResponseDto.PostList;
 import com.jida.mapper.PostLikeMapper;
+import com.jida.mapper.PostScrapMapper;
 import java.util.List;
 
 import java.util.Optional;
@@ -30,6 +32,7 @@ public class PostServiceImpl implements PostService {
 	private final PostMapper postMapper;
 	private final BoardMapper boardMapper;
 	private final PostLikeMapper postLikeMapper;
+	private final PostScrapMapper postScrapMapper;
 
 	//TODO: 예외 처리 및 Optional 처리
 	@Override
@@ -94,6 +97,21 @@ public class PostServiceImpl implements PostService {
 		}
 		PostLike postLike = PostLike.createPostLike(member.getMemberId(), postId);
 		postLikeMapper.save(postLike);
+		return true;
+	}
+
+	@Override
+	public boolean clickPostScrap(Long postId) {
+		Member member = getMember();
+		Post post = postMapper.findById(postId);
+
+		Optional<PostScrap> existScrap = postScrapMapper.findByUserAndPost(member.getMemberId(), postId);
+		if (existScrap.isPresent()) {
+			postScrapMapper.delete(existScrap.get());
+			return false;
+		}
+		PostScrap postScrap = PostScrap.createPostScrap(member, post);
+		postScrapMapper.save(postScrap);
 		return true;
 	}
 

@@ -15,4 +15,5 @@ public interface PostService {
 	long modifyPost(long postId, PostSaveRequestDto postSaveRequestDto);
 	void deletePost(long postId);
 	boolean clickPostLike(Long postId);
+	boolean clickPostScrap(Long postId);
 }
