@@ -4,5 +4,5 @@ import com.jida.dto.req.CommentSaveRequestDto;
 import com.jida.dto.res.comment.CommentDetailResponseDto;
 
 public interface CommentService {
-    CommentDetailResponseDto saveComment(Long postId, Long parentCommentId, CommentSaveRequestDto commentSaveRequestDto);
+    void save(Long postId, Long parentId, CommentSaveRequestDto commentSaveRequestDto);
 }

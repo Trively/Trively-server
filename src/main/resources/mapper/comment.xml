@@ -4,9 +4,24 @@
 
 <mapper namespace="com.jida.mapper.CommentMapper">
 
-<!--    <resultMap type="postLike" id="postLike">-->
-<!--        <result column="member_id" property="memberId"/>-->
-<!--        <result column="post_id" property="postId"/>-->
-<!--    </resultMap>-->
+    <resultMap type="comment" id="comment">
+        <result column="comment_id" property="commentId"/>
+        <result column="post_id" property="post.postId"/>
+        <result column="member_id" property="member.memberId"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="content" property="content"/>
+        <result column="created_at" property="createdAt"/>
+    </resultMap>
+
+    <select id="findById" parameterType="Long" resultMap="comment">
+        select *
+        from comment
+        where comment_id = #{commentId}
+    </select>
+
+    <insert id="save" parameterType="comment">
+        insert into comment (post_id, member_id, parent_id, content)
+        values (#{post.postId}, #{member.memberId}, #{parentId}, #{content})
+    </insert>
 
 </mapper>

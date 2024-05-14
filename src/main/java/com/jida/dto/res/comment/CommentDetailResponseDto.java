@@ -1,22 +1,24 @@
 package com.jida.dto.res.comment;
 
 import com.jida.domain.Comment;
-import com.jida.domain.Member;
-import com.jida.domain.Post;
 
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor
 public class CommentDetailResponseDto {
     private Long commentId;
-    private Long parentCommentId;
+    private Long parentId;
     private String content;
-    private LocalDateTime createTime;
+    private LocalDateTime createdAt;
 
     private CommentDetailResponseDto(Comment comment) {
         this.commentId = comment.getCommentId();
-        this.parentCommentId = comment.getParentCommentId();
+        this.parentId = comment.getParentId();
         this.content = comment.getContent();
-        this.createTime = comment.getCreateTime();
+        this.createdAt = comment.getCreatedAt();
     }
 
     public static CommentDetailResponseDto of(Comment comment) {

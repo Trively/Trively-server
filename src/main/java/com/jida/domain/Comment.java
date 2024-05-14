@@ -2,7 +2,6 @@ package com.jida.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +11,16 @@ public class Comment {
     private Long commentId;
     private Post post;
     private Member member;
-    private Long parentCommentId;
+    private Long parentId;
     private String content;
-    private LocalDateTime createTime;
+    private LocalDateTime createdAt;
+
+    public static Comment createComment(Post post, Member member, Long parentId, String content) {
+        Comment comment = new Comment();
+        comment.post = post;
+        comment.member = member;
+        comment.parentId = parentId;
+        comment.content = content;
+        return comment;
+    }
 }
