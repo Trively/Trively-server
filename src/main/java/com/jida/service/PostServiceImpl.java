@@ -1,5 +1,7 @@
 package com.jida.service;
 
+import static com.jida.constants.ExceptionCode.POST_NOT_FOUND;
+
 import com.jida.domain.Board;
 import com.jida.domain.Member;
 import com.jida.domain.PostLike;
@@ -7,6 +9,7 @@ import com.jida.domain.PostScrap;
 import com.jida.dto.res.board.BoardListResponseDto.BoardList;
 import com.jida.dto.res.post.PostListResponseDto;
 import com.jida.dto.res.post.PostListResponseDto.PostList;
+import com.jida.exception.CustomException;
 import com.jida.mapper.PostLikeMapper;
 import com.jida.mapper.PostScrapMapper;
 import java.util.List;
@@ -63,7 +66,8 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public PostDetailResponseDto viewPost(long postId) {
-		Post post = postMapper.findById(postId);
+		Post post = postMapper.findById(postId)
+				.orElseThrow(() -> new CustomException(POST_NOT_FOUND));
 		PostDetail postDetail = new PostDetail(post.getPostId(), post.getTitle(), post.getContent(), post.getCreatedAt(), post.getHit(),
 				post.getBoard().getBoardId(), post.getMember().getNickname(), post.getMember().getMemberId());
 
@@ -103,7 +107,8 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public boolean clickPostScrap(Long postId) {
 		Member member = getMember();
-		Post post = postMapper.findById(postId);
+		Post post = postMapper.findById(postId)
+				.orElseThrow(() -> new CustomException(POST_NOT_FOUND));
 
 		Optional<PostScrap> existScrap = postScrapMapper.findByUserAndPost(member.getMemberId(), postId);
 		if (existScrap.isPresent()) {
