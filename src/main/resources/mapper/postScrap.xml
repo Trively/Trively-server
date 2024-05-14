@@ -10,10 +10,19 @@
 
         <association property="member" javaType="member">
             <result column="member_id" property="memberId"/>
+            <result column="nickname" property="nickname"/>
         </association>
 
         <association property="post" javaType="post">
             <result column="post_id" property="postId"/>
+            <result column="title" property="title"/>
+            <result column="content" property="content"/>
+            <result column="created_at" property="createdAt"/>
+            <result column="hit" property="hit"/>
+            <result column="board_id" property="board.boardId"/>
+            <result column="board_name" property="board.boardName"/>
+            <result column="member_id" property="member.memberId"/>
+            <result column="nickname" property="member.nickname"/>
         </association>
     </resultMap>
 
@@ -35,4 +44,32 @@
 
 <!--    TODO: 조회 시 전체 갯수 쿼리-->
 <!--    TODO: 멤버를 받아서 해당 멤버의 스크랩 게시글 찾는 쿼리-->
+    <select id="findScraps" parameterType="long" resultMap="postScrap">
+        select ps.*, p.*, b.board_name as board_name, m.nickname
+        from post_scrap ps
+        inner join post p on p.post_id = ps.post_id
+        inner join board b on b.board_id = p.board_id
+        inner join member m on m.member_id = ps.member_id
+        where ps.member_id = #{memberId}
+        <if test="boardId != 0">
+            and p.board_id = #{boardId}
+        </if>
+        <if test="order == 'latest'">
+            order by p.created_at desc
+        </if>
+        <if test="order == 'popularity'">
+            order by p.hit desc
+        </if>
+        limit #{limit} offset #{offset}
+    </select>
+
+    <select id="countAllPosts" parameterType="long">
+        select count(*)
+        from post_scrap ps
+        inner join post p on p.post_id = ps.post_id
+        where ps.member_id = #{memberId}
+        <if test="boardId != 0">
+            and p.board_id = #{boardId}
+        </if>
+    </select>
 </mapper>

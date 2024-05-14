@@ -118,10 +118,12 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public PostListResponseDto showScrap(String order, long boardId, int pageIndex, int pageSize) {
 		//TODO: 멤버를 받아서 넘겨줘야 함
-		List<PostList> posts = postScrapMapper.findScraps(order, boardId, (pageIndex - 1) * pageSize, pageSize).stream()
+		Member member = getMember();
+
+		List<PostList> posts = postScrapMapper.findScraps(order, boardId, member.getMemberId(), (pageIndex - 1) * pageSize, pageSize).stream()
 				.map(postScrap -> PostList.of(postScrap.getPost()))
 				.collect(Collectors.toList());
-		int totalCount = postScrapMapper.countAllPosts(boardId);
+		int totalCount = postScrapMapper.countAllPosts(boardId, member.getMemberId());
 
 		return PostListResponseDto.of(pageIndex, pageSize, totalCount, posts);
 	}

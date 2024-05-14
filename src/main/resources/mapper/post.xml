@@ -79,7 +79,7 @@
 		</if>
 	</sql>
 
-	<select id="countAllPosts">
+	<select id="countAllPosts" parameterType="long">
 		select count(*)
 		from post
 		<where>
