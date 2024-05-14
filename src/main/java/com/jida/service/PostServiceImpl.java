@@ -3,10 +3,12 @@ package com.jida.service;
 import com.jida.domain.Board;
 import com.jida.domain.Member;
 import com.jida.domain.PostLike;
+import com.jida.domain.PostScrap;
 import com.jida.dto.res.board.BoardListResponseDto.BoardList;
 import com.jida.dto.res.post.PostListResponseDto;
 import com.jida.dto.res.post.PostListResponseDto.PostList;
 import com.jida.mapper.PostLikeMapper;
+import com.jida.mapper.PostScrapMapper;
 import java.util.List;
 
 import java.util.Optional;
@@ -30,6 +32,7 @@ public class PostServiceImpl implements PostService {
 	private final PostMapper postMapper;
 	private final BoardMapper boardMapper;
 	private final PostLikeMapper postLikeMapper;
+	private final PostScrapMapper postScrapMapper;
 
 	//TODO: 예외 처리 및 Optional 처리
 	@Override
@@ -37,7 +40,7 @@ public class PostServiceImpl implements PostService {
 		List<PostList> posts = postMapper.findPosts(order, boardId, (pageIndex - 1) * pageSize, pageSize).stream()
 				.map(PostList::of)
 				.collect(Collectors.toList());
-		int totalCount = posts.size();
+		int totalCount = postMapper.countAllPosts(boardId);
 
 		return PostListResponseDto.of(pageIndex, pageSize, totalCount, posts);
 	}
@@ -95,6 +98,34 @@ public class PostServiceImpl implements PostService {
 		PostLike postLike = PostLike.createPostLike(member.getMemberId(), postId);
 		postLikeMapper.save(postLike);
 		return true;
+	}
+
+	@Override
+	public boolean clickPostScrap(Long postId) {
+		Member member = getMember();
+		Post post = postMapper.findById(postId);
+
+		Optional<PostScrap> existScrap = postScrapMapper.findByUserAndPost(member.getMemberId(), postId);
+		if (existScrap.isPresent()) {
+			postScrapMapper.delete(existScrap.get());
+			return false;
+		}
+		PostScrap postScrap = PostScrap.createPostScrap(member, post);
+		postScrapMapper.save(postScrap);
+		return true;
+	}
+
+	@Override
+	public PostListResponseDto showScrap(String order, long boardId, int pageIndex, int pageSize) {
+		//TODO: 멤버를 받아서 넘겨줘야 함
+		Member member = getMember();
+
+		List<PostList> posts = postScrapMapper.findScraps(order, boardId, member.getMemberId(), (pageIndex - 1) * pageSize, pageSize).stream()
+				.map(postScrap -> PostList.of(postScrap.getPost()))
+				.collect(Collectors.toList());
+		int totalCount = postScrapMapper.countAllPosts(boardId, member.getMemberId());
+
+		return PostListResponseDto.of(pageIndex, pageSize, totalCount, posts);
 	}
 
 

@@ -14,4 +14,5 @@ public interface PostMapper {
 	void updatePost(Post post);
 	void deletePost(long PostId);
 	List<Post> findPosts(String order, long boardId, int offset, int limit);
+	int countAllPosts(long boardId);
 }

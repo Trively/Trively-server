@@ -23,7 +23,10 @@ public enum SuccessCode {
 	POST_DETAIL_SUCCESS(OK, "게시글 상세 조회를 성공했습니다."),
 	POST_LIST_SUCCESS(OK, "게시글 전체 조회를 성공했습니다."),
 	POST_LIKE_SUCCESS(OK, "공감에 성공했습니다."),
-	POST_LIKE_CANCELED(OK, "공감 취소에 성공했습니다.");
+	POST_LIKE_CANCELED(OK, "공감 취소에 성공했습니다."),
+	POST_SCRAP_SUCCESS(OK, "게시글 스크랩을 성공했습니다."),
+	POST_SCRAP_CANCELED(OK, "게시글 스크랩 취소에 성공했습니다."),
+	SCRAP_READ_SUCCESS(OK, "스크랩 전체 조회를 성공했습니다.");
 
 	private final HttpStatus status;
 	private final String message;

@@ -6,6 +6,8 @@ import static com.jida.constants.SuccessCode.POST_LIKE_CANCELED;
 import static com.jida.constants.SuccessCode.POST_LIKE_SUCCESS;
 import static com.jida.constants.SuccessCode.POST_LIST_SUCCESS;
 import static com.jida.constants.SuccessCode.POST_SAVE_SUCCESS;
+import static com.jida.constants.SuccessCode.POST_SCRAP_CANCELED;
+import static com.jida.constants.SuccessCode.POST_SCRAP_SUCCESS;
 import static com.jida.constants.SuccessCode.POST_UPDATE_SUCCESS;
 
 import com.jida.dto.req.PostSaveRequestDto;
@@ -81,5 +83,14 @@ public class PostController {
 			return PostResponse.newResponse(POST_LIKE_SUCCESS);
         }
 		return PostResponse.newResponse(POST_LIKE_CANCELED);
+    }
+
+    @PostMapping("/{postId}/scrap")
+    public ResponseEntity<PostResponse> postScrap(@PathVariable Long postId) {
+        boolean response = postService.clickPostScrap(postId);
+        if (response) {
+            return PostResponse.newResponse(POST_SCRAP_SUCCESS);
+        }
+        return PostResponse.newResponse(POST_SCRAP_CANCELED);
     }
 }
