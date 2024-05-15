@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import static com.jida.constants.SuccessCode.COMMENT_DELETE_SUCCESS;
 import static com.jida.constants.SuccessCode.COMMENT_LIST_SUCCESS;
 import static com.jida.constants.SuccessCode.COMMENT_SAVE_SUCCESS;
 
@@ -39,5 +40,11 @@ public class CommentController {
     public ResponseEntity<CommentListResponse> findAll(@PathVariable Long postId) {
         CommentListResponseDto responseDto = commentService.findAll(postId);
         return CommentListResponse.newResponse(COMMENT_LIST_SUCCESS, responseDto);
+    }
+
+    @DeleteMapping("/{postId}/{commentId}")
+    public ResponseEntity<CommentResponse> delete(@PathVariable Long postId, @PathVariable Long commentId) {
+        commentService.delete(postId, commentId);
+        return CommentResponse.newResponse(COMMENT_DELETE_SUCCESS);
     }
 }

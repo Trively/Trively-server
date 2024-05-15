@@ -34,4 +34,9 @@
         inner join member m on m.member_id = c.member_id
         where post_id = #{postId}
     </select>
+
+    <delete id="delete" parameterType="Long">
+        delete from comment
+        where comment_id = #{commentId}
+    </delete>
 </mapper>

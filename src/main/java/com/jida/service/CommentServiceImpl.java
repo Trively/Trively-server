@@ -1,5 +1,6 @@
 package com.jida.service;
 
+import static com.jida.constants.ExceptionCode.COMMENT_CANT_DELETE;
 import static com.jida.constants.ExceptionCode.COMMENT_NOT_FOUND;
 import static com.jida.constants.ExceptionCode.POST_NOT_FOUND;
 import static com.jida.constants.ExceptionCode.RE_COMMENT_ONLY;
@@ -57,6 +58,21 @@ public class CommentServiceImpl implements CommentService {
                 .toList();
 
         return CommentListResponseDto.of(comments);
+    }
+
+    @Override
+    public void delete(Long postId, Long commentId) {
+        Member member = getMember();
+        Post post = postMapper.findById(postId)
+                .orElseThrow(() -> new CustomException(POST_NOT_FOUND));
+        Comment comment = commentMapper.findById(commentId)
+                .orElseThrow(() -> new CustomException(COMMENT_NOT_FOUND));
+
+        if (comment.getMember().getMemberId() != member.getMemberId()) {
+            throw new CustomException(COMMENT_CANT_DELETE);
+        }
+
+        commentMapper.delete(commentId);
     }
 
     //TODO: jwt 토큰 구현 시 변경 필요

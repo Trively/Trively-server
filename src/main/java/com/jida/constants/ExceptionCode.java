@@ -18,6 +18,7 @@ public enum ExceptionCode {
 
     /* 403 - 허용되지 않은 접근 */
     RE_COMMENT_ONLY(FORBIDDEN, "답글의 답글은 불가능 합니다."),
+    COMMENT_CANT_DELETE(FORBIDDEN, "해당 댓글의 작성자만 삭제 가능합니다."),
 
     /* 404 - 찾을 수 없는 리소스 */
     POST_NOT_FOUND(NOT_FOUND, "게시글을 찾을 수 없습니다."),
