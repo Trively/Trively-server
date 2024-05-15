@@ -34,11 +34,11 @@ public class CommentServiceImpl implements CommentService {
 
         //대댓글
         if (parentId != null) {
-            commentMapper.findById(parentId)
+            Comment comment = commentMapper.findById(parentId)
                     .orElseThrow(() -> new CustomException(COMMENT_NOT_FOUND));
-            //대댓글에는 대댓글 불가능
-            if (commentMapper.findById(parentId).get().getParentId() != null) {
-                throw new CustomException(RE_COMMENT_ONLY);
+            //대댓글에 대댓글 작성 시 최상위 부모를 부모로 지정
+            if(comment.getParentId() != null) {
+                parentId = comment.getParentId();
             }
         }
 
