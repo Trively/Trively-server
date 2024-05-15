@@ -9,9 +9,13 @@ import com.jida.domain.Member;
 import com.jida.domain.Post;
 import com.jida.dto.req.CommentSaveRequestDto;
 import com.jida.dto.res.comment.CommentDetailResponseDto;
+import com.jida.dto.res.comment.CommentListResponseDto;
+import com.jida.dto.res.comment.CommentListResponseDto.CommentList;
 import com.jida.exception.CustomException;
 import com.jida.mapper.CommentMapper;
 import com.jida.mapper.PostMapper;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +43,20 @@ public class CommentServiceImpl implements CommentService {
 
         Comment comment = Comment.createComment(post, member, parentId, commentSaveRequestDto.getContent());
         commentMapper.save(comment);
+    }
+
+    @Override
+    public CommentListResponseDto findAll(Long postId) {
+        Post post = postMapper.findById(postId)
+                .orElseThrow(() -> new CustomException(POST_NOT_FOUND));
+        Member member = getMember();
+
+        List<CommentList> comments = commentMapper.findAll(postId).stream()
+                .map(comment -> CommentList.of(comment,
+                        comment.getMember().getMemberId() == member.getMemberId()))
+                .toList();
+
+        return CommentListResponseDto.of(comments);
     }
 
     //TODO: jwt 토큰 구현 시 변경 필요

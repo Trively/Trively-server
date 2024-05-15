@@ -10,7 +10,11 @@
         <result column="member_id" property="member.memberId"/>
         <result column="parent_id" property="parentId"/>
         <result column="content" property="content"/>
-        <result column="created_at" property="createdAt"/>
+        <result column="create_at" property="createdAt"/>
+
+        <association property="member" javaType="member">
+            <result column="nickname" property="nickname"/>
+        </association>
     </resultMap>
 
     <select id="findById" parameterType="Long" resultMap="comment">
@@ -24,4 +28,10 @@
         values (#{post.postId}, #{member.memberId}, #{parentId}, #{content})
     </insert>
 
+    <select id="findAll" parameterType="Long" resultMap="comment">
+        select c.*, m.nickname
+        from comment c
+        inner join member m on m.member_id = c.member_id
+        where post_id = #{postId}
+    </select>
 </mapper>
