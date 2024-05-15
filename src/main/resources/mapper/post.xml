@@ -13,6 +13,7 @@
 		<result column="board_id" property="board.boardId"/>
 		<result column="member_id" property="member.memberId"/>
 		<result column="comment_cnt" property="commentCnt"/>
+		<result column="like_cnt" property="likeCnt"/>
 
 		<association property="member" javaType="com.jida.domain.Member">
 			<result column="member_id" property="memberId"/>
@@ -32,7 +33,7 @@
 	</insert>
 	
 	<select id="findById" parameterType="long" resultMap="post">
-		select p.post_id, p.title, p.content, p.created_at, p.hit, p.board_id, m.member_id, m.nickname, p.comment_cnt
+		select p.post_id, p.title, p.content, p.created_at, p.hit, p.board_id, m.member_id, m.nickname, p.comment_cnt, p.like_cnt
 		from post p
 		inner join member m on m.member_id = p.member_id
 		where post_id = #{postId}
@@ -58,7 +59,7 @@
 
 	<select id="findPosts" parameterType="Long" resultMap="post">
 		select p.post_id, p.title, p.content, p.created_at, p.hit, p.board_id, p.member_id,
-		m.email, m.nickname, b.board_name, p.comment_cnt
+		m.email, m.nickname, b.board_name, p.comment_cnt, p.like_cnt
 		from post p
 		inner join member m on p.member_id = m.member_id
 		inner join board b on p.board_id = b.board_id
@@ -96,7 +97,19 @@
 
 	<update id="diffCommentCnt" parameterType="Long">
 		update post
-		set comment_cnt = comment_cnt - 1
+		set comment_cnt = GREATEST(0, comment_cnt - 1)
+		where post_id = #{postId}
+	</update>
+
+	<update id="addLikeCnt" parameterType="Long">
+		update post
+		set like_cnt = like_cnt + 1
+		where post_id = #{postId}
+	</update>
+
+	<update id="diffLikeCnt" parameterType="Long">
+		update post
+		set like_cnt = GREATEST(0, like_cnt - 1)
 		where post_id = #{postId}
 	</update>
 </mapper>
