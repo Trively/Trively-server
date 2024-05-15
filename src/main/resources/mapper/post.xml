@@ -99,4 +99,16 @@
 		set comment_cnt = comment_cnt - 1
 		where post_id = #{postId}
 	</update>
+
+	<update id="addLikeCnt" parameterType="Long">
+		update post
+		set like_cnt = like_cnt + 1
+		where post_id = #{postId}
+	</update>
+
+	<update id="diffLikeCnt" parameterType="Long">
+		update post
+		set like_cnt = GREATEST(0, like_cnt - 1)
+		where post_id = #{postId}
+	</update>
 </mapper>

@@ -97,10 +97,12 @@ public class PostServiceImpl implements PostService {
 
 		if (existPostLike.isPresent()) {
 			postLikeMapper.delete(existPostLike.get());
+			postMapper.diffLikeCnt(postId);
 			return false;
 		}
 		PostLike postLike = PostLike.createPostLike(member.getMemberId(), postId);
 		postLikeMapper.save(postLike);
+		postMapper.addLikeCnt(postId);
 		return true;
 	}
 

@@ -20,4 +20,8 @@ public interface PostMapper {
 	void addCommentCnt(Long postId);
 
 	void diffCommentCnt(Long postId);
+
+	void addLikeCnt(Long postId);
+
+	void diffLikeCnt(Long postId);
 }
