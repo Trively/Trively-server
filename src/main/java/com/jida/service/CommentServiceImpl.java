@@ -44,6 +44,7 @@ public class CommentServiceImpl implements CommentService {
 
         Comment comment = Comment.createComment(post, member, parentId, commentSaveRequestDto.getContent());
         commentMapper.save(comment);
+        postMapper.addCommentCnt(postId);
     }
 
     @Override
@@ -73,6 +74,7 @@ public class CommentServiceImpl implements CommentService {
         }
 
         commentMapper.delete(commentId);
+        postMapper.diffCommentCnt(postId);
     }
 
     //TODO: jwt 토큰 구현 시 변경 필요
