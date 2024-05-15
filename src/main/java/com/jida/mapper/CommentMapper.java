@@ -16,4 +16,6 @@ public interface CommentMapper {
     void save(Comment comment);
 
     List<Comment> findAll(Long postId);
+
+    void delete(Long commentId);
 }

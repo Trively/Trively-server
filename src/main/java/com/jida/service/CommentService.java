@@ -9,4 +9,6 @@ public interface CommentService {
     void save(Long postId, Long parentId, CommentSaveRequestDto commentSaveRequestDto);
 
     CommentListResponseDto findAll(Long postId);
+
+    void delete(Long postId, Long commentId);
 }
