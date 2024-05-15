@@ -28,9 +28,10 @@ public class PostDetailResponseDto {
 		private long boardId;
 		private String nickName;
 		private long memberId;
+		private int commentCnt;
 
 		public PostDetail(long postId, String title, String content, String createdAt, long hit, long boardId,
-						  String nickName, long memberId) {
+						  String nickName, long memberId, int commentCnt) {
 			this.postId = postId;
 			this.title = title;
 			this.content = content;
@@ -39,6 +40,7 @@ public class PostDetailResponseDto {
 			this.boardId = boardId;
 			this.nickName = nickName;
 			this.memberId = memberId;
+			this.commentCnt = commentCnt;
 		}
 		
 		
