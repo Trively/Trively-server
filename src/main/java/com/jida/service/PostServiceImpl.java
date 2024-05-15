@@ -69,7 +69,7 @@ public class PostServiceImpl implements PostService {
 		Post post = postMapper.findById(postId)
 				.orElseThrow(() -> new CustomException(POST_NOT_FOUND));
 		PostDetail postDetail = new PostDetail(post.getPostId(), post.getTitle(), post.getContent(), post.getCreatedAt(), post.getHit(),
-				post.getBoard().getBoardId(), post.getMember().getNickname(), post.getMember().getMemberId(), post.getCommentCnt());
+				post.getBoard().getBoardId(), post.getMember().getNickname(), post.getMember().getMemberId(), post.getCommentCnt(), post.getLikeCnt());
 
 		return PostDetailResponseDto.of(postDetail);
 	}

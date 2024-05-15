@@ -14,6 +14,7 @@ public class Post {
 	private Member member;
 	private Board board;
 	private int commentCnt;
+	private int likeCnt;
 
 	public static Post creatPost(Member member, Board board, String title, String content) {
 		Post post = new Post();
