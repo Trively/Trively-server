@@ -13,6 +13,7 @@ public class Post {
 	private long hit;
 	private Member member;
 	private Board board;
+	private int commentCnt;
 
 	public static Post creatPost(Member member, Board board, String title, String content) {
 		Post post = new Post();

@@ -16,4 +16,8 @@ public interface PostMapper {
 	void deletePost(long PostId);
 	List<Post> findPosts(String order, long boardId, int offset, int limit);
 	int countAllPosts(long boardId);
+
+	void addCommentCnt(Long postId);
+
+	void diffCommentCnt(Long postId);
 }
