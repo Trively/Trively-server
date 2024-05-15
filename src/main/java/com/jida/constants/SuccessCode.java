@@ -27,7 +27,8 @@ public enum SuccessCode {
 	POST_SCRAP_SUCCESS(OK, "게시글 스크랩을 성공했습니다."),
 	POST_SCRAP_CANCELED(OK, "게시글 스크랩 취소에 성공했습니다."),
 	SCRAP_READ_SUCCESS(OK, "스크랩 전체 조회를 성공했습니다."),
-	COMMENT_SAVE_SUCCESS(OK, "댓글 저장을 완료했습니다.");
+	COMMENT_SAVE_SUCCESS(OK, "댓글 저장을 완료했습니다."),
+	COMMENT_LIST_SUCCESS(OK, "댓글 조회를 성공했습니다.");
 
 	private final HttpStatus status;
 	private final String message;
