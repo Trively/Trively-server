@@ -30,7 +30,7 @@ public class MemberController {
 	private final MemberService memberService;
 	private final PostService postService;
 
-	@PostMapping()
+	@PostMapping("join")
 	public ResponseEntity<MemberResponse> join(@RequestBody MemberSaveRequestDto memberSaveRequestDto) {
 		memberService.joinMember(memberSaveRequestDto);
 		return MemberResponse.newResponse(SIGNUP_SUCCESS);
