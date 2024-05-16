@@ -1,4 +1,3 @@
-
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
@@ -22,14 +21,27 @@
         <where>
             <include refid="search"></include>
         </where>
+        order by attraction_id desc
+        limit 10
     </select>
 
     <sql id="search">
-        <if test="sidoCode != null and sidoCode!=''">
+        <if test="sidoCode != null and sidoCode != ''">
             and sido_code = #{sidoCode}
         </if>
-        <if test="typeId != null and typeId!=''">
+        <if test="typeId != null and typeId != ''">
             and type_id = #{typeId}
+        </if>
+        <if test="search != null and search != ''">
+            and (
+            name like CONCAT('%', #{search}, '%')
+            or address like CONCAT('%', #{search}, '%')
+            or replace(name, ' ', '') like CONCAT('%', replace(#{search}, ' ', ''), '%')
+            or replace(address, ' ', '') like CONCAT('%', replace(#{search}, ' ', ''), '%')
+            )
+        </if>
+        <if test="lastAttractId != null">
+            and attraction_id &lt; #{lastAttractId}
         </if>
     </sql>
 
