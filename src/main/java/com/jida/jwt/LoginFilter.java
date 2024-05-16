@@ -23,13 +23,20 @@ import java.util.Iterator;
 import static com.jida.constants.SuccessCode.LOGIN_SUCCESS;
 
 
-@RequiredArgsConstructor
+
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final ObjectMapper objectMapper;
 
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
+
+    public LoginFilter(ObjectMapper objectMapper, AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
+        this.objectMapper = objectMapper;
+        this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
+        setFilterProcessesUrl("/api/member/login"); // URL 변경
+    }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
