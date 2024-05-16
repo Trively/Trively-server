@@ -6,8 +6,11 @@ import com.jida.domain.Member;
 import com.jida.dto.req.MemberRequestDto;
 import com.jida.dto.req.MemberSaveRequestDto;
 
+import java.util.Optional;
+
 @Mapper
 public interface MemberMapper {
 	Member loginMember(MemberRequestDto memberRequestDto);
-	void joinMember(MemberSaveRequestDto memberSaveRequestDto);
+	void joinMember(Member member);
+	Optional<Member> findById(String memberId);
 }

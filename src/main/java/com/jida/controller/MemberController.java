@@ -1,16 +1,16 @@
 package com.jida.controller;
 
+import com.jida.dto.res.member.*;
 import com.jida.dto.res.post.PostListResponse;
 import com.jida.dto.res.post.PostListResponseDto;
 import com.jida.service.PostService;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.jida.dto.req.MemberRequestDto;
 import com.jida.dto.req.MemberSaveRequestDto;
-import com.jida.dto.res.member.MemberDetailResponse;
-import com.jida.dto.res.member.MemberDetailResponseDto;
-import com.jida.dto.res.member.MemberResponse;
 
 import com.jida.service.MemberService;
 
@@ -33,9 +33,9 @@ public class MemberController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<MemberDetailResponse> login(@RequestBody MemberRequestDto memberRequestDto) {
-		MemberDetailResponseDto responseDto = memberService.loginMember(memberRequestDto);
-		return MemberDetailResponse.newResponse(LOGIN_SUCCESS, responseDto);
+	public ResponseEntity<TokenResponse> login(@Validated @RequestBody MemberRequestDto memberRequestDto) {
+		TokenDto tokenDto = memberService.loginMember(memberRequestDto);
+		return TokenResponse.toResponse(LOGIN_SUCCESS, tokenDto);
 	}
 
 	@GetMapping("/my-scrap")

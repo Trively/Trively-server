@@ -10,17 +10,24 @@
 		<result column="password" property="password"/>
 		<result column="email" property="email"/>
 		<result column="nickname" property="nickname"/>
+		<result column="role" property="authority"/>
 	</resultMap>
-	
+
 	<select id="loginMember" parameterType="member" resultMap="member">
-		select id, nickname
+		select *
 		from member
-		where id=#{id} and password=#{password}
+		where id = #{id} and password = #{password}
+	</select>
+
+	<select id="findById" parameterType="member" resultMap="member">
+		select *
+		from member
+		where id=#{id}
 	</select>
 	
 	<insert id="joinMember" parameterType="member">
-		insert into member (id, password, email, nickname)
-		values (#{id},#{password},#{email},#{nickname})
+		insert into member (id, password, email, nickname, role)
+		values (#{id},#{password},#{email},#{nickname},#{authority})
 	</insert>
 
 </mapper>
