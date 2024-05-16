@@ -1,18 +1,18 @@
 package com.jida.jwt;
 
-import com.jida.exception.CustomException;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
+import com.jida.domain.Authority;
+import com.jida.domain.Member;
+
+import com.jida.service.CustomUserDetails;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -23,58 +23,61 @@ import static com.jida.constants.ExceptionCode.*;
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
-    public static final String AUTHORIZATION_HEADER = "Authorization";
-    private static final String BEARER_PREFIX = "Bearer ";
+    private final JWTUtil jwtUtil;
 
-    private final TokenProvider tokenProvider;
-
-    //토큰의 인증정보를 현재 실행 중인 SecurityContext에 저장하는 역할 수행
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        // 1. Request Header 에서 토큰을 꺼냄
-        String jwt = resolveToken(request);
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        // 2. validateToken 으로 토큰 유효성 검사
-        // 정상 토큰이면 해당 토큰으로 Authentication 을 가져와서 SecurityContext 에 저장
-        try{
-            if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-                Authentication authentication = tokenProvider.getAuthentication(jwt);
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
-        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            request.setAttribute("exception", WRONG_TYPE_TOKEN);
-            log.info("잘못된 JWT 서명입니다.");
-            throw new CustomException(WRONG_TYPE_TOKEN);
-        } catch (ExpiredJwtException e) {
-            request.setAttribute("exception", EXPIRED_TOKEN);
-            log.info("만료된 JWT 토큰입니다.");
-            throw new CustomException(EXPIRED_TOKEN);
-        } catch (UnsupportedJwtException e) {
-            request.setAttribute("exception", UNSUPPORTED_TOKEN);
-            log.info("지원되지 않는 JWT 토큰입니다.");
-            throw new CustomException(UNSUPPORTED_TOKEN);
-        } catch (IllegalArgumentException e) {
-            request.setAttribute("exception", WRONG_TOKEN);
-            log.info("JWT 토큰이 잘못되었습니다.");
-            throw new CustomException(WRONG_TOKEN);
-        } catch(Exception e) {
-            log.error("===========================================");
-            log.error("JwtFilter - doFilterInternal() 오류 발생");
-            log.error("Exception message : {}", e.getMessage());
-            log.error("===========================================");
-            request.setAttribute("exception", UNKNOWN_ERROR);
-            throw new CustomException(UNKNOWN_ERROR);
+        // request에서 Authorization 헤더 찾음
+        String authorization = request.getHeader("Authorization");
+
+        // Authorization 헤더 검증
+        // Authorization 헤더가 비어있거나 "Bearer " 로 시작하지 않은 경우
+        if(authorization == null || !authorization.startsWith("Bearer ")){
+
+            System.out.println("token null");
+            // 토큰이 유효하지 않으므로 request와 response를 다음 필터로 넘겨줌
+            filterChain.doFilter(request, response);
+
+            // 메서드 종료
+            return;
         }
 
+        // Authorization에서 Bearer 접두사 제거
+        String token = authorization.split(" ")[1];
+
+        // token 소멸 시간 검증
+        // 유효기간이 만료한 경우
+        if(jwtUtil.isExpired(token)){
+            System.out.println("token expired");
+            filterChain.doFilter(request, response);
+
+            // 메서드 종료
+            return;
+        }
+
+        // 최종적으로 token 검증 완료 => 일시적인 session 생성
+        // session에 user 정보 설정
+        String loginId = jwtUtil.getLoginId(token);
+        String authority = jwtUtil.getRole(token);
+        log.info("authority={}", authority);
+        Member member = new Member();
+        member.setId(loginId);
+        // 매번 요청마다 DB 조회해서 password 초기화 할 필요 x => 정확한 비밀번호 넣을 필요 없음
+        // 따라서 임시 비밀번호 설정!
+        member.setPassword("임시 비밀번호");
+        member.setAuthority(Authority.valueOf(authority));
+
+        // UserDetails에 회원 정보 객체 담기
+        CustomUserDetails customUserDetails = new CustomUserDetails(member);
+
+        // 스프링 시큐리티 인증 토큰 생성
+        Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
+
+        // 세션에 사용자 등록 => 일시적으로 user 세션 생성
+        SecurityContextHolder.getContext().setAuthentication(authToken);
+
+        // 다음 필터로 request, response 넘겨줌
         filterChain.doFilter(request, response);
-    }
-
-    //Request Header에서 토큰 정보 꺼내오기
-    private String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
-            return bearerToken.substring(7);
-        }
-        return null;
     }
 }

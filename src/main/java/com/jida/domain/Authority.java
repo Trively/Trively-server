@@ -1,5 +1,5 @@
 package com.jida.domain;
 
 public enum Authority {
-    ROLE_USER, ROLE_ADMIN
+    USER, ADMIN
 }

@@ -13,6 +13,6 @@ public class MemberSaveRequestDto {
 	private String nickname;
 
 	public Member toMember(MemberSaveRequestDto memberSaveRequestDto){
-		return Member.createMember(memberSaveRequestDto.getId(), memberSaveRequestDto.getPassword(), memberSaveRequestDto.getEmail(), memberSaveRequestDto.getNickname(), Authority.ROLE_USER);
+		return Member.createMember(memberSaveRequestDto.getId(), memberSaveRequestDto.getPassword(), memberSaveRequestDto.getEmail(), memberSaveRequestDto.getNickname(), Authority.USER);
 	}
 }

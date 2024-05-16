@@ -12,5 +12,5 @@ import java.util.Optional;
 public interface MemberMapper {
 	Member loginMember(MemberRequestDto memberRequestDto);
 	void joinMember(Member member);
-	Optional<Member> findById(String memberId);
+	Member findById(String memberId);
 }

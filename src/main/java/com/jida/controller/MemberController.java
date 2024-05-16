@@ -3,9 +3,13 @@ package com.jida.controller;
 import com.jida.dto.res.member.*;
 import com.jida.dto.res.post.PostListResponse;
 import com.jida.dto.res.post.PostListResponseDto;
+import com.jida.jwt.JWTUtil;
 import com.jida.service.PostService;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,11 +36,14 @@ public class MemberController {
 		return MemberResponse.newResponse(SIGNUP_SUCCESS);
 	}
 
-	@PostMapping("/login")
-	public ResponseEntity<TokenResponse> login(@Validated @RequestBody MemberRequestDto memberRequestDto) {
-		TokenDto tokenDto = memberService.loginMember(memberRequestDto);
-		return TokenResponse.toResponse(LOGIN_SUCCESS, tokenDto);
-	}
+//	@PostMapping("/login")
+//	public String login(@Validated @RequestBody MemberRequestDto memberRequestDto) {
+//		String token = jwtUtil.createJwt(memberRequestDto.getId(), memberRequestDto.getPassword(), 1000*60*60L);
+////		TokenDto tokenDto = memberService.loginMember(memberRequestDto);
+//		Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(memberRequestDto.getId(), memberRequestDto.getPassword()));
+////		return TokenResponse.toResponse(LOGIN_SUCCESS, tokenDto);
+//		return token;
+//	}
 
 	@GetMapping("/my-scrap")
 	public ResponseEntity<PostListResponse> myScrap(
