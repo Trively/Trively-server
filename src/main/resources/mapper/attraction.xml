@@ -29,8 +29,11 @@
         <if test="sidoCode != null and sidoCode != ''">
             and sido_code = #{sidoCode}
         </if>
-        <if test="typeId != null and typeId != ''">
-            and type_id = #{typeId}
+        <if test="typeIds != null and typeIds.length > 0">
+            and type_id in
+            <foreach item="typeId" collection="typeIds" open="(" separator="," close=")">
+                #{typeId}
+            </foreach>
         </if>
         <if test="search != null and search != ''">
             and (

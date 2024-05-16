@@ -20,12 +20,12 @@ public class AttractionController {
     private final AttractionService attractionService;
     @GetMapping()
     public ResponseEntity<AttractionListResponse> showList(@RequestParam(required = false) Integer sidoCode,
-                                                           @RequestParam(required = false) Long typeId,
+                                                           @RequestParam(required = false) Long[] typeIds,
                                                            @RequestParam(required = false) String search,
                                                            @RequestParam(required = false) Long lastAttractId){
         Map<String, Object> map = new HashMap<>();
         map.put("sidoCode", sidoCode);
-        map.put("typeId", typeId);
+        map.put("typeIds", typeIds);
         map.put("search", search);
         map.put("lastAttractId", lastAttractId);
         AttractionListResponseDto responseDto = attractionService.showList(map);
