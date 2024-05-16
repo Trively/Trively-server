@@ -83,7 +83,7 @@
 
 	<select id="countAllPosts" parameterType="long">
 		select count(*)
-		from post
+		from post p
 		<where>
 			<include refid="list"></include>
 		</where>
