@@ -13,7 +13,6 @@ public class Member {
 	private String password;
 	private String email;
 	private String nickname;
-	private String refreshToken;
 	private Authority authority;
 
 	public static Member createMember(String id, String password, String email, String nickname, Authority authority){
@@ -24,9 +23,5 @@ public class Member {
 		member.nickname = nickname;
 		member.authority = authority;
 		return member;
-	}
-
-	public void setRefreshToken(String refreshToken){
-		this.refreshToken = refreshToken;
 	}
 }

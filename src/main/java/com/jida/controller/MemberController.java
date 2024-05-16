@@ -1,10 +1,14 @@
 package com.jida.controller;
 
+import com.jida.domain.Member;
 import com.jida.dto.res.member.*;
 import com.jida.dto.res.post.PostListResponse;
 import com.jida.dto.res.post.PostListResponseDto;
 import com.jida.jwt.JWTUtil;
 import com.jida.service.PostService;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,21 +23,53 @@ import com.jida.dto.req.MemberSaveRequestDto;
 import com.jida.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.jida.constants.SuccessCode.*;
 
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin
+@Slf4j
 @RequestMapping("/api/member")
 public class MemberController {
 
 	private final MemberService memberService;
 	private final PostService postService;
+	private final JWTUtil jwtUtil;
 
 	@PostMapping("join")
 	public ResponseEntity<MemberResponse> join(@RequestBody MemberSaveRequestDto memberSaveRequestDto) {
 		memberService.joinMember(memberSaveRequestDto);
 		return MemberResponse.newResponse(SIGNUP_SUCCESS);
+	}
+
+	@GetMapping("/info/{userId}")
+	public ResponseEntity<Map<String, Object>> getInfo(
+			@PathVariable("userId") String memberId,
+			HttpServletRequest request) {
+//		logger.debug("userId : {} ", userId);
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		if (jwtUtil.checkToken(request.getHeader("Authorization"))) {
+			log.info("사용 가능한 토큰!!!");
+			try {
+//				로그인 사용자 정보.
+				Member member = memberService.findById(memberId);
+				resultMap.put("userInfo", member);
+				status = HttpStatus.OK;
+			} catch (Exception e) {
+				log.error("정보조회 실패 : {}", e);
+				resultMap.put("message", e.getMessage());
+				status = HttpStatus.INTERNAL_SERVER_ERROR;
+			}
+		} else {
+			log.error("사용 불가능 토큰!!!");
+			status = HttpStatus.UNAUTHORIZED;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
 //	@PostMapping("/login")

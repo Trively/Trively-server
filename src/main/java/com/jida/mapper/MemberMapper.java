@@ -1,5 +1,6 @@
 package com.jida.mapper;
 
+import com.jida.dto.res.member.MemberDetailResponseDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.jida.domain.Member;

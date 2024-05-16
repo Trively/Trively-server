@@ -1,6 +1,7 @@
 package com.jida.service;
 
 
+import com.jida.dto.res.member.MemberDetailResponseDto;
 import com.jida.dto.res.member.TokenDto;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,5 +28,11 @@ public class MemberServiceImpl implements MemberService {
 		member.setPassword(passwordEncoder.encode(member.getPassword()));
 		memberMapper.joinMember(member);
 	}
+
+	@Override
+	public Member findById(String memberId) {
+		return memberMapper.findById(memberId);
+	}
+
 
 }
