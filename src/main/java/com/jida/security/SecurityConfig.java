@@ -33,8 +33,6 @@ public class SecurityConfig {
     private final JWTUtil jwtUtil;
     private final AuthenticationConfiguration configuration;
     private final ObjectMapper objectMapper;
-//    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-//    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -45,14 +43,15 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .httpBasic(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable)
+                .cors(corsConfigurer -> corsConfigurer.configurationSource(apiConfigurationSource()))
+//                .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManagement->sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .headers(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> {
                             authorize.requestMatchers("/api/member/login").permitAll();
-                            authorize.requestMatchers("api/member").permitAll();
+                            authorize.requestMatchers("api/member/join").permitAll();
                             authorize.anyRequest().permitAll();
                         }
                 )
