@@ -9,10 +9,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MemberDetailResponseDto {
 	private String id;
+	private String password;
+	private String email;
 	private String nickname;
 	
 	private MemberDetailResponseDto(Member entity) {
 		this.id = entity.getId();
+		this.password = entity.getPassword();
+		this.email = entity.getEmail();
 		this.nickname = entity.getNickname();
 	}
 	public static MemberDetailResponseDto of(Member entity) {
