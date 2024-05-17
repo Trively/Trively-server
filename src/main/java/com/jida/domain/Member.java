@@ -1,5 +1,6 @@
 package com.jida.domain;
 
+import com.jida.dto.res.member.MemberDetailResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,6 +22,17 @@ public class Member {
 		member.password = password;
 		member.email = email;
 		member.nickname = nickname;
+		return member;
+	}
+
+	public static Member detailToMember(MemberDetailResponseDto memberDetailResponseDto){
+		Member member = new Member();
+		member.memberId = memberDetailResponseDto.getMemberId();
+		member.id = memberDetailResponseDto.getId();
+		member.password = memberDetailResponseDto.getPassword();
+		member.nickname = memberDetailResponseDto.getNickname();
+		member.email = memberDetailResponseDto.getEmail();
+		member.refreshToken = memberDetailResponseDto.getRefreshToken();
 		return member;
 	}
 
