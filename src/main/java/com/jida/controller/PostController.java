@@ -10,13 +10,18 @@ import static com.jida.constants.SuccessCode.POST_SCRAP_CANCELED;
 import static com.jida.constants.SuccessCode.POST_SCRAP_SUCCESS;
 import static com.jida.constants.SuccessCode.POST_UPDATE_SUCCESS;
 
+import com.jida.domain.Member;
 import com.jida.dto.req.PostSaveRequestDto;
+import com.jida.dto.res.member.MemberDetailResponseDto;
 import com.jida.dto.res.post.PostDetailResponse;
 import com.jida.dto.res.post.PostDetailResponseDto;
 import com.jida.dto.res.post.PostListResponse;
 import com.jida.dto.res.post.PostListResponseDto;
 import com.jida.dto.res.post.PostResponse;
+import com.jida.service.MemberService;
 import com.jida.service.PostService;
+import com.jida.util.JWTUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,10 +39,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/post")
 public class PostController {
     private final PostService postService;
+    private final JWTUtil jwtUtil;
 
     @PostMapping
-    public ResponseEntity<PostDetailResponse> savePost(@RequestBody PostSaveRequestDto postSaveRequestDto) {
-        long postId = postService.writePost(postSaveRequestDto);
+    public ResponseEntity<PostDetailResponse> savePost(@RequestBody PostSaveRequestDto postSaveRequestDto, HttpServletRequest request) {
+        String id = jwtUtil.getUserId(request.getHeader("Authorization"));
+        long postId = postService.writePost(id,postSaveRequestDto);
         PostDetailResponseDto responseDto = postService.viewPost(postId);
 
         return PostDetailResponse.newResponse(POST_SAVE_SUCCESS, responseDto);

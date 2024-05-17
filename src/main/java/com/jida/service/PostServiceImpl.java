@@ -36,6 +36,7 @@ public class PostServiceImpl implements PostService {
 	private final BoardMapper boardMapper;
 	private final PostLikeMapper postLikeMapper;
 	private final PostScrapMapper postScrapMapper;
+	private final MemberService memberService;
 
 	//TODO: 예외 처리 및 Optional 처리
 	@Override
@@ -49,10 +50,9 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public long writePost(PostSaveRequestDto postSaveRequestDto) {
-		Member member = getMember();
+	public long writePost(String id, PostSaveRequestDto postSaveRequestDto) {
 		Board board = boardMapper.findById(postSaveRequestDto.getBoardName());
-
+		Member member = Member.detailToMember(memberService.findById(id));
 		Post post = Post.creatPost(member, board, postSaveRequestDto.getTitle(), postSaveRequestDto.getContent());
 		postMapper.writePost(post);
 		
