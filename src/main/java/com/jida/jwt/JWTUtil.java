@@ -43,10 +43,10 @@ public class JWTUtil {
     }
 
     // 토큰 생성 메서드
-    public String createJwt(String loginId, String role, Long expiredMs) {
+    public String createJwt(String userId, String role, Long expiredMs) {
 
         return Jwts.builder()
-                .claim("loginId", loginId)
+                .claim("userId", userId)
                 .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiredMs))
