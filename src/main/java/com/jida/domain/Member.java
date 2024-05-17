@@ -13,15 +13,15 @@ public class Member {
 	private String password;
 	private String email;
 	private String nickname;
-	private Authority authority;
+	private String refreshToken;
 
-	public static Member createMember(String id, String password, String email, String nickname, Authority authority){
+	public static Member createMember(String id, String password, String email, String nickname){
 		Member member = new Member();
 		member.id = id;
 		member.password = password;
 		member.email = email;
 		member.nickname = nickname;
-		member.authority = authority;
 		return member;
 	}
+
 }

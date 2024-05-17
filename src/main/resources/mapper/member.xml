@@ -10,24 +10,42 @@
 		<result column="password" property="password"/>
 		<result column="email" property="email"/>
 		<result column="nickname" property="nickname"/>
-		<result column="role" property="authority"/>
+		<result column="token" property="refreshToken"/>
 	</resultMap>
 
-	<select id="loginMember" parameterType="member" resultMap="member">
+	<select id="loginMember" parameterType="map" resultMap="member">
 		select *
 		from member
 		where id = #{id} and password = #{password}
 	</select>
 
-	<select id="findById" parameterType="member" resultMap="member">
+	<select id="findById" parameterType="string" resultMap="member">
 		select *
 		from member
 		where id=#{id}
 	</select>
 	
 	<insert id="joinMember" parameterType="member">
-		insert into member (id, password, email, nickname, role)
-		values (#{id},#{password},#{email},#{nickname},#{authority})
+		insert into member (id, password, email, nickname)
+		values (#{id},#{password},#{email},#{nickname})
 	</insert>
+
+	<update id="saveRefreshToken" parameterType="map">
+		update member
+		set token = #{token}
+		where id = #{userId}
+	</update>
+
+	<select id="getRefreshToken" parameterType="string" resultType="string">
+		select token
+		from member
+		where id = #{id}
+	</select>
+
+	<update id="deleteRefreshToken" parameterType="map">
+		update member
+		set token = #{token, jdbcType=VARCHAR}
+		where id = #{userId}
+	</update>
 
 </mapper>
