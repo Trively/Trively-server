@@ -12,7 +12,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.jida.interceptor.JWTInterceptor;
 
 @Configuration
-@EnableWebMvc
 public class WebConfiguration implements WebMvcConfigurer {
 
     private JWTInterceptor jwtInterceptor;
