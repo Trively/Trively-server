@@ -19,7 +19,13 @@
 		where id = #{id} and password = #{password}
 	</select>
 
-	<select id="findById" parameterType="string" resultMap="member">
+	<select id="findById" parameterType="long" resultMap="member">
+		select *
+		from member
+		where member_id=#{memberId}
+	</select>
+
+	<select id="findByCustomId" parameterType="string" resultMap="member">
 		select *
 		from member
 		where id=#{id}
@@ -47,5 +53,11 @@
 		set token = #{token, jdbcType=VARCHAR}
 		where id = #{userId}
 	</update>
+
+	<select id="memberIdById" parameterType="string" resultType="long">
+		select member_id
+		from member
+		where id=#{id}
+	</select>
 
 </mapper>

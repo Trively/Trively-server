@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Map;
 
+import com.jida.mapper.MemberMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +29,13 @@ public class JWTUtil {
 
     @Value("${jwt.refresh-token.expiretime}")
     private long refreshTokenExpireTime;
+
+    private final MemberMapper memberMapper;
+
+    @Autowired
+    public JWTUtil(MemberMapper memberMapper) {
+        this.memberMapper = memberMapper;
+    }
 
     public String createAccessToken(String userId) {
         return create(userId, "access-token", accessTokenExpireTime);
@@ -97,7 +106,7 @@ public class JWTUtil {
         }
     }
 
-    public String getUserId(String authorization) {
+    public long getUserId(String authorization) {
         Jws<Claims> claims = null;
         try {
             claims = Jwts.parser().setSigningKey(this.generateKey()).parseClaimsJws(authorization);
@@ -107,7 +116,8 @@ public class JWTUtil {
         }
         Map<String, Object> value = claims.getBody();
         log.info("value : {}", value);
-        return (String) value.get("userId");
+        String id = (String) value.get("userId");
+        return memberMapper.memberIdById(id);
     }
 
 }

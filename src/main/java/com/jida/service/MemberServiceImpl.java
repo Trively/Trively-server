@@ -35,8 +35,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
 	@Override
-	public MemberDetailResponseDto findById(String memberId) {
-		Member member = memberMapper.findById(memberId);
+	public MemberDetailResponseDto findByCustomId(String id) {
+		Member member = memberMapper.findByCustomId(id);
 		return MemberDetailResponseDto.of(member);
 	}
 

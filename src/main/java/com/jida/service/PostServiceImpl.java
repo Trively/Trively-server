@@ -10,8 +10,8 @@ import com.jida.dto.res.board.BoardListResponseDto.BoardList;
 import com.jida.dto.res.post.PostListResponseDto;
 import com.jida.dto.res.post.PostListResponseDto.PostList;
 import com.jida.exception.CustomException;
-import com.jida.mapper.PostLikeMapper;
-import com.jida.mapper.PostScrapMapper;
+import com.jida.mapper.*;
+
 import java.util.List;
 
 import java.util.Optional;
@@ -23,8 +23,6 @@ import com.jida.domain.Post;
 import com.jida.dto.req.PostSaveRequestDto;
 import com.jida.dto.res.post.PostDetailResponseDto;
 import com.jida.dto.res.post.PostDetailResponseDto.PostDetail;
-import com.jida.mapper.BoardMapper;
-import com.jida.mapper.PostMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,9 +32,9 @@ public class PostServiceImpl implements PostService {
 	
 	private final PostMapper postMapper;
 	private final BoardMapper boardMapper;
+	private final MemberMapper memberMapper;
 	private final PostLikeMapper postLikeMapper;
 	private final PostScrapMapper postScrapMapper;
-	private final MemberService memberService;
 
 	//TODO: 예외 처리 및 Optional 처리
 	@Override
@@ -50,9 +48,9 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public long writePost(String id, PostSaveRequestDto postSaveRequestDto) {
+	public long writePost(long memberId, PostSaveRequestDto postSaveRequestDto) {
 		Board board = boardMapper.findById(postSaveRequestDto.getBoardName());
-		Member member = Member.detailToMember(memberService.findById(id));
+		Member member = memberMapper.findById(memberId);
 		Post post = Post.creatPost(member, board, postSaveRequestDto.getTitle(), postSaveRequestDto.getContent());
 		postMapper.writePost(post);
 		

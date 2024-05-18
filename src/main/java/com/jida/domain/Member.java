@@ -25,15 +25,4 @@ public class Member {
 		return member;
 	}
 
-	public static Member detailToMember(MemberDetailResponseDto memberDetailResponseDto){
-		Member member = new Member();
-		member.memberId = memberDetailResponseDto.getMemberId();
-		member.id = memberDetailResponseDto.getId();
-		member.password = memberDetailResponseDto.getPassword();
-		member.nickname = memberDetailResponseDto.getNickname();
-		member.email = memberDetailResponseDto.getEmail();
-		member.refreshToken = memberDetailResponseDto.getRefreshToken();
-		return member;
-	}
-
 }

@@ -13,9 +13,11 @@ import java.util.Optional;
 @Mapper
 public interface MemberMapper {
 	Member loginMember(Map<String, String> map);
+	Member findById(long memberId); //pk로 찾기
 	void joinMember(Member member);
-	Member findById(String id);
+	Member findByCustomId(String id); //아이디로 찾기
 	void saveRefreshToken(Map<String, String> map);
 	Object getRefreshToken(String id);
 	void deleteRefreshToken(Map<String, String> map);
+	long memberIdById(String id); //아이디를 pk로 변환
 }

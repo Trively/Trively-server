@@ -91,7 +91,7 @@ public class MemberController {
 			log.info("사용 가능한 토큰!!!");
 			try {
 //				로그인 사용자 정보.
-				MemberDetailResponseDto memberDetailResponseDto = memberService.findById(userId);
+				MemberDetailResponseDto memberDetailResponseDto = memberService.findByCustomId(userId);
 				resultMap.put("userInfo", memberDetailResponseDto);
 				status = HttpStatus.OK;
 			} catch (Exception e) {

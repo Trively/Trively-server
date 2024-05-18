@@ -11,7 +11,7 @@ import com.jida.dto.res.post.PostDetailResponseDto;
 
 public interface PostService {
 	PostListResponseDto showList(String order, long boardId, int pageIndex, int pageSize);
-	long writePost(String id, PostSaveRequestDto postSaveRequestDto);
+	long writePost(long memberId, PostSaveRequestDto postSaveRequestDto);
 	void updateHit(long postId);
 	PostDetailResponseDto viewPost(long postId);
 	long modifyPost(long postId, PostSaveRequestDto postSaveRequestDto);
