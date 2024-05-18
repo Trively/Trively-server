@@ -1,2 +1,8 @@
-package com.jida.dto.req;public class MessageRequestDto {
+package com.jida.dto.req;
+
+import lombok.Getter;
+
+@Getter
+public class MessageRequestDto {
+    private String content;
 }

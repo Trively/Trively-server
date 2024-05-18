@@ -1,6 +1,41 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-</beans>
+<mapper namespace="com.jida.mapper.MessageRoomMapper">
+
+    <resultMap type="messageRoom" id="messageRoom">
+        <result column="room_id" property="roomId"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="sender" property="sender.memberId"/>
+        <result column="receiver" property="receiver.memberId"/>
+
+        <association property="sender" javaType="com.jida.domain.Member">
+
+        </association>
+
+        <association property="receiver" javaType="com.jida.domain.Member">
+
+        </association>
+
+    </resultMap>
+    <insert id="saveMessageRoom" parameterType="messageRoom" useGeneratedKeys="true" keyProperty="roomId">
+        insert into message_room (sender, receiver)
+        values (#{sender.memberId}, #{receiver.memberId})
+    </insert>
+
+    <select id="findById" parameterType="long" resultMap="messageRoom">
+        select *
+        from message_room
+        where room_id = #{roomId}
+    </select>
+
+    <select id="findByMembers" parameterType="map" resultMap="messageRoom">
+        select *
+        from message_room
+        where (sender = #{sendMemberId} and receiver = #{receiveMemberId})
+        or (sender = #{receiveMemberId} and receiver = #{sendMemberId})
+    </select>
+
+
+</mapper>
