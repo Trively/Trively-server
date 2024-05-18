@@ -43,8 +43,8 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<PostDetailResponse> savePost(@RequestBody PostSaveRequestDto postSaveRequestDto, HttpServletRequest request) {
-        String id = jwtUtil.getUserId(request.getHeader("Authorization"));
-        long postId = postService.writePost(id,postSaveRequestDto);
+        long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
+        long postId = postService.writePost(memberId,postSaveRequestDto);
         PostDetailResponseDto responseDto = postService.viewPost(postId);
 
         return PostDetailResponse.newResponse(POST_SAVE_SUCCESS, responseDto);

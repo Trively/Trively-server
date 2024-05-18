@@ -29,7 +29,12 @@ public enum SuccessCode {
 	SCRAP_READ_SUCCESS(OK, "스크랩 전체 조회를 성공했습니다."),
 	COMMENT_SAVE_SUCCESS(OK, "댓글 저장을 완료했습니다."),
 	COMMENT_LIST_SUCCESS(OK, "댓글 조회를 성공했습니다."),
-	COMMENT_DELETE_SUCCESS(OK, "댓글 삭제를 성공했습니다.");
+	COMMENT_DELETE_SUCCESS(OK, "댓글 삭제를 성공했습니다."),
+
+	//Message
+	MESSAGE_SEND_SUCCESS(OK, "메시지 전송에 성공했습니다."),
+	MESSAGE_REPLY_SUCCESS(OK, "메시지 답장에 성공했습니다.");
+
 
 	private final HttpStatus status;
 	private final String message;
