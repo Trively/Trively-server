@@ -21,7 +21,7 @@
         <where>
             <include refid="search"></include>
         </where>
-        order by attraction_id desc
+        order by attraction_id asc
         limit 10
     </select>
 
@@ -44,7 +44,7 @@
             )
         </if>
         <if test="lastAttractId != null">
-            and attraction_id &lt; #{lastAttractId}
+            and attraction_id &gt; #{lastAttractId}
         </if>
     </sql>
 
