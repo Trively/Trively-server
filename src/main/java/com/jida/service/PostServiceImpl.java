@@ -1,7 +1,5 @@
 package com.jida.service;
 
-import static com.jida.constants.ExceptionCode.POST_NOT_FOUND;
-
 import com.jida.domain.Board;
 import com.jida.domain.Member;
 import com.jida.domain.PostLike;
@@ -26,8 +24,11 @@ import com.jida.dto.res.post.PostDetailResponseDto.PostDetail;
 
 import lombok.RequiredArgsConstructor;
 
+import static com.jida.constants.ExceptionCode.*;
+
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PostServiceImpl implements PostService {
 	
 	private final PostMapper postMapper;
@@ -53,7 +54,7 @@ public class PostServiceImpl implements PostService {
 		Member member = memberMapper.findById(memberId);
 		Post post = Post.creatPost(member, board, postSaveRequestDto.getTitle(), postSaveRequestDto.getContent());
 		postMapper.writePost(post);
-		
+
 		return post.getPostId();	
 	}
 
@@ -73,24 +74,33 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public long modifyPost(long postId, PostSaveRequestDto postSaveRequestDto) {
-		Member member = getMember();
+	public long modifyPost(long memberId, long postId, PostSaveRequestDto postSaveRequestDto) {
+		Member member = getMember(memberId);
 		Board board = boardMapper.findById(postSaveRequestDto.getBoardName());
-
+		Optional<Post> origin = postMapper.findById(postId);
 		Post post = Post.creatPost(member, board, postSaveRequestDto.getTitle(), postSaveRequestDto.getContent());
+		if(origin.isEmpty()){
+			throw new CustomException(POST_NOT_FOUND);
+		}
+		post.setPostId(postId);
 		postMapper.updatePost(post);
-		
 		return post.getPostId();
 	}
 
 	@Override
-	public void deletePost(long postId) {
+	public void deletePost(long memberId,long postId) {
+		Member member = getMember(memberId);
+		Post post = postMapper.findById(postId)
+				.orElseThrow(() -> new CustomException(POST_NOT_FOUND));
+		if (post.getMember().getMemberId() != member.getMemberId()) {
+			throw new CustomException(POST_CANT_DELETE);
+		}
 		postMapper.deletePost(postId);
 	}
 
 	@Override
-	public boolean clickPostLike(Long postId) {
-		Member member = getMember();
+	public boolean clickPostLike(long memberId,Long postId) {
+		Member member = getMember(memberId);
 		Optional<PostLike> existPostLike = postLikeMapper.findByUserAndPost(member.getMemberId(), postId);
 
 		if (existPostLike.isPresent()) {
@@ -105,8 +115,8 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public boolean clickPostScrap(Long postId) {
-		Member member = getMember();
+	public boolean clickPostScrap(long memberId,Long postId) {
+		Member member = getMember(memberId);
 		Post post = postMapper.findById(postId)
 				.orElseThrow(() -> new CustomException(POST_NOT_FOUND));
 
@@ -121,9 +131,8 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public PostListResponseDto showScrap(String order, long boardId, int pageIndex, int pageSize) {
-		//TODO: 멤버를 받아서 넘겨줘야 함
-		Member member = getMember();
+	public PostListResponseDto showScrap(long memberId,String order, long boardId, int pageIndex, int pageSize) {
+		Member member = getMember(memberId);
 
 		List<PostList> posts = postScrapMapper.findScraps(order, boardId, member.getMemberId(), (pageIndex - 1) * pageSize, pageSize).stream()
 				.map(postScrap -> PostList.of(postScrap.getPost()))
@@ -134,14 +143,7 @@ public class PostServiceImpl implements PostService {
 	}
 
 
-	//TODO: jwt 토큰 구현 시 변경 필요
-	private Member getMember() {
-		Member member = new Member();
-		member.setMemberId(1L);
-		member.setEmail("ssafy@ssafy.com");
-		member.setId("ssafy");
-		member.setPassword("1234");
-		member.setNickname("김싸피");
-		return member;
+	private Member getMember(long memberId) {
+		return memberMapper.findById(memberId);
 	}
 }

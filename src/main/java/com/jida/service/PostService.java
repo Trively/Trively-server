@@ -14,9 +14,9 @@ public interface PostService {
 	long writePost(long memberId, PostSaveRequestDto postSaveRequestDto);
 	void updateHit(long postId);
 	PostDetailResponseDto viewPost(long postId);
-	long modifyPost(long postId, PostSaveRequestDto postSaveRequestDto);
-	void deletePost(long postId);
-	boolean clickPostLike(Long postId);
-	boolean clickPostScrap(Long postId);
-	PostListResponseDto showScrap(String order, long boardId, int pageIndex, int pageSize);
+	long modifyPost(long memberId,long postId, PostSaveRequestDto postSaveRequestDto);
+	void deletePost(long memberId,long postId);
+	boolean clickPostLike(long memberId,Long postId);
+	boolean clickPostScrap(long memberId,Long postId);
+	PostListResponseDto showScrap(long memberId,String order, long boardId, int pageIndex, int pageSize);
 }

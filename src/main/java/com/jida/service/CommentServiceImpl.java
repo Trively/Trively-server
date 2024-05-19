@@ -14,6 +14,7 @@ import com.jida.dto.res.comment.CommentListResponseDto;
 import com.jida.dto.res.comment.CommentListResponseDto.CommentList;
 import com.jida.exception.CustomException;
 import com.jida.mapper.CommentMapper;
+import com.jida.mapper.MemberMapper;
 import com.jida.mapper.PostMapper;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,11 +25,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
     private final CommentMapper commentMapper;
+    private final MemberMapper memberMapper;
     private final PostMapper postMapper;
 
     @Override
-    public void save(Long postId, Long parentId, CommentSaveRequestDto commentSaveRequestDto) {
-        Member member = getMember();
+    public void save(long memberId, Long postId, Long parentId, CommentSaveRequestDto commentSaveRequestDto) {
+        Member member = getMember(memberId);
         Post post = postMapper.findById(postId)
                 .orElseThrow(() -> new CustomException(POST_NOT_FOUND));
 
@@ -48,10 +50,10 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentListResponseDto findAll(Long postId) {
+    public CommentListResponseDto findAll(long memberId, Long postId) {
         Post post = postMapper.findById(postId)
                 .orElseThrow(() -> new CustomException(POST_NOT_FOUND));
-        Member member = getMember();
+        Member member = getMember(memberId);
 
         List<CommentList> comments = commentMapper.findAll(postId).stream()
                 .map(comment -> CommentList.of(comment,
@@ -62,8 +64,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void delete(Long postId, Long commentId) {
-        Member member = getMember();
+    public void delete(long memberId, Long postId, Long commentId) {
+        Member member = getMember(memberId);
         Post post = postMapper.findById(postId)
                 .orElseThrow(() -> new CustomException(POST_NOT_FOUND));
         Comment comment = commentMapper.findById(commentId)
@@ -77,14 +79,8 @@ public class CommentServiceImpl implements CommentService {
         postMapper.diffCommentCnt(postId);
     }
 
-    //TODO: jwt 토큰 구현 시 변경 필요
-    private Member getMember() {
-        Member member = new Member();
-        member.setMemberId(1L);
-        member.setEmail("ssafy@ssafy.com");
-        member.setId("ssafy");
-        member.setPassword("1234");
-        member.setNickname("김싸피");
-        return member;
+
+    private Member getMember(long memberId) {
+        return memberMapper.findById(memberId);
     }
 }
