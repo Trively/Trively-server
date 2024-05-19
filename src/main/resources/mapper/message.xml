@@ -17,7 +17,6 @@
 
         <association property="member" javaType="com.jida.domain.Member">
             <result column="member_id" property="memberId"/>
-            <result column="nickname" property="nickname"/>
         </association>
 
     </resultMap>
@@ -33,6 +32,13 @@
         where room_id = #{messageRoom.roomId}
         order by created_at desc
         limit 1
+    </select>
+
+    <select id="findByRoom" parameterType="long" resultMap="message">
+        select *
+        from message
+        where room_id = #{roomId}
+        order by created_at
     </select>
 
 </mapper>

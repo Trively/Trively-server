@@ -4,6 +4,7 @@ import com.jida.domain.Member;
 import com.jida.domain.Message;
 import com.jida.domain.MessageRoom;
 import com.jida.dto.req.MessageRequestDto;
+import com.jida.dto.res.message.MessageDetailResponseDto;
 import com.jida.dto.res.message.MessageRoomResponseDto;
 import com.jida.dto.res.message.MessageRoomResponseDto.RoomList;
 import com.jida.dto.res.message.MessageSendResponseDto;
@@ -23,6 +24,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.jida.constants.ExceptionCode.MESSAGE_DENIED;
+import static com.jida.constants.ExceptionCode.MESSAGE_ROOM_NOT_FOUND;
+import static com.jida.dto.res.message.MessageDetailResponseDto.*;
 import static java.util.List.of;
 
 @Slf4j
@@ -79,5 +82,16 @@ public class MessageServiceImpl implements MessageService{
                                         }).collect(Collectors.toList());
         Collections.sort(roomList);
         return MessageRoomResponseDto.of(roomList);
+    }
+
+    @Override
+    public MessageDetailResponseDto showMessageList(long memberId, long roomId) {
+        Member member = memberMapper.findById(memberId);
+        MessageRoom messageRoom = messageRoomMapper.findById(roomId);
+        if(messageRoom == null){
+            throw new CustomException(MESSAGE_ROOM_NOT_FOUND);
+        }
+        List<MessageDto> messages = messageMapper.findByRoom(roomId).stream().map(message -> MessageDto.of(message, message.getMember().getMemberId()==member.getMemberId())).collect(Collectors.toList());
+        return MessageDetailResponseDto.of(messages);
     }
 }
