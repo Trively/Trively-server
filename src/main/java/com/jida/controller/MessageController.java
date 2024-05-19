@@ -38,7 +38,12 @@ public class MessageController {
         MessageRoomResponseDto response = messageService.showRoomList(memberId);
         return MessageRoomResponse.newResponse(MESSAGE_ROOM_READ_SUCCESS, response);
     }
-
+    @GetMapping("{roomId}")
+    public ResponseEntity<MessageDetailResponse> showMessageList(@PathVariable long roomId, HttpServletRequest request){
+        long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
+        MessageDetailResponseDto response = messageService.showMessageList(memberId, roomId);
+        return MessageDetailResponse.newResponse(MESSAGE_READ_SUCCESS, response);
+    }
 
 
 }
