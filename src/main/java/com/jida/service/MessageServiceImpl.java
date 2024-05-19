@@ -7,6 +7,7 @@ import com.jida.dto.req.MessageRequestDto;
 import com.jida.dto.res.message.MessageRoomResponseDto;
 import com.jida.dto.res.message.MessageRoomResponseDto.RoomList;
 import com.jida.dto.res.message.MessageSendResponseDto;
+import com.jida.exception.CustomException;
 import com.jida.mapper.MemberMapper;
 import com.jida.mapper.MessageMapper;
 import com.jida.mapper.MessageRoomMapper;
@@ -21,6 +22,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.jida.constants.ExceptionCode.MESSAGE_DENIED;
 import static java.util.List.of;
 
 @Slf4j
@@ -35,7 +37,9 @@ public class MessageServiceImpl implements MessageService{
     public MessageSendResponseDto sendMessage(MessageRequestDto messageRequestDto, long sendMemberId, long receiveMemberId) {
         Member sendMember = memberMapper.findById(sendMemberId);
         Member receiveMember = memberMapper.findById(receiveMemberId);
-        //TODO : 본인이 본인에게 전송하지 못하게 수정해야함
+        if(sendMember == receiveMember || receiveMember == null){
+            throw new CustomException(MESSAGE_DENIED);
+        }
         Optional<MessageRoom> messageRoom = messageRoomMapper.findByMembers(sendMember.getMemberId(), receiveMember.getMemberId());
         MessageRoom room;
         if(messageRoom.isEmpty()){
@@ -57,6 +61,9 @@ public class MessageServiceImpl implements MessageService{
     public void replyMessage(MessageRequestDto messageRequestDto, long roomId, long sendMemberId) {
        Member member = memberMapper.findById(sendMemberId);
        MessageRoom messageRoom = messageRoomMapper.findById(roomId);
+       if(messageRoom == null){
+           throw new CustomException(MESSAGE_DENIED);
+       }
        Message message = Message.createMessage(messageRoom, member, messageRequestDto.getContent());
        messageMapper.saveMessage(message);
     }
