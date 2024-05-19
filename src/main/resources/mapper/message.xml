@@ -27,4 +27,12 @@
         values (#{content}, #{messageRoom.roomId}, #{member.memberId})
     </insert>
 
+    <select id="findFirstByMessageRoom" parameterType="messageRoom" resultMap="message">
+        select *
+        from message
+        where room_id = #{messageRoom.roomId}
+        order by created_at desc
+        limit 1
+    </select>
+
 </mapper>

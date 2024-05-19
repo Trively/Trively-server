@@ -12,5 +12,6 @@ public interface MessageRoomMapper {
     void saveMessageRoom(MessageRoom messageRoom);
     MessageRoom findById(long roomId);
     Optional<MessageRoom> findByMembers(long sendMemberId, long receiveMemberId);
-    //List<MessageRoom> findByMember(long memberId);
+    List<MessageRoom> findByMember(long memberId);
+
 }

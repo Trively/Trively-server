@@ -1,11 +1,7 @@
 package com.jida.controller;
 
-import static com.jida.constants.SuccessCode.MESSAGE_REPLY_SUCCESS;
-import static com.jida.constants.SuccessCode.MESSAGE_SEND_SUCCESS;
 import com.jida.dto.req.MessageRequestDto;
-import com.jida.dto.res.message.MessageResponse;
-import com.jida.dto.res.message.MessageSendResponse;
-import com.jida.dto.res.message.MessageSendResponseDto;
+import com.jida.dto.res.message.*;
 import com.jida.service.MemberService;
 import com.jida.service.MessageService;
 import com.jida.util.JWTUtil;
@@ -14,6 +10,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static com.jida.constants.SuccessCode.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -34,5 +32,14 @@ public class MessageController {
         messageService.replyMessage(messageRequestDto, roomId, sendMemberId);
         return MessageResponse.newResponse(MESSAGE_REPLY_SUCCESS);
     }
+
+    @GetMapping("")
+    public ResponseEntity<MessageRoomResponse> showRoomList(HttpServletRequest request){
+        long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
+        MessageRoomResponseDto response = messageService.showRoomList(memberId);
+        return MessageRoomResponse.newResponse(MESSAGE_ROOM_READ_SUCCESS, response);
+    }
+
+
 
 }

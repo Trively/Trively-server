@@ -4,6 +4,8 @@ import com.jida.domain.Member;
 import com.jida.domain.Message;
 import com.jida.domain.MessageRoom;
 import com.jida.dto.req.MessageRequestDto;
+import com.jida.dto.res.message.MessageRoomResponseDto;
+import com.jida.dto.res.message.MessageRoomResponseDto.RoomList;
 import com.jida.dto.res.message.MessageSendResponseDto;
 import com.jida.mapper.MemberMapper;
 import com.jida.mapper.MessageMapper;
@@ -13,7 +15,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.List.of;
+
 @Slf4j
 @Service
 @Transactional
@@ -49,5 +58,18 @@ public class MessageServiceImpl implements MessageService{
        MessageRoom messageRoom = messageRoomMapper.findById(roomId);
        Message message = Message.createMessage(messageRoom, member, messageRequestDto.getContent());
        messageMapper.saveMessage(message);
+    }
+
+    @Override
+    public MessageRoomResponseDto showRoomList(long memberId) {
+        Member member = memberMapper.findById(memberId);
+        List<MessageRoom> rooms = messageRoomMapper.findByMember(memberId);
+        List<RoomList> roomList = rooms.stream()
+                                        .map(messageRoom -> {
+                                            Message recent = messageMapper.findFirstByMessageRoom(messageRoom.getRoomId());
+                                            return RoomList.of(messageRoom, member, recent);
+                                        }).collect(Collectors.toList());
+        Collections.sort(roomList);
+        return MessageRoomResponseDto.of(roomList);
     }
 }
