@@ -37,5 +37,11 @@
         or (sender = #{receiveMemberId} and receiver = #{sendMemberId})
     </select>
 
+    <select id="findByMember" parameterType="long" resultMap="messageRoom">
+        select *
+        from message_room
+        where (sender = #{memberId}) or (receiver = #{memberId})
+    </select>
+
 
 </mapper>

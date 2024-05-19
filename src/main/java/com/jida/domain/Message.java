@@ -4,6 +4,8 @@ package com.jida.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @NoArgsConstructor
 public class Message {
@@ -11,7 +13,7 @@ public class Message {
     private MessageRoom messageRoom;
     private Member member;
     private String content;
-    private String createdAt;
+    private LocalDateTime createdAt;
 
     public static Message createMessage(MessageRoom messageRoom, Member member, String content){
         Message message = new Message();
