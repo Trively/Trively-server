@@ -13,6 +13,7 @@
         <result column="create_at" property="createdAt"/>
 
         <association property="member" javaType="member">
+            <result column="member_id" property="memberId"/>
             <result column="nickname" property="nickname"/>
         </association>
     </resultMap>
