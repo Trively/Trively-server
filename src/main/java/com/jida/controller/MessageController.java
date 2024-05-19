@@ -2,7 +2,6 @@ package com.jida.controller;
 
 import com.jida.dto.req.MessageRequestDto;
 import com.jida.dto.res.message.*;
-import com.jida.service.MemberService;
 import com.jida.service.MessageService;
 import com.jida.util.JWTUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +18,7 @@ import static com.jida.constants.SuccessCode.*;
 public class MessageController {
     private final MessageService messageService;
     private final JWTUtil jwtUtil;
-    @PostMapping("/send/{memberId}")
+    @PostMapping("/{memberId}")
     public ResponseEntity<MessageSendResponse> sendMessage(@Valid @RequestBody MessageRequestDto messageRequestDto, @PathVariable long memberId, HttpServletRequest request){
         long sendMemberId = jwtUtil.getUserId(request.getHeader("Authorization"));
         MessageSendResponseDto response = messageService.sendMessage(messageRequestDto, sendMemberId, memberId);

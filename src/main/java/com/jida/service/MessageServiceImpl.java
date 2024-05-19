@@ -35,6 +35,7 @@ public class MessageServiceImpl implements MessageService{
     public MessageSendResponseDto sendMessage(MessageRequestDto messageRequestDto, long sendMemberId, long receiveMemberId) {
         Member sendMember = memberMapper.findById(sendMemberId);
         Member receiveMember = memberMapper.findById(receiveMemberId);
+        //TODO : 본인이 본인에게 전송하지 못하게 수정해야함
         Optional<MessageRoom> messageRoom = messageRoomMapper.findByMembers(sendMember.getMemberId(), receiveMember.getMemberId());
         MessageRoom room;
         if(messageRoom.isEmpty()){
