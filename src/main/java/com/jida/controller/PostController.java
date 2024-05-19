@@ -59,16 +59,18 @@ public class PostController {
 
     @PutMapping("/{postId}")
     public ResponseEntity<PostDetailResponse> modifyPost(@PathVariable("postId") long postId,
-                                                         @RequestBody PostSaveRequestDto postSaveRequestDto) {
-        long updatedPostId = postService.modifyPost(postId, postSaveRequestDto);
+                                                         @RequestBody PostSaveRequestDto postSaveRequestDto,HttpServletRequest request) {
+        long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
+        long updatedPostId = postService.modifyPost(memberId, postId, postSaveRequestDto);
         PostDetailResponseDto responseDto = postService.viewPost(updatedPostId);
 
         return PostDetailResponse.newResponse(POST_UPDATE_SUCCESS, responseDto);
     }
 
     @DeleteMapping("/{postId}")
-    public ResponseEntity<PostResponse> deletePost(@PathVariable("postId") long postId) {
-        postService.deletePost(postId);
+    public ResponseEntity<PostResponse> deletePost(@PathVariable("postId") long postId, HttpServletRequest request) {
+        long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
+        postService.deletePost(memberId, postId);
         return PostResponse.newResponse(POST_DELETE_SUCCESS);
     }
 
@@ -84,8 +86,9 @@ public class PostController {
     }
 
     @PostMapping("/{postId}/like")
-    public ResponseEntity<PostResponse> postLike(@PathVariable Long postId) {
-        boolean response = postService.clickPostLike(postId);
+    public ResponseEntity<PostResponse> postLike(@PathVariable Long postId, HttpServletRequest request) {
+        long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
+        boolean response = postService.clickPostLike(memberId, postId);
         if (response) {
 			return PostResponse.newResponse(POST_LIKE_SUCCESS);
         }
@@ -93,8 +96,9 @@ public class PostController {
     }
 
     @PostMapping("/{postId}/scrap")
-    public ResponseEntity<PostResponse> postScrap(@PathVariable Long postId) {
-        boolean response = postService.clickPostScrap(postId);
+    public ResponseEntity<PostResponse> postScrap(@PathVariable Long postId, HttpServletRequest request) {
+        long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
+        boolean response = postService.clickPostScrap(memberId, postId);
         if (response) {
             return PostResponse.newResponse(POST_SCRAP_SUCCESS);
         }

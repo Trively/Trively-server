@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Getter
+@Setter
 public class Post {
 	private long postId;
 	private String title;
