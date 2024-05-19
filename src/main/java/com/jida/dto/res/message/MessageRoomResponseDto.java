@@ -5,11 +5,13 @@ import com.jida.domain.Message;
 import com.jida.domain.MessageRoom;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
+@Slf4j
 public class MessageRoomResponseDto {
     private List<RoomList> rooms;
     private MessageRoomResponseDto (List<RoomList> rooms){
@@ -22,14 +24,19 @@ public class MessageRoomResponseDto {
     @NoArgsConstructor
     public static class RoomList implements Comparable<RoomList>{
         private long roomId;
-        private String id;
+        private String nickname;
         private String recentContent;
         private LocalDateTime recentDateTime;
 
         public static RoomList of(MessageRoom messageRoom, Member member, Message message){
             RoomList roomList = new RoomList();
             roomList.roomId = messageRoom.getRoomId();
-            roomList.id =  member.getId();
+            if(messageRoom.getReceiver().getNickname().equals(member.getNickname())){
+                roomList.nickname = messageRoom.getSender().getNickname();
+            }
+            else if(messageRoom.getSender().getNickname().equals(member.getNickname())){
+                roomList.nickname = messageRoom.getReceiver().getNickname();
+            }
             roomList.recentContent = message.getContent();
             roomList.recentDateTime = message.getCreatedAt();
             return roomList;
