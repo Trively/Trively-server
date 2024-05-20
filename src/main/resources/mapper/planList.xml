@@ -22,10 +22,14 @@
         </selectKey>
     </insert>
 
-<!--  다른 사람이 볼 수 없으므로, member 객체 전체를 저장하지 않음  -->
     <select id="findById" parameterType="Long" resultMap="planList">
         select *
         from planlist
         where planlist_id = #{planListId}
     </select>
+
+    <delete id="delete" parameterType="Long">
+        delete from planlist
+        where planlist_id = #{planListId}
+    </delete>
 </mapper>

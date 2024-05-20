@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface PlanListMapper {
     void save(PlanList planList);
     Optional<PlanList> findById(Long planListId);
+    void delete(Long planListId);
 }
