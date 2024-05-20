@@ -153,4 +153,16 @@ public class MemberController {
 		PostListResponseDto postListResponseDto = postService.showScrap(memberId,order, boardId, pageIndex, pageSize);
 		return PostListResponse.newResponse(SCRAP_READ_SUCCESS ,postListResponseDto);
 	}
+
+	@GetMapping("/my-post")
+	public ResponseEntity<PostListResponse> myPost(
+			@RequestParam(name = "order", defaultValue = "latest") String order,
+			@RequestParam(name = "boardId", defaultValue = "0") long boardId,
+			@RequestParam(name = "pageIndex", defaultValue = "1") int pageIndex,
+			@RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
+			HttpServletRequest request){
+		long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
+		PostListResponseDto postListResponseDto = postService.getMyPost(memberId, pageIndex, pageSize);
+		return PostListResponse.newResponse(POST_LIST_SUCCESS, postListResponseDto);
+	}
 }

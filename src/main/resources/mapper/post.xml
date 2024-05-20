@@ -112,4 +112,20 @@
 		set like_cnt = GREATEST(0, like_cnt - 1)
 		where post_id = #{postId}
 	</update>
+
+	<select id="findByMember" parameterType="Long" resultMap="post">
+		select *
+		from post
+		where member_id = #{memberId}
+		<where>
+			<include refid="list"></include>
+		</where>
+		limit #{limit} offset #{offset}
+	</select>
+
+	<select id="countAllPostsByMember" parameterType="long">
+		select count(*)
+		from post
+		where member_id =#{memberId}
+	</select>
 </mapper>
