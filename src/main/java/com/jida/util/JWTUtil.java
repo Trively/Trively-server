@@ -63,7 +63,7 @@ public class JWTUtil {
 
 //		저장할 data의 key, value
         claims.put("userId", userId);
-
+        claims.put("memberId", memberMapper.memberIdById(userId));
         String jwt = Jwts.builder()
 //			Header 설정 : 토큰의 타입, 해쉬 알고리즘 정보 세팅.
                 .setHeaderParam("typ", "JWT").setClaims(claims)
