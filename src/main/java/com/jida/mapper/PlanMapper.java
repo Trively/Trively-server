@@ -8,5 +8,6 @@ import java.util.List;
 @Mapper
 public interface PlanMapper {
     void save(List<Plan> plans);
-    List<Plan> selectAll(long planListId, long memberId);
+    List<Plan> selectAll(long planListId);
+    void update(List<Plan> plans, long planListId);
 }

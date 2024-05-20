@@ -64,10 +64,30 @@ public class PlanServiceImpl implements PlanService{
             throw new CustomException(PLAN_CANT_GET);
         }
 
-        List<PlanLists> list = planMapper.selectAll(planListId, memberId).stream()
+        List<PlanLists> list = planMapper.selectAll(planListId).stream()
                 .map(PlanLists::of)
                 .toList();
         return PlanListResponseDto.of(list);
+    }
+
+    @Override
+    public void updatePlan(PlanSaveRequestDto requestDto, long planListId, long memberId) {
+        Member member = getMember(memberId);
+        PlanList planList = planListService.findById(planListId);
+
+        if(member.getMemberId() != planList.getMember().getMemberId()) {
+            throw new CustomException(PLAN_CANT_GET);
+        }
+
+        //데이터 변환
+        List<Plan> plans = requestDto.getPlans().stream()
+                .map(planDto -> {
+                    Attraction attraction = attractionService.findById(planDto.getAttractionId());
+                    return Plan.createPlan(planList, attraction, planDto.getOrders(), planDto.getPlanDate());
+                })
+                .toList();
+
+//        planMapper.update(planListId);
     }
 
     private Member getMember(long memberId) {

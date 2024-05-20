@@ -50,4 +50,8 @@
         where planlist_id = #{planListId}
         order by orders asc
     </select>
+
+    <update id="update" parameterType="long">
+
+    </update>
 </mapper>
