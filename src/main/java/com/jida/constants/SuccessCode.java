@@ -35,7 +35,10 @@ public enum SuccessCode {
 	MESSAGE_SEND_SUCCESS(OK, "메시지 전송에 성공했습니다."),
 	MESSAGE_REPLY_SUCCESS(OK, "메시지 답장에 성공했습니다."),
 	MESSAGE_ROOM_READ_SUCCESS(OK, "메시지룸 목록 조회를 성공했습니다."),
-	MESSAGE_READ_SUCCESS(OK, "메시지 목록 조회에 성공했습니다.");
+	MESSAGE_READ_SUCCESS(OK, "메시지 목록 조회에 성공했습니다."),
+	
+	//Plan
+	PLAN_SAVE_SUCCESS(OK, "여행계획 저장을 완료했습니다.");
 
 
 	private final HttpStatus status;

@@ -30,7 +30,8 @@ import static com.jida.constants.ExceptionCode.*;
 @RequiredArgsConstructor
 @Slf4j
 public class PostServiceImpl implements PostService {
-	
+
+	//TODO: 다른 Mapper 를 바로 참조하는게 맞는가? 서비스를 거쳐야하지 않을까? 고민하기
 	private final PostMapper postMapper;
 	private final BoardMapper boardMapper;
 	private final MemberMapper memberMapper;

@@ -13,6 +13,7 @@
         <result column="latitude" property="latitude"/>
         <result column="longitude" property="longitude"/>
         <result column="sido_code" property="sidoCode"/>
+        <result column="plan_cnt" property="planCnt"/>
     </resultMap>
 
     <select id="showList" parameterType="map" resultMap="attraction">
@@ -47,5 +48,11 @@
             and attraction_id &gt; #{lastAttractId}
         </if>
     </sql>
+
+    <select id="findById" parameterType="Long" resultMap="attraction">
+        select *
+        from attraction
+        where attraction_id = #{attractionId}
+    </select>
 
 </mapper>

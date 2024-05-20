@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jida.mapper.PlanListMapper">
+
+    <resultMap type="planList" id="planList">
+        <result column="planlist_id" property="planListId"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="member_id" property="member.memberId"/>
+
+        <association property="member" javaType="com.jida.domain.Member">
+            <result column="member_id" property="memberId"/>
+        </association>
+    </resultMap>
+
+    <insert id="save" parameterType="planList">
+        insert into planlist (member_id)
+        values(#{member.memberId})
+        <selectKey keyProperty="planListId" order="AFTER" resultType="Long">
+            select LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+<!--  다른 사람이 볼 수 없으므로, member 객체 전체를 저장하지 않음  -->
+    <select id="findById" parameterType="Long" resultMap="planList">
+        select *
+        from planlist
+        where planlist_id = #{planListId}
+    </select>
+</mapper>
