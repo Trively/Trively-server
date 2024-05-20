@@ -8,4 +8,5 @@ import java.util.List;
 @Mapper
 public interface PlanMapper {
     void save(List<Plan> plans);
+    List<Plan> selectAll(long planListId, long memberId);
 }

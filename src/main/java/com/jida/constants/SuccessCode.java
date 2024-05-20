@@ -38,7 +38,8 @@ public enum SuccessCode {
 	MESSAGE_READ_SUCCESS(OK, "메시지 목록 조회에 성공했습니다."),
 	
 	//Plan
-	PLAN_SAVE_SUCCESS(OK, "여행계획 저장을 완료했습니다.");
+	PLAN_SAVE_SUCCESS(OK, "여행계획 저장을 완료했습니다."),
+	PLAN_SHOW_SUCCESS(OK, "여행계획 조회를 완료했습니다.");
 
 
 	private final HttpStatus status;

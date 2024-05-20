@@ -6,6 +6,7 @@ import com.jida.domain.Plan;
 import com.jida.domain.PlanList;
 import com.jida.dto.req.PlanSaveRequestDto;
 import com.jida.dto.res.plan.PlanListResponseDto;
+import com.jida.exception.CustomException;
 import com.jida.mapper.MemberMapper;
 import com.jida.mapper.PlanMapper;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
+import static com.jida.constants.ExceptionCode.PLAN_CANT_GET;
 import static com.jida.dto.res.plan.PlanListResponseDto.*;
 
 @Slf4j
@@ -48,6 +50,21 @@ public class PlanServiceImpl implements PlanService{
 
         //반환값
         List<PlanLists> list = plans.stream()
+                .map(PlanLists::of)
+                .toList();
+        return PlanListResponseDto.of(list);
+    }
+
+    @Override
+    public PlanListResponseDto showAll(long planListId, long memberId) {
+        Member member = getMember(memberId);
+        PlanList planList = planListService.findById(planListId);
+
+        if(member.getMemberId() != planList.getMember().getMemberId()) {
+            throw new CustomException(PLAN_CANT_GET);
+        }
+
+        List<PlanLists> list = planMapper.selectAll(planListId, memberId).stream()
                 .map(PlanLists::of)
                 .toList();
         return PlanListResponseDto.of(list);
