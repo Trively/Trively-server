@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface PlanListService {
     Long savePlanList(Member member);
     PlanList findById(Long planListId);
+    void delete(Long planListId, Long memberId);
 }

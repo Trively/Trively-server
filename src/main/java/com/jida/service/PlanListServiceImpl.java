@@ -3,11 +3,13 @@ package com.jida.service;
 import com.jida.domain.Member;
 import com.jida.domain.PlanList;
 import com.jida.exception.CustomException;
+import com.jida.mapper.MemberMapper;
 import com.jida.mapper.PlanListMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import static com.jida.constants.ExceptionCode.PLAN_CANT_GET;
 import static com.jida.constants.ExceptionCode.PLAN_LIST_NOT_FOUND;
 
 @Slf4j
@@ -16,6 +18,7 @@ import static com.jida.constants.ExceptionCode.PLAN_LIST_NOT_FOUND;
 public class PlanListServiceImpl implements PlanListService {
 
     private final PlanListMapper planListMapper;
+    private final MemberMapper memberMapper;
 
     @Override
     public Long savePlanList(Member member) {
@@ -29,5 +32,17 @@ public class PlanListServiceImpl implements PlanListService {
     public PlanList findById(Long planListId) {
         return planListMapper.findById(planListId)
                 .orElseThrow(() -> new CustomException(PLAN_LIST_NOT_FOUND));
+    }
+
+    @Override
+    public void delete(Long planListId, Long memberId) {
+        Member member = memberMapper.findById(memberId);
+        PlanList planList = findById(planListId);
+
+        if(member.getMemberId() != planList.getMember().getMemberId()) {
+            throw new CustomException(PLAN_CANT_GET);
+        }
+
+        planListMapper.delete(planListId);
     }
 }
