@@ -38,4 +38,9 @@ public class AttractionServiceImpl implements AttractionService {
         return attractionMapper.findById(attractionId)
                 .orElseThrow(() -> new CustomException(ATTRACTION_NOT_FOUND));
     }
+
+    @Override
+    public void addPlanCnt(List<Long> attractionIds) {
+        attractionMapper.addPlanCnt(attractionIds);
+    }
 }

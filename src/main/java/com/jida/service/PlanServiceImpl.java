@@ -42,6 +42,9 @@ public class PlanServiceImpl implements PlanService{
 
         //저장
         planMapper.save(plans);
+        attractionService.addPlanCnt(plans.stream()
+                .map(planDto -> planDto.getAttraction().getAttractionId())
+                .toList());
 
         //반환값
         List<PlanLists> list = plans.stream()
