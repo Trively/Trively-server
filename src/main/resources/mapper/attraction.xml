@@ -55,4 +55,13 @@
         where attraction_id = #{attractionId}
     </select>
 
+    <update id="addPlanCnt" parameterType="java.util.List">
+        UPDATE attraction
+        SET plan_cnt = plan_cnt + 1
+        WHERE attraction_id IN
+        <foreach collection="attractionIds" item="attractionId" open="(" separator="," close=")">
+            #{attractionId}
+        </foreach>
+    </update>
+
 </mapper>

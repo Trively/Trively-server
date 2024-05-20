@@ -31,6 +31,7 @@ public class AttractionListResponseDto {
         private double latitude;
         private double longitude;
         private int sidoCode;
+        private long planCnt;
 
         public static AttractionList of(Attraction attraction) {
             AttractionList attractionList = new AttractionList();
@@ -43,6 +44,7 @@ public class AttractionListResponseDto {
             attractionList.latitude = attraction.getLatitude();
             attractionList.longitude = attraction.getLongitude();
             attractionList.sidoCode = attraction.getSidoCode();
+            attractionList.planCnt = attraction.getPlanCnt();
             return attractionList;
         }
     }
