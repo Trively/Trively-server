@@ -1,6 +1,7 @@
 package com.jida.controller;
 
 import com.jida.dto.req.PlanSaveRequestDto;
+import com.jida.dto.req.PlanUpdateRequestDto;
 import com.jida.dto.res.plan.PlanListResponse;
 import com.jida.dto.res.plan.PlanListResponseDto;
 import com.jida.dto.res.plan.PlanResponse;
@@ -38,11 +39,10 @@ public class PlanController {
         return  PlanListResponse.newResponse(PLAN_SHOW_SUCCESS, response);
     }
 
-    @PutMapping("/{planListId}")
-    public ResponseEntity<PlanResponse> updatePlan(@Valid @RequestBody PlanSaveRequestDto planSaveRequestDto,
-                                                   @PathVariable long planListId, HttpServletRequest request) {
+    @PutMapping
+    public ResponseEntity<PlanResponse> updatePlan(@Valid @RequestBody PlanUpdateRequestDto planUpdateRequestDto, HttpServletRequest request) {
         long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
-        planService.updatePlan(planSaveRequestDto, planListId, memberId);
+        planService.updatePlan(planUpdateRequestDto, memberId);
         return PlanResponse.newResponse(PLAN_UPDATE_SUCCESS);
     }
 }

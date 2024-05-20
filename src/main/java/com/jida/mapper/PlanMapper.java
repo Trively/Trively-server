@@ -10,5 +10,6 @@ import java.util.List;
 public interface PlanMapper {
     void save(List<Plan> plans);
     List<Plan> selectAll(long planListId);
-    void update(PlanSaveRequestDto requestDto, long planListId);
+    void update(Plan plan);
+    void deleteAllPlan(long planListId);
 }

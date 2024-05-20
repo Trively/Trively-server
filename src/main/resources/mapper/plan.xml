@@ -51,7 +51,9 @@
         order by orders asc
     </select>
 
-    <update id="update" parameterType="long">
+    <delete id="deleteAllPlan" parameterType = "long">
+        delete from plan
+        where planlist_id = #{planListId}
+    </delete>
 
-    </update>
 </mapper>

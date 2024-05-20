@@ -18,7 +18,6 @@ public class Plan {
     private boolean open;
     private LocalDate planDate;
 
-
     @Builder
     public Plan(PlanList planList, Attraction attraction, int orders, LocalDate planDate) {
         this.planList = planList;
