@@ -9,7 +9,7 @@
         <result column="created_at" property="createdAt"/>
         <result column="member_id" property="member.memberId"/>
         <result column="title" property="title"/>
-
+        <result column="mainImage" property="mainImage"/>
         <association property="member" javaType="com.jida.domain.Member">
             <result column="member_id" property="memberId"/>
         </association>
@@ -39,4 +39,18 @@
         set title = #{title}
         where planlist_id = #{planListId}
     </update>
+
+    <select id="findAllByMemberId" parameterType="long" resultMap="planList">
+        select pl.*, a.image1 as mainImage
+        from planlist pl
+         join (
+            select p.planlist_id, min(p.orders) as first_order
+            from plan p
+            group by p.planlist_id
+        ) fp on fp.planlist_id = pl.planlist_id
+                 join plan p on p.planlist_id = fp.planlist_id and p.orders = fp.first_order
+                 join attraction a on a.attraction_id = p.attraction_id
+        where pl.member_id = #{memberId}
+    </select>
+
 </mapper>

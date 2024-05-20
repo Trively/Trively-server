@@ -3,10 +3,13 @@ package com.jida.service;
 import com.jida.domain.Member;
 import com.jida.domain.PlanList;
 import com.jida.dto.req.PlanListSaveRequestDto;
+import com.jida.dto.res.plan.PlanAllListResponseDto;
+import com.jida.dto.res.plan.PlanAllListResponseDto.PlanAllList;
 import com.jida.exception.CustomException;
 import com.jida.mapper.MemberMapper;
 import com.jida.mapper.PlanListMapper;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,5 +58,19 @@ public class PlanListServiceImpl implements PlanListService {
         map.put("planListId", planListId);
         map.put("title", title);
         planListMapper.update(map);
+    }
+
+    @Override
+    public PlanAllListResponseDto findAllByMemberId(Long memberId) {
+        //TODO: Optional 처리하기
+        Member member = memberMapper.findById(memberId);
+        if(member == null){
+            throw new CustomException(PLAN_CANT_GET);
+        }
+
+        List<PlanAllList> list = planListMapper.findAllByMemberId(memberId).stream()
+                .map(PlanAllList::of)
+                .toList();
+        return PlanAllListResponseDto.of(list);
     }
 }
