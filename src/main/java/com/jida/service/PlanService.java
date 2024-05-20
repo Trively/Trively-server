@@ -5,4 +5,5 @@ import com.jida.dto.res.plan.PlanListResponseDto;
 
 public interface PlanService {
     PlanListResponseDto savePlan(PlanSaveRequestDto planSaveRequestDto, long memberId);
+    PlanListResponseDto showAll(long planListId, long memberId);
 }

@@ -9,12 +9,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.jida.constants.SuccessCode.PLAN_SAVE_SUCCESS;
+import static com.jida.constants.SuccessCode.PLAN_SHOW_SUCCESS;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,5 +28,13 @@ public class PlanController {
         PlanListResponseDto response = planService.savePlan(planSaveRequestDto, memberId);
 
         return PlanListResponse.newResponse(PLAN_SAVE_SUCCESS, response);
+    }
+
+    @GetMapping("/{planListId}")
+    public ResponseEntity<PlanListResponse> showAll(@PathVariable long planListId, HttpServletRequest request) {
+        long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
+        PlanListResponseDto response = planService.showAll(planListId, memberId);
+
+        return  PlanListResponse.newResponse(PLAN_SHOW_SUCCESS, response);
     }
 }

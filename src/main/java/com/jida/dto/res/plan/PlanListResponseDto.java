@@ -25,6 +25,7 @@ public class PlanListResponseDto {
     @NoArgsConstructor
     public static class PlanLists{
         private AttractionList attractionList;
+        private long planListId;
         private String planDate;
         private int orders;
         private boolean open;
@@ -32,6 +33,7 @@ public class PlanListResponseDto {
         public static PlanLists of(Plan plan) {
             PlanLists planLists = new PlanLists();
             planLists.attractionList = AttractionList.of(plan.getAttraction());
+            planLists.planListId = plan.getPlanList().getPlanListId();
             planLists.planDate = plan.getPlanDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             planLists.orders = plan.getOrders();
             planLists.open = plan.isOpen();

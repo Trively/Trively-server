@@ -43,4 +43,11 @@
             </foreach>
     </insert>
 
+    <select id="selectAll" parameterType="long" resultMap="plan">
+        select p.*, a.*
+        from plan p
+        join attraction a on a.attraction_id = p.attraction_id
+        where planlist_id = #{planListId}
+        order by orders asc
+    </select>
 </mapper>
