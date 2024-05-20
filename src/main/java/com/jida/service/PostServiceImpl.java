@@ -147,10 +147,10 @@ public class PostServiceImpl implements PostService {
 	public PostListResponseDto getMyPost(long memberId, int pageIndex, int pageSize) {
 		Member member = getMember(memberId);
 
-		List<PostList> posts = postMapper.findByMember(memberId, (pageIndex - 1) * pageSize, pageSize).stream()
+		List<PostList> posts = postMapper.findByMember(member.getMemberId(), (pageIndex - 1) * pageSize, pageSize).stream()
 				.map(PostList::of)
 				.collect(Collectors.toList());
-		int totalCount = postMapper.countAllPostsByMember(memberId);
+		int totalCount = postMapper.countAllPostsByMember(member.getMemberId());
 
 		return PostListResponseDto.of(pageIndex, pageSize, totalCount, posts);
 	}

@@ -113,13 +113,10 @@
 		where post_id = #{postId}
 	</update>
 
-	<select id="findByMember" parameterType="Long" resultMap="post">
+	<select id="findByMember" resultMap="post">
 		select *
 		from post
 		where member_id = #{memberId}
-		<where>
-			<include refid="list"></include>
-		</where>
 		limit #{limit} offset #{offset}
 	</select>
 
