@@ -1,7 +1,8 @@
 package com.jida.controller;
 
 import com.jida.dto.req.PlanSaveRequestDto;
-import com.jida.dto.res.post.PostResponse;
+import com.jida.dto.res.plan.PlanListResponse;
+import com.jida.dto.res.plan.PlanListResponseDto;
 import com.jida.service.PlanService;
 import com.jida.util.JWTUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,10 +25,10 @@ public class PlanController {
     private final PlanService planService;
 
     @PostMapping
-    public ResponseEntity<PostResponse> savePlan(@Valid @RequestBody PlanSaveRequestDto planSaveRequestDto, HttpServletRequest request) {
+    public ResponseEntity<PlanListResponse> savePlan(@Valid @RequestBody PlanSaveRequestDto planSaveRequestDto, HttpServletRequest request) {
         long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
-        planService.savePlan(planSaveRequestDto, memberId);
+        PlanListResponseDto response = planService.savePlan(planSaveRequestDto, memberId);
 
-        return PostResponse.newResponse(PLAN_SAVE_SUCCESS);
+        return PlanListResponse.newResponse(PLAN_SAVE_SUCCESS, response);
     }
 }

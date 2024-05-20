@@ -13,4 +13,5 @@ public class Attraction {
 	private double latitude;
 	private double longitude;
 	private int sidoCode;
+	private long planCnt;
 }

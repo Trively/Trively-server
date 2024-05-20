@@ -1,7 +1,8 @@
 package com.jida.service;
 
 import com.jida.dto.req.PlanSaveRequestDto;
+import com.jida.dto.res.plan.PlanListResponseDto;
 
 public interface PlanService {
-    void savePlan(PlanSaveRequestDto planSaveRequestDto, long memberId);
+    PlanListResponseDto savePlan(PlanSaveRequestDto planSaveRequestDto, long memberId);
 }

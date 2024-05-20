@@ -1,10 +1,11 @@
 package com.jida.dto.req;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -17,7 +18,8 @@ public class PlanSaveRequestDto {
     public static class Plans{
         @NotNull(message = "여행지 id 값은 필수입니다.")
         private Long attractionId;
-        private LocalDateTime planDate;
+        @JsonFormat(pattern = "yyyy-MM-dd")
+        private LocalDate planDate;
         private int orders;
     }
 }

@@ -3,7 +3,6 @@ package com.jida.constants;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.client.HttpClientErrorException.NotFound;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -27,7 +26,9 @@ public enum ExceptionCode {
     /* 404 - 찾을 수 없는 리소스 */
     POST_NOT_FOUND(NOT_FOUND, "게시글을 찾을 수 없습니다."),
     COMMENT_NOT_FOUND(NOT_FOUND, "댓글을 찾을 수 없습니다."),
-    MESSAGE_ROOM_NOT_FOUND(NOT_FOUND, "쪽지룸을 찾을 수 없습니다.");
+    MESSAGE_ROOM_NOT_FOUND(NOT_FOUND, "쪽지룸을 찾을 수 없습니다."),
+    PLAN_LIST_NOT_FOUND(NOT_FOUND, "여행 계획리스트를 찾을 수 없습니다."),
+    ATTRACTION_NOT_FOUND(NOT_FOUND, "여행지를 찾을 수 없습니다.");
 
     /* 409 - 중복된 리소스 */
   
