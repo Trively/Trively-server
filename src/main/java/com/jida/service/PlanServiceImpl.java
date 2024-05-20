@@ -1,29 +1,28 @@
 package com.jida.service;
 
+import static com.jida.constants.ExceptionCode.PLAN_CANT_GET;
+import static com.jida.dto.res.plan.PlanListResponseDto.PlanLists;
+
 import com.jida.domain.Attraction;
 import com.jida.domain.Member;
 import com.jida.domain.Plan;
 import com.jida.domain.PlanList;
+import com.jida.dto.req.PlanListSaveRequestDto;
 import com.jida.dto.req.PlanSaveRequestDto;
 import com.jida.dto.req.PlanUpdateRequestDto;
 import com.jida.dto.res.plan.PlanListResponseDto;
 import com.jida.exception.CustomException;
 import com.jida.mapper.MemberMapper;
 import com.jida.mapper.PlanMapper;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import java.util.List;
-
-import static com.jida.constants.ExceptionCode.PLAN_CANT_GET;
-import static com.jida.dto.res.plan.PlanListResponseDto.*;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class PlanServiceImpl implements PlanService{
+public class PlanServiceImpl implements PlanService {
 
     //TODO: MemberService 에는 findById가 없으므로 일단 사용. 추후 변경 요망.
     private final AttractionService attractionService;
@@ -34,7 +33,7 @@ public class PlanServiceImpl implements PlanService{
     @Override
     public PlanListResponseDto savePlan(PlanSaveRequestDto requestDto, long memberId) {
         Member member = getMember(memberId);
-        Long planListId = planListService.savePlanList(member);
+        Long planListId = planListService.savePlanList(PlanListSaveRequestDto.of(member, requestDto.getTitle()));
         PlanList planList = planListService.findById(planListId);
 
         //데이터 변환
@@ -55,7 +54,7 @@ public class PlanServiceImpl implements PlanService{
         List<PlanLists> list = plans.stream()
                 .map(PlanLists::of)
                 .toList();
-        return PlanListResponseDto.of(list);
+        return PlanListResponseDto.of(requestDto.getTitle(), list);
     }
 
     @Override
@@ -63,14 +62,14 @@ public class PlanServiceImpl implements PlanService{
         Member member = getMember(memberId);
         PlanList planList = planListService.findById(planListId);
 
-        if(member.getMemberId() != planList.getMember().getMemberId()) {
+        if (member.getMemberId() != planList.getMember().getMemberId()) {
             throw new CustomException(PLAN_CANT_GET);
         }
 
         List<PlanLists> list = planMapper.selectAll(planListId).stream()
                 .map(PlanLists::of)
                 .toList();
-        return PlanListResponseDto.of(list);
+        return PlanListResponseDto.of(planList.getTitle(), list);
     }
 
     @Override
@@ -78,7 +77,7 @@ public class PlanServiceImpl implements PlanService{
         Member member = getMember(memberId);
         PlanList planList = planListService.findById(requestDto.getPlanListId());
 
-        if(member.getMemberId() != planList.getMember().getMemberId()) {
+        if (member.getMemberId() != planList.getMember().getMemberId()) {
             throw new CustomException(PLAN_CANT_GET);
         }
 
@@ -91,6 +90,7 @@ public class PlanServiceImpl implements PlanService{
 
         //수정 시, plan 하나의 값만 변경되는 것이 아니라 모든 plan 이 변경될 수 있다.
         //따라서 수정시에 모든 기존 데이터 삭제 후 다시 저장
+        planListService.update(planList.getPlanListId(), requestDto.getTitle());
         planMapper.deleteAllPlan(planList.getPlanListId());
         planMapper.save(plans);
     }

@@ -14,6 +14,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class PlanSaveRequestDto {
+    private String title;
     private List<Plans> plans;
 
     @Getter

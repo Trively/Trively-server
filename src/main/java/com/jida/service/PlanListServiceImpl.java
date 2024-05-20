@@ -2,9 +2,12 @@ package com.jida.service;
 
 import com.jida.domain.Member;
 import com.jida.domain.PlanList;
+import com.jida.dto.req.PlanListSaveRequestDto;
 import com.jida.exception.CustomException;
 import com.jida.mapper.MemberMapper;
 import com.jida.mapper.PlanListMapper;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,9 +24,9 @@ public class PlanListServiceImpl implements PlanListService {
     private final MemberMapper memberMapper;
 
     @Override
-    public Long savePlanList(Member member) {
+    public Long savePlanList(PlanListSaveRequestDto requestDto) {
         //TODO: 객체를 그대로 넘기는게 맞을까?, 필요한 값만 넘기는게 맞을까?
-        PlanList planList = PlanList.createPlanList(member);
+        PlanList planList = requestDto.ToEntity(requestDto);
         planListMapper.save(planList);
         return planList.getPlanListId();
     }
@@ -44,5 +47,13 @@ public class PlanListServiceImpl implements PlanListService {
         }
 
         planListMapper.delete(planListId);
+    }
+
+    @Override
+    public void update(Long planListId, String title) {
+        Map<String, Object> map =new HashMap<>();
+        map.put("planListId", planListId);
+        map.put("title", title);
+        planListMapper.update(map);
     }
 }
