@@ -50,4 +50,10 @@
         where planlist_id = #{planListId}
         order by orders asc
     </select>
+
+    <delete id="deleteAllPlan" parameterType = "long">
+        delete from plan
+        where planlist_id = #{planListId}
+    </delete>
+
 </mapper>

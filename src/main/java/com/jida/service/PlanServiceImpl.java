@@ -5,10 +5,13 @@ import com.jida.domain.Member;
 import com.jida.domain.Plan;
 import com.jida.domain.PlanList;
 import com.jida.dto.req.PlanSaveRequestDto;
+import com.jida.dto.req.PlanUpdateRequestDto;
 import com.jida.dto.res.plan.PlanListResponseDto;
 import com.jida.exception.CustomException;
 import com.jida.mapper.MemberMapper;
 import com.jida.mapper.PlanMapper;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -38,7 +41,7 @@ public class PlanServiceImpl implements PlanService{
         List<Plan> plans = requestDto.getPlans().stream()
                 .map(planDto -> {
                     Attraction attraction = attractionService.findById(planDto.getAttractionId());
-                    return Plan.createPlan(planList, attraction, planDto.getOrders(), planDto.getPlanDate());
+                    return requestDto.ToEntity(planList, attraction, planDto.getOrders(), planDto.getPlanDate());
                 })
                 .toList();
 
@@ -64,10 +67,32 @@ public class PlanServiceImpl implements PlanService{
             throw new CustomException(PLAN_CANT_GET);
         }
 
-        List<PlanLists> list = planMapper.selectAll(planListId, memberId).stream()
+        List<PlanLists> list = planMapper.selectAll(planListId).stream()
                 .map(PlanLists::of)
                 .toList();
         return PlanListResponseDto.of(list);
+    }
+
+    @Override
+    public void updatePlan(PlanUpdateRequestDto requestDto, long memberId) {
+        Member member = getMember(memberId);
+        PlanList planList = planListService.findById(requestDto.getPlanListId());
+
+        if(member.getMemberId() != planList.getMember().getMemberId()) {
+            throw new CustomException(PLAN_CANT_GET);
+        }
+
+        List<Plan> plans = requestDto.getPlans().stream()
+                .map(planDto -> {
+                    Attraction attraction = attractionService.findById(planDto.getAttractionId());
+                    return requestDto.ToEntity(planList, attraction, planDto.getOrders(), planDto.getPlanDate());
+                })
+                .toList();
+
+        //수정 시, plan 하나의 값만 변경되는 것이 아니라 모든 plan 이 변경될 수 있다.
+        //따라서 수정시에 모든 기존 데이터 삭제 후 다시 저장
+        planMapper.deleteAllPlan(planList.getPlanListId());
+        planMapper.save(plans);
     }
 
     private Member getMember(long memberId) {

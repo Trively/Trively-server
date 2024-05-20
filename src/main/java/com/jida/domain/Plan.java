@@ -1,5 +1,6 @@
 package com.jida.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,14 +18,11 @@ public class Plan {
     private boolean open;
     private LocalDate planDate;
 
-
-    public static Plan createPlan(PlanList planList, Attraction attraction, int orders, LocalDate planDate) {
-        Plan plan = new Plan();
-        plan.planList = planList;
-        plan.attraction = attraction;
-        plan.orders = orders;
-        plan.planDate = planDate;
-
-        return plan;
+    @Builder
+    public Plan(PlanList planList, Attraction attraction, int orders, LocalDate planDate) {
+        this.planList = planList;
+        this.attraction = attraction;
+        this.orders = orders;
+        this.planDate = planDate;
     }
 }
