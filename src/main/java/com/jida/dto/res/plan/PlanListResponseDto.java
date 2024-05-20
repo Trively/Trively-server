@@ -11,14 +11,16 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class PlanListResponseDto {
+    private String title;
     private List<PlanLists> planLists;
 
-    private PlanListResponseDto(List<PlanLists> planLists) {
+    private PlanListResponseDto(String title, List<PlanLists> planLists) {
+        this.title = title;
         this.planLists = planLists;
     }
 
-    public static PlanListResponseDto of(List<PlanLists> planLists) {
-        return new PlanListResponseDto(planLists);
+    public static PlanListResponseDto of(String title, List<PlanLists> planLists) {
+        return new PlanListResponseDto(title, planLists);
     }
 
     @Getter

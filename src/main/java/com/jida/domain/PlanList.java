@@ -1,5 +1,6 @@
 package com.jida.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,10 +13,13 @@ public class PlanList {
     private Long planListId;
     private Member member;
     private LocalDateTime createdAt;
+    private String title;
 
-    public static PlanList createPlanList(Member member) {
-        PlanList planList = new PlanList();
-        planList.member = member;
-        return planList;
+    @Builder
+    public PlanList(Long planListId, Member member, LocalDateTime createdAt, String title) {
+        this.planListId = planListId;
+        this.member = member;
+        this.createdAt = createdAt;
+        this.title = title;
     }
 }

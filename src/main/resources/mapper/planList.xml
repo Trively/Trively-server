@@ -8,6 +8,7 @@
         <result column="planlist_id" property="planListId"/>
         <result column="created_at" property="createdAt"/>
         <result column="member_id" property="member.memberId"/>
+        <result column="title" property="title"/>
 
         <association property="member" javaType="com.jida.domain.Member">
             <result column="member_id" property="memberId"/>
@@ -15,8 +16,8 @@
     </resultMap>
 
     <insert id="save" parameterType="planList">
-        insert into planlist (member_id)
-        values(#{member.memberId})
+        insert into planlist (member_id, title)
+        values(#{member.memberId}, #{title})
         <selectKey keyProperty="planListId" order="AFTER" resultType="Long">
             select LAST_INSERT_ID()
         </selectKey>
@@ -32,4 +33,10 @@
         delete from planlist
         where planlist_id = #{planListId}
     </delete>
+
+    <update id="update" parameterType="map">
+        update planlist
+        set title = #{title}
+        where planlist_id = #{planListId}
+    </update>
 </mapper>
