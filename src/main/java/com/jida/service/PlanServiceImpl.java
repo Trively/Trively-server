@@ -38,7 +38,7 @@ public class PlanServiceImpl implements PlanService{
         List<Plan> plans = requestDto.getPlans().stream()
                 .map(planDto -> {
                     Attraction attraction = attractionService.findById(planDto.getAttractionId());
-                    return Plan.createPlan(planList, attraction, planDto.getOrders(), planDto.getPlanDate());
+                    return requestDto.ToEntity(planList, attraction, planDto.getOrders(), planDto.getPlanDate());
                 })
                 .toList();
 
@@ -79,15 +79,7 @@ public class PlanServiceImpl implements PlanService{
             throw new CustomException(PLAN_CANT_GET);
         }
 
-        //데이터 변환
-        List<Plan> plans = requestDto.getPlans().stream()
-                .map(planDto -> {
-                    Attraction attraction = attractionService.findById(planDto.getAttractionId());
-                    return Plan.createPlan(planList, attraction, planDto.getOrders(), planDto.getPlanDate());
-                })
-                .toList();
-
-//        planMapper.update(planListId);
+        planMapper.update(requestDto, planListId);
     }
 
     private Member getMember(long memberId) {

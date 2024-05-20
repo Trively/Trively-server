@@ -1,6 +1,9 @@
 package com.jida.dto.req;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jida.domain.Attraction;
+import com.jida.domain.Plan;
+import com.jida.domain.PlanList;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,5 +24,14 @@ public class PlanSaveRequestDto {
         @JsonFormat(pattern = "yyyy-MM-dd")
         private LocalDate planDate;
         private int orders;
+    }
+
+    public Plan ToEntity(PlanList planList, Attraction attraction, int orders, LocalDate planDate) {
+        return Plan.builder()
+                .planList(planList)
+                .attraction(attraction)
+                .orders(orders)
+                .planDate(planDate)
+                .build();
     }
 }
