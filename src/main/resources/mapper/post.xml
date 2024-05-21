@@ -114,9 +114,12 @@
 	</update>
 
 	<select id="findByMember" resultMap="post">
-		select *
-		from post
-		where member_id = #{memberId}
+		select p.post_id, p.title, p.content, p.created_at, p.hit, p.board_id, p.member_id,
+			   m.email, m.nickname, b.board_name, p.comment_cnt, p.like_cnt
+		from post p
+		inner join member m on p.member_id = m.member_id
+		inner join board b on p.board_id = b.board_id
+		where p.member_id = #{memberId}
 		limit #{limit} offset #{offset}
 	</select>
 
