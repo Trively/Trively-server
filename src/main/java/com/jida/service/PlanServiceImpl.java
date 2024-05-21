@@ -32,7 +32,7 @@ public class PlanServiceImpl implements PlanService {
     private final PlanMapper planMapper;
 
     @Override
-    public PlanListResponseDto savePlan(PlanSaveRequestDto requestDto, long memberId) {
+    public void savePlan(PlanSaveRequestDto requestDto, long memberId) {
         Member member = getMember(memberId);
         Long planListId = planListService.savePlanList(PlanListSaveRequestDto.of(member, requestDto.getTitle()));
         PlanList planList = planListService.findById(planListId);
@@ -52,10 +52,10 @@ public class PlanServiceImpl implements PlanService {
                 .toList());
 
         //반환값
-        List<PlanLists> list = plans.stream()
-                .map(PlanLists::of)
-                .toList();
-        return PlanListResponseDto.of(requestDto.getTitle(), list);
+//        List<PlanLists> list = plans.stream()
+//                .map(PlanLists::of)
+//                .toList();
+//        return PlanListResponseDto.of(requestDto.getTitle(), list);
     }
 
     @Override

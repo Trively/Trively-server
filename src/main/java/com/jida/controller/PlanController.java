@@ -24,11 +24,11 @@ public class PlanController {
     private final PlanService planService;
 
     @PostMapping
-    public ResponseEntity<PlanListResponse> savePlan(@Valid @RequestBody PlanSaveRequestDto planSaveRequestDto, HttpServletRequest request) {
+    public ResponseEntity<PlanResponse> savePlan(@Valid @RequestBody PlanSaveRequestDto planSaveRequestDto, HttpServletRequest request) {
         long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
-        PlanListResponseDto response = planService.savePlan(planSaveRequestDto, memberId);
+        planService.savePlan(planSaveRequestDto, memberId);
 
-        return PlanListResponse.newResponse(PLAN_SAVE_SUCCESS, response);
+        return PlanResponse.newResponse(PLAN_SAVE_SUCCESS);
     }
 
     @GetMapping("/{planListId}")
