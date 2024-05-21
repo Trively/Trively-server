@@ -13,4 +13,5 @@ public interface PlanService {
     PlanListResponseDto showAll(long planListId, long memberId);
     void updatePlan(PlanUpdateRequestDto planSaveRequestDto, long memberId);
     PlanMemberResponseDto findMessageMembers(long memberId, long attractionId, LocalDate date);
+    boolean updateOpen(long planId, long memberId);
 }

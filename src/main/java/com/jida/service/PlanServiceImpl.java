@@ -1,6 +1,7 @@
 package com.jida.service;
 
 import static com.jida.constants.ExceptionCode.PLAN_CANT_GET;
+import static com.jida.constants.ExceptionCode.PLAN_NOT_FOUND;
 import static com.jida.dto.res.plan.PlanListResponseDto.PlanLists;
 
 import com.jida.domain.Attraction;
@@ -45,7 +46,7 @@ public class PlanServiceImpl implements PlanService {
         List<Plan> plans = requestDto.getPlans().stream()
                 .map(planDto -> {
                     Attraction attraction = attractionService.findById(planDto.getAttractionId());
-                    return requestDto.ToEntity(planList, attraction, planDto.getOrders(), planDto.getPlanDate());
+                    return requestDto.ToEntity(planList, attraction, planDto.getOrders(), planDto.getPlanDate(), planDto.isOpen());
                 })
                 .toList();
 
@@ -89,7 +90,7 @@ public class PlanServiceImpl implements PlanService {
         List<Plan> plans = requestDto.getPlans().stream()
                 .map(planDto -> {
                     Attraction attraction = attractionService.findById(planDto.getAttractionId());
-                    return requestDto.ToEntity(planList, attraction, planDto.getOrders(), planDto.getPlanDate());
+                    return requestDto.ToEntity(planList, attraction, planDto.getOrders(), planDto.getPlanDate(), planDto.isOpen());
                 })
                 .toList();
 
@@ -104,6 +105,25 @@ public class PlanServiceImpl implements PlanService {
     public PlanMemberResponseDto findMessageMembers(long memberId, long attractionId, LocalDate date) {
         List<PlanMemberResponseDto.MessageMember> list = memberMapper.findMessageMembers(memberId,attractionId,date).stream().map(PlanMemberResponseDto.MessageMember::of).collect(Collectors.toList());
         return PlanMemberResponseDto.of(list);
+    }
+    @Override
+    public boolean updateOpen(long planId, long memberId) {
+        Member member = getMember(memberId);
+        Plan plan = planMapper.findById(planId)
+                .orElseThrow(() -> new CustomException(PLAN_NOT_FOUND));
+        //TODO: Optional 적용
+        PlanList planList = planListService.findById(plan.getPlanList().getPlanListId());
+
+        if (planList.getMember().getMemberId() != member.getMemberId()) {
+            throw new CustomException(PLAN_CANT_GET);
+        }
+
+        boolean result = true;
+        if (plan.isOpen()) {
+            result = false;
+        }
+        planMapper.clickOpen(planId);
+        return result;
     }
 
     private Member getMember(long memberId) {

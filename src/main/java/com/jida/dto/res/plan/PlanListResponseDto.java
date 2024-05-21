@@ -27,6 +27,7 @@ public class PlanListResponseDto {
     @NoArgsConstructor
     public static class PlanLists{
         private AttractionList attractionList;
+        private long planId;
         private long planListId;
         private String planDate;
         private int orders;
@@ -34,6 +35,7 @@ public class PlanListResponseDto {
 
         public static PlanLists of(Plan plan) {
             PlanLists planLists = new PlanLists();
+            planLists.planId = plan.getPlanId();
             planLists.attractionList = AttractionList.of(plan.getAttraction());
             planLists.planListId = plan.getPlanList().getPlanListId();
             planLists.planDate = String.valueOf(plan.getPlanDate());

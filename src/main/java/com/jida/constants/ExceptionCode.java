@@ -29,6 +29,7 @@ public enum ExceptionCode {
     COMMENT_NOT_FOUND(NOT_FOUND, "댓글을 찾을 수 없습니다."),
     MESSAGE_ROOM_NOT_FOUND(NOT_FOUND, "쪽지룸을 찾을 수 없습니다."),
     PLAN_LIST_NOT_FOUND(NOT_FOUND, "여행 계획리스트를 찾을 수 없습니다."),
+    PLAN_NOT_FOUND(NOT_FOUND, "해당 여행계획을 찾을 수 없습니다."),
     ATTRACTION_NOT_FOUND(NOT_FOUND, "여행지를 찾을 수 없습니다.");
 
     /* 409 - 중복된 리소스 */
