@@ -36,7 +36,7 @@ public class PlanListResponseDto {
             PlanLists planLists = new PlanLists();
             planLists.attractionList = AttractionList.of(plan.getAttraction());
             planLists.planListId = plan.getPlanList().getPlanListId();
-            planLists.planDate = plan.getPlanDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            planLists.planDate = String.valueOf(plan.getPlanDate());
             planLists.orders = plan.getOrders();
             planLists.open = plan.isOpen();
             return planLists;
