@@ -71,6 +71,6 @@
 		from plan p
 		join planlist pl on p.planlist_id = pl.planlist_id
 		join member m on pl.member_id = m.member_id
-		where plan_date = #{date} and open = 0 and m.member_id != #{member_id}
+		where p.plan_date between DATE_SUB(date_format(#{date}, "%Y-%m-%d"),INTERVAL 3 DAY) and DATE_ADD(date_format(#{date}, "%Y-%m-%d"), INTERVAL 3 DAY) and p.open = 1 and m.member_id != #{memberId} and p.attraction_id= #{attractionId}
 	</select>
 </mapper>

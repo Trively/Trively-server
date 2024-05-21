@@ -8,6 +8,7 @@ import com.jida.util.JWTUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,10 +47,14 @@ public class PlanController {
         return PlanResponse.newResponse(PLAN_UPDATE_SUCCESS);
     }
 
-    @GetMapping("/{attractionId}/{date}")
-    public ResponseEntity<PlanMemberResponse> showMember(@PathVariable long attractionId, @PathVariable LocalDate date, HttpServletRequest request){
+    @GetMapping("/message")
+    public ResponseEntity<PlanMemberResponse> showMember(
+            @RequestParam long attractionId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+            HttpServletRequest request) {
         long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
-        PlanMemberResponseDto response = planService.findMessageMembers(memberId, attractionId,date);
-        return PlanMemberResponse.newResponse(PLAN_MEMBER_LIST_SUCCESS,response);
+        PlanMemberResponseDto response = planService.findMessageMembers(memberId, attractionId, date);
+        return PlanMemberResponse.newResponse(PLAN_MEMBER_LIST_SUCCESS, response);
     }
+
 }
