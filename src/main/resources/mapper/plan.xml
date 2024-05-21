@@ -31,14 +31,15 @@
     </resultMap>
 
     <insert id="save" parameterType="java.util.List">
-        insert into plan (plan_date, attraction_id, planlist_id, orders)
+        insert into plan (plan_date, attraction_id, planlist_id, orders, open)
         values
             <foreach collection="plans" item="plan" separator=",">
                 (
                  #{plan.planDate},
                 #{plan.attraction.attractionId},
                 #{plan.planList.planListId},
-                #{plan.orders}
+                #{plan.orders},
+                 #{plan.open}
                 )
             </foreach>
     </insert>
@@ -55,5 +56,17 @@
         delete from plan
         where planlist_id = #{planListId}
     </delete>
+
+    <select id="findById" parameterType="long" resultMap="plan">
+        select *
+        from plan
+        where plan_id = #{planId}
+    </select>
+
+    <update id="clickOpen" parameterType="long">
+        update plan
+        set open = 1 - open
+        where plan_id = #{planId}
+    </update>
 
 </mapper>

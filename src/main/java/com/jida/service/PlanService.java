@@ -8,4 +8,5 @@ public interface PlanService {
     PlanListResponseDto savePlan(PlanSaveRequestDto planSaveRequestDto, long memberId);
     PlanListResponseDto showAll(long planListId, long memberId);
     void updatePlan(PlanUpdateRequestDto planSaveRequestDto, long memberId);
+    boolean updateOpen(long planId, long memberId);
 }
