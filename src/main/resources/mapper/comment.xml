@@ -41,4 +41,10 @@
         delete from comment
         where comment_id = #{commentId}
     </delete>
+
+    <select id="findByMember" parameterType="long" resultMap="comment">
+        select *
+        from comment
+        where member_id = #{member.memberId}
+    </select>
 </mapper>

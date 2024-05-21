@@ -81,6 +81,15 @@ public class CommentServiceImpl implements CommentService {
         postMapper.diffCommentCnt(postId);
     }
 
+    @Override
+    public CommentListResponseDto findByMember(long memberId) {
+        List<CommentList> comments = commentMapper.findByMember(memberId).stream()
+                .map(comment -> CommentList.of(comment, true))
+                .toList();
+
+        return CommentListResponseDto.of(comments);
+    }
+
 
     private Member getMember(long memberId) {
         return memberMapper.findById(memberId);

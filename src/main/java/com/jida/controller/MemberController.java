@@ -1,9 +1,12 @@
 package com.jida.controller;
 
 import com.jida.domain.Member;
+import com.jida.dto.res.comment.CommentListResponse;
+import com.jida.dto.res.comment.CommentListResponseDto;
 import com.jida.dto.res.member.*;
 import com.jida.dto.res.post.PostListResponse;
 import com.jida.dto.res.post.PostListResponseDto;
+import com.jida.service.CommentService;
 import com.jida.service.PostService;
 import com.jida.util.JWTUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,6 +41,7 @@ public class MemberController {
 
 	private final MemberService memberService;
 	private final PostService postService;
+	private final CommentService commentService;
 	private final JWTUtil jwtUtil;
 
 	@PostMapping("join")
@@ -170,5 +174,12 @@ public class MemberController {
 		long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
 		memberService.editMember(memberId, memberSaveRequestDto);
 		return MemberResponse.newResponse(INFO_EDIT_SUCCESS);
+	}
+
+	@GetMapping("/my-comment")
+	public ResponseEntity<CommentListResponse> myComment(HttpServletRequest request){
+		long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
+		CommentListResponseDto responseDto = commentService.findByMember(memberId);
+		return CommentListResponse.newResponse(COMMENT_LIST_SUCCESS, responseDto);
 	}
 }

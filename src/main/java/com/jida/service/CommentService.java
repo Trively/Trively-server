@@ -11,4 +11,5 @@ public interface CommentService {
     CommentListResponseDto findAll(long memberId,Long postId);
 
     void delete(long memberId, Long postId, Long commentId);
+    CommentListResponseDto findByMember(long memberId);
 }
