@@ -45,4 +45,15 @@ public class PlanController {
         planService.updatePlan(planUpdateRequestDto, memberId);
         return PlanResponse.newResponse(PLAN_UPDATE_SUCCESS);
     }
+
+    @PutMapping("/{planId}")
+    public ResponseEntity<PlanResponse> updateOpen(@PathVariable long planId, HttpServletRequest request) {
+        long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
+        boolean result = planService.updateOpen(planId, memberId);
+
+        if (result) {
+            return PlanResponse.newResponse(PLAN_SHARE_OPEN_SUCCESS);
+        }
+        return PlanResponse.newResponse(PLAN_SHARE_CLOSE_SUCCESS);
+    }
 }

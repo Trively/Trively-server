@@ -19,10 +19,11 @@ public class Plan {
     private LocalDate planDate;
 
     @Builder
-    public Plan(PlanList planList, Attraction attraction, int orders, LocalDate planDate) {
+    public Plan(PlanList planList, Attraction attraction, int orders, LocalDate planDate, boolean open) {
         this.planList = planList;
         this.attraction = attraction;
         this.orders = orders;
         this.planDate = planDate;
+        this.open = open;
     }
 }
