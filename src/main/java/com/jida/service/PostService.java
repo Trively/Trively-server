@@ -19,4 +19,5 @@ public interface PostService {
 	boolean clickPostLike(long memberId,Long postId);
 	boolean clickPostScrap(long memberId,Long postId);
 	PostListResponseDto showScrap(long memberId,String order, long boardId, int pageIndex, int pageSize);
+	PostListResponseDto getMyPost(long memberId, int pageIndex, int pageSize);
 }

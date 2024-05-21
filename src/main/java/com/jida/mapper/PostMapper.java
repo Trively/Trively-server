@@ -24,4 +24,6 @@ public interface PostMapper {
 	void addLikeCnt(Long postId);
 
 	void diffLikeCnt(Long postId);
+	List<Post> findByMember(long memberId, int offset, int limit);
+	int countAllPostsByMember(long memberId);
 }
