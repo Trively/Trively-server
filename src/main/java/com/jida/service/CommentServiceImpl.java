@@ -29,8 +29,10 @@ public class CommentServiceImpl implements CommentService {
     private final PostMapper postMapper;
 
     @Override
-    public void save(long memberId, Long postId, Long parentId, CommentSaveRequestDto commentSaveRequestDto) {
+    public void save(long memberId, CommentSaveRequestDto commentSaveRequestDto) {
         Member member = getMember(memberId);
+        Long parentId = commentSaveRequestDto.getParentId();
+        Long postId = commentSaveRequestDto.getPostId();
         Post post = postMapper.findById(postId)
                 .orElseThrow(() -> new CustomException(POST_NOT_FOUND));
 
