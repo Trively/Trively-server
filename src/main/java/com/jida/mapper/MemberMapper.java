@@ -7,6 +7,8 @@ import com.jida.domain.Member;
 import com.jida.dto.req.MemberRequestDto;
 import com.jida.dto.req.MemberSaveRequestDto;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -21,4 +23,5 @@ public interface MemberMapper {
 	void deleteRefreshToken(Map<String, String> map);
 	long memberIdById(String id); //아이디를 pk로 변환
 	void editMember(Member member);
+	List<Member> findMessageMembers(long memberId, long attractionId, LocalDate date);
 }
