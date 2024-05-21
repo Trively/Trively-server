@@ -2,10 +2,13 @@ package com.jida.service;
 
 
 import com.jida.dto.res.member.MemberDetailResponseDto;
+import com.jida.exception.CustomException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+
 import com.jida.domain.Member;
 import com.jida.dto.req.MemberRequestDto;
 import com.jida.dto.req.MemberSaveRequestDto;
@@ -61,5 +64,12 @@ public class MemberServiceImpl implements MemberService {
 		memberMapper.deleteRefreshToken(map);
 	}
 
+	@Override
+	public void editMember(long memberId, MemberSaveRequestDto memberSaveRequestDto) {
+		Member member = memberMapper.findById(memberId);
+		member.setPassword(memberSaveRequestDto.getPassword());
+		member.setNickname(memberSaveRequestDto.getNickname());
+		memberMapper.editMember(member);
+	}
 
 }
