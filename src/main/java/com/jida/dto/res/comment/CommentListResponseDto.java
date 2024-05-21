@@ -24,6 +24,7 @@ public class CommentListResponseDto {
     @Getter
     @NoArgsConstructor
     public static class CommentList{
+        private Long postId;
         private Long commentId;
         private Long parentId;
         private Long memberId;
@@ -34,6 +35,7 @@ public class CommentListResponseDto {
 
         public static CommentList of(Comment comment, boolean writer) {
             CommentList commentList = new CommentList();
+            commentList.postId = comment.getPost().getPostId();
             commentList.commentId = comment.getCommentId();
             commentList.parentId = comment.getParentId();
             commentList.memberId = comment.getMember().getMemberId();
