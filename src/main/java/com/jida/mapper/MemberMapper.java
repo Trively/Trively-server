@@ -20,4 +20,5 @@ public interface MemberMapper {
 	Object getRefreshToken(String id);
 	void deleteRefreshToken(Map<String, String> map);
 	long memberIdById(String id); //아이디를 pk로 변환
+	void editMember(Member member);
 }

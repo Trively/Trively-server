@@ -60,4 +60,9 @@
 		where id=#{id}
 	</select>
 
+	<update id="editMember" parameterType="member">
+		update member
+		set password = #{password}, nickname = #{nickname}
+		where member_id = #{memberId}
+	</update>
 </mapper>

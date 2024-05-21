@@ -165,4 +165,11 @@ public class MemberController {
 		PostListResponseDto postListResponseDto = postService.getMyPost(memberId, pageIndex, pageSize);
 		return PostListResponse.newResponse(POST_LIST_SUCCESS, postListResponseDto);
 	}
+
+	@PutMapping("/edit")
+	public ResponseEntity<MemberResponse> myEdit(@RequestBody MemberSaveRequestDto memberSaveRequestDto, HttpServletRequest request){
+		long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
+		memberService.editMember(memberId, memberSaveRequestDto);
+		return MemberResponse.newResponse(INFO_EDIT_SUCCESS);
+	}
 }
