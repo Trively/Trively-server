@@ -72,4 +72,10 @@ public class MemberServiceImpl implements MemberService {
 		memberMapper.editMember(member);
 	}
 
+	@Override
+	public MemberDetailResponseDto findMember(long memberId) {
+		Member member = memberMapper.findById(memberId);
+		return MemberDetailResponseDto.of(member);
+	}
+
 }

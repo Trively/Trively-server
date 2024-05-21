@@ -2,9 +2,7 @@ package com.jida.controller;
 
 import com.jida.dto.req.PlanSaveRequestDto;
 import com.jida.dto.req.PlanUpdateRequestDto;
-import com.jida.dto.res.plan.PlanListResponse;
-import com.jida.dto.res.plan.PlanListResponseDto;
-import com.jida.dto.res.plan.PlanResponse;
+import com.jida.dto.res.plan.*;
 import com.jida.service.PlanService;
 import com.jida.util.JWTUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,6 +10,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 import static com.jida.constants.SuccessCode.*;
 
@@ -44,5 +44,12 @@ public class PlanController {
         long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
         planService.updatePlan(planUpdateRequestDto, memberId);
         return PlanResponse.newResponse(PLAN_UPDATE_SUCCESS);
+    }
+
+    @GetMapping("/{attractionId}/{date}")
+    public ResponseEntity<PlanMemberResponse> showMember(@PathVariable long attractionId, @PathVariable LocalDate date, HttpServletRequest request){
+        long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
+        PlanMemberResponseDto response = planService.findMessageMembers(memberId, attractionId,date);
+        return PlanMemberResponse.newResponse(PLAN_MEMBER_LIST_SUCCESS,response);
     }
 }

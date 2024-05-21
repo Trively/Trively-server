@@ -81,17 +81,16 @@ public class MemberController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
-	@GetMapping("/info/{userId}")
-	public ResponseEntity<Map<String, Object>> getInfo(
-			@PathVariable("userId") String userId,
-			HttpServletRequest request) {
+	@GetMapping("/info")
+	public ResponseEntity<Map<String, Object>> getInfo(HttpServletRequest request) {
+		long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		if (jwtUtil.checkToken(request.getHeader("Authorization"))) {
 			log.info("사용 가능한 토큰!!!");
 			try {
 //				로그인 사용자 정보.
-				MemberDetailResponseDto memberDetailResponseDto = memberService.findByCustomId(userId);
+				MemberDetailResponseDto memberDetailResponseDto = memberService.findMember(memberId);
 				resultMap.put("userInfo", memberDetailResponseDto);
 				status = HttpStatus.OK;
 			} catch (Exception e) {

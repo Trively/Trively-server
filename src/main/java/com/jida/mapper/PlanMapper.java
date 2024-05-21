@@ -1,9 +1,10 @@
 package com.jida.mapper;
 
+import com.jida.domain.Member;
 import com.jida.domain.Plan;
-import com.jida.dto.req.PlanSaveRequestDto;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Mapper
@@ -12,4 +13,5 @@ public interface PlanMapper {
     List<Plan> selectAll(long planListId);
     void update(Plan plan);
     void deleteAllPlan(long planListId);
+
 }

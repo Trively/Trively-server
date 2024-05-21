@@ -11,10 +11,15 @@ import com.jida.dto.req.PlanListSaveRequestDto;
 import com.jida.dto.req.PlanSaveRequestDto;
 import com.jida.dto.req.PlanUpdateRequestDto;
 import com.jida.dto.res.plan.PlanListResponseDto;
+import com.jida.dto.res.plan.PlanMemberResponseDto;
 import com.jida.exception.CustomException;
 import com.jida.mapper.MemberMapper;
 import com.jida.mapper.PlanMapper;
+
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -93,6 +98,12 @@ public class PlanServiceImpl implements PlanService {
         planListService.update(planList.getPlanListId(), requestDto.getTitle());
         planMapper.deleteAllPlan(planList.getPlanListId());
         planMapper.save(plans);
+    }
+
+    @Override
+    public PlanMemberResponseDto findMessageMembers(long memberId, long attractionId, LocalDate date) {
+        List<PlanMemberResponseDto.MessageMember> list = memberMapper.findMessageMembers(memberId,attractionId,date).stream().map(PlanMemberResponseDto.MessageMember::of).collect(Collectors.toList());
+        return PlanMemberResponseDto.of(list);
     }
 
     private Member getMember(long memberId) {

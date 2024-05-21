@@ -43,7 +43,8 @@ public enum SuccessCode {
 	PLAN_SHOW_SUCCESS(OK, "여행계획 조회를 완료했습니다."),
 	PLAN_UPDATE_SUCCESS(OK, "여행계획 수정을 완료했습니다."),
 	PLAN_DELETE_SUCCESS(OK, "여행계획 삭제를 완료했습니다."),
-	PLAN_ALL_LIST_SUCCESS(OK, "나의 모든 여행 리스트 조회를 완료했습니다.");
+	PLAN_ALL_LIST_SUCCESS(OK, "나의 모든 여행 리스트 조회를 완료했습니다."),
+	PLAN_MEMBER_LIST_SUCCESS(OK, "추천친구 조회를 성공했습니다.");
 
 	private final HttpStatus status;
 	private final String message;

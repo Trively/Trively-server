@@ -65,4 +65,12 @@
 		set password = #{password}, nickname = #{nickname}
 		where member_id = #{memberId}
 	</update>
+
+	<select id="findMessageMembers" resultMap = "member">
+		select *
+		from plan p
+		join planlist pl on p.planlist_id = pl.planlist_id
+		join member m on pl.member_id = m.member_id
+		where plan_date = #{date} and open = 0 and m.member_id != #{member_id}
+	</select>
 </mapper>
