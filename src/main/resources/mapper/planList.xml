@@ -41,15 +41,17 @@
     </update>
 
     <select id="findAllByMemberId" parameterType="long" resultMap="planList">
-        select pl.*, a.image1 as mainImage
+        select pl.*, COALESCE(NULLIF(a.image1, ''), a2.image1) as mainImage
         from planlist pl
-         join (
+                 join (
             select p.planlist_id, min(p.orders) as first_order
             from plan p
             group by p.planlist_id
         ) fp on fp.planlist_id = pl.planlist_id
                  join plan p on p.planlist_id = fp.planlist_id and p.orders = fp.first_order
                  join attraction a on a.attraction_id = p.attraction_id
+                 left join plan p2 on p2.planlist_id = fp.planlist_id and p2.orders = fp.first_order + 1
+                 left join attraction a2 on a2.attraction_id = p2.attraction_id
         where pl.member_id = #{memberId}
     </select>
 
