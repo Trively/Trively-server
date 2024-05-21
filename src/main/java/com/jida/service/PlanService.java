@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface PlanService {
-    PlanListResponseDto savePlan(PlanSaveRequestDto planSaveRequestDto, long memberId);
+    void savePlan(PlanSaveRequestDto planSaveRequestDto, long memberId);
     PlanListResponseDto showAll(long planListId, long memberId);
     void updatePlan(PlanUpdateRequestDto planSaveRequestDto, long memberId);
     PlanMemberResponseDto findMessageMembers(long memberId, long attractionId, LocalDate date);
