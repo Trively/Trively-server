@@ -31,4 +31,11 @@ public class AttractionController {
         AttractionListResponseDto responseDto = attractionService.showList(map);
         return AttractionListResponse.newResponse(ATTRACTION_LIST_READ_SUCCESS, responseDto);
     }
+
+    @GetMapping("/img")
+    public ResponseEntity<AttractionListResponse> showListOrderByPlanCnt(){
+        AttractionListResponseDto responseDto = attractionService.showListOrderByPlanCnt();
+        return AttractionListResponse.newResponse(ATTRACTION_LIST_READ_SUCCESS, responseDto);
+
+    }
 }

@@ -10,4 +10,5 @@ public interface AttractionService {
     AttractionListResponseDto showList(Map<String, Object> map);
     Attraction findById(Long attractionId);
     void addPlanCnt(List<Long> attractionId);
+    AttractionListResponseDto showListOrderByPlanCnt();
 }

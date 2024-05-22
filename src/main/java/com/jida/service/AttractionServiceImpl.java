@@ -43,4 +43,12 @@ public class AttractionServiceImpl implements AttractionService {
     public void addPlanCnt(List<Long> attractionIds) {
         attractionMapper.addPlanCnt(attractionIds);
     }
+
+    @Override
+    public AttractionListResponseDto showListOrderByPlanCnt() {
+        List<AttractionList> list = attractionMapper.showListOrderByPlanCnt().stream()
+                .map(AttractionList::of)
+                .toList();
+        return AttractionListResponseDto.of(list);
+    }
 }

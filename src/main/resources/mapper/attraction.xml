@@ -64,4 +64,12 @@
         </foreach>
     </update>
 
+    <select id="showListOrderByPlanCnt" resultMap="attraction">
+        select *
+        from attraction
+        where char_length(image1) > 1
+        order by plan_cnt desc
+        limit 15;
+    </select>
+
 </mapper>
