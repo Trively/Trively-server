@@ -78,4 +78,10 @@ public class MemberServiceImpl implements MemberService {
 		return MemberDetailResponseDto.of(member);
 	}
 
+	@Override
+	public void deleteMember(long memberId) {
+		memberMapper.deleteMember(memberId);
+	}
+
+
 }

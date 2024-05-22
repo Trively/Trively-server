@@ -11,6 +11,7 @@ import com.jida.service.PostService;
 import com.jida.util.JWTUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -181,5 +182,12 @@ public class MemberController {
 		long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
 		CommentListResponseDto responseDto = commentService.findByMember(memberId);
 		return CommentListResponse.newResponse(COMMENT_LIST_SUCCESS, responseDto);
+	}
+
+	@DeleteMapping("/bye")
+	public ResponseEntity<MemberResponse> signOut(HttpServletRequest request){
+		long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
+		memberService.deleteMember(memberId);
+		return MemberResponse.newResponse(SIGN_OUT_SUCCESS);
 	}
 }

@@ -14,6 +14,7 @@ public enum SuccessCode {
 	SIGNUP_SUCCESS(OK, "회원가입을 완료했습니다."),
 	LOGIN_SUCCESS(OK, "로그인에 성공했습니다."),
 	INFO_EDIT_SUCCESS(OK, "회원 정보 수정을 완료했습니다."),
+	SIGN_OUT_SUCCESS(OK, "회원 탈퇴를 완료했습니다."),
 	//Attraction
 	ATTRACTION_LIST_READ_SUCCESS(OK, "여행지 리스트 조회를 성공했습니다."),
 	//Board
