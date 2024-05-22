@@ -27,6 +27,7 @@ public class MessageDetailResponseDto {
         @JsonFormat(pattern = "yyyy/MM/dd HH:mm", timezone = "Asia/Seoul")
         private LocalDateTime createdAt;
         private boolean sender;
+        private Long planlistId;
 
         public static MessageDto of(Message message, boolean sender){
             MessageDto messageDto = new MessageDto();
@@ -34,6 +35,7 @@ public class MessageDetailResponseDto {
             messageDto.content = message.getContent();
             messageDto.createdAt = message.getCreatedAt();
             messageDto.sender = sender;
+            messageDto.planlistId = message.getPlanlistId();
             return messageDto;
         }
 

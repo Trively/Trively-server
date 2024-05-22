@@ -10,6 +10,7 @@
         <result column="created_at" property="createdAt"/>
         <result column="room_id" property="messageRoom.roomId"/>
         <result column="member_id" property="member.memberId"/>
+        <result column="planlist_id" property="planlistId"/>
 
         <association property="messageRoom" javaType="com.jida.domain.MessageRoom">
             <result column="room_id" property="roomId"/>
@@ -22,8 +23,8 @@
     </resultMap>
 
     <insert id="saveMessage" parameterType="message">
-        insert into message (content, room_id, member_id)
-        values (#{content}, #{messageRoom.roomId}, #{member.memberId})
+        insert into message (content, room_id, member_id, planlist_id)
+        values (#{content}, #{messageRoom.roomId}, #{member.memberId}, #{planlistId})
     </insert>
 
     <select id="findFirstByMessageRoom" parameterType="messageRoom" resultMap="message">

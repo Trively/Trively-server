@@ -18,6 +18,7 @@ import static com.jida.constants.SuccessCode.*;
 public class MessageController {
     private final MessageService messageService;
     private final JWTUtil jwtUtil;
+
     @PostMapping("/{memberId}")
     public ResponseEntity<MessageSendResponse> sendMessage(@Valid @RequestBody MessageRequestDto messageRequestDto, @PathVariable long memberId, HttpServletRequest request){
         long sendMemberId = jwtUtil.getUserId(request.getHeader("Authorization"));

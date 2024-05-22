@@ -1,8 +1,10 @@
 package com.jida.dto.res.message;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class MessageSendResponseDto {
     long roomId;
     private MessageSendResponseDto(long roomId){
