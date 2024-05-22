@@ -43,11 +43,11 @@ public class MessageServiceImpl implements MessageService {
         Member sendMember = memberMapper.findById(sendMemberId);
         Member receiveMember = memberMapper.findById(receiveMemberId);
         Long planlistId = messageRequestDto.getPlanlistId();
-        PlanList planList = planListService.findById(planlistId);
-
-        if (planList == null) {
-            throw new CustomException(PLAN_NOT_FOUND);
-        }
+//        PlanList planList = planListService.findById(planlistId);
+//
+//        if (planList == null) {
+//            throw new CustomException(PLAN_NOT_FOUND);
+//        }
         if (sendMember == receiveMember || receiveMember == null) {
             throw new CustomException(MESSAGE_DENIED);
         }
@@ -73,11 +73,11 @@ public class MessageServiceImpl implements MessageService {
         Member member = memberMapper.findById(sendMemberId);
         MessageRoom messageRoom = messageRoomMapper.findById(roomId);
         Long planlistId = messageRequestDto.getPlanlistId();
-        PlanList planList = planListService.findById(planlistId);
-
-        if (planList == null) {
-            throw new CustomException(PLAN_NOT_FOUND);
-        }
+//        PlanList planList = planListService.findById(planlistId);
+//
+//        if (planList == null) {
+//            throw new CustomException(PLAN_NOT_FOUND);
+//        }
         if (messageRoom == null) {
             throw new CustomException(MESSAGE_DENIED);
         }
