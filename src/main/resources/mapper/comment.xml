@@ -24,7 +24,7 @@
         where comment_id = #{commentId}
     </select>
 
-    <insert id="save" parameterType="comment">
+    <insert id="save" parameterType="comment" useGeneratedKeys="true" keyProperty="commentId">
         insert into comment (post_id, member_id, parent_id, content)
         values (#{post.postId}, #{member.memberId}, #{parentId}, #{content})
     </insert>

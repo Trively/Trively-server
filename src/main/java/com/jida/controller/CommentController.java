@@ -31,10 +31,10 @@ public class CommentController {
     private final CommentService commentService;
     private final JWTUtil jwtUtil;
     @PostMapping
-    public ResponseEntity<CommentResponse> saveComment(@Valid @RequestBody CommentSaveRequestDto commentSaveRequestDto, HttpServletRequest request) {
+    public ResponseEntity<CommentDetailResponse> saveComment(@Valid @RequestBody CommentSaveRequestDto commentSaveRequestDto, HttpServletRequest request) {
         long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
-        commentService.save(memberId, commentSaveRequestDto);
-        return CommentResponse.newResponse(COMMENT_SAVE_SUCCESS);
+        CommentDetailResponseDto response = commentService.save(memberId, commentSaveRequestDto);
+        return CommentDetailResponse.newResponse(COMMENT_SAVE_SUCCESS, response);
     }
 
     @GetMapping("/{postId}")

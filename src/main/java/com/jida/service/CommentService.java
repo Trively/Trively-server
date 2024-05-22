@@ -6,7 +6,7 @@ import com.jida.dto.res.comment.CommentListResponseDto;
 import java.util.List;
 
 public interface CommentService {
-    void save(long memberId, CommentSaveRequestDto commentSaveRequestDto);
+    CommentDetailResponseDto save(long memberId, CommentSaveRequestDto commentSaveRequestDto);
 
     CommentListResponseDto findAll(long memberId,Long postId);
 
