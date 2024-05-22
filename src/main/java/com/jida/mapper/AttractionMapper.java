@@ -12,4 +12,5 @@ public interface AttractionMapper {
     List<Attraction> showList(Map<String, Object> map);
     Optional<Attraction> findById(Long attractionId);
     void addPlanCnt(List<Long> attractionIds);
+    List<Attraction> showListOrderByPlanCnt();
 }
