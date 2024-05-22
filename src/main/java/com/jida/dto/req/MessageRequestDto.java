@@ -5,4 +5,5 @@ import lombok.Getter;
 @Getter
 public class MessageRequestDto {
     private String content;
+    private Long planlistId;
 }

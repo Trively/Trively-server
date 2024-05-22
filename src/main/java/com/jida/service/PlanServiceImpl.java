@@ -68,9 +68,9 @@ public class PlanServiceImpl implements PlanService {
         Member member = getMember(memberId);
         PlanList planList = planListService.findById(planListId);
 
-        if (member.getMemberId() != planList.getMember().getMemberId()) {
-            throw new CustomException(PLAN_CANT_GET);
-        }
+//        if (member.getMemberId() != planList.getMember().getMemberId()) {
+//            throw new CustomException(PLAN_CANT_GET);
+//        }
 
         List<PlanLists> list = planMapper.selectAll(planListId).stream()
                 .map(PlanLists::of)
