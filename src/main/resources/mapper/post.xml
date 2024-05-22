@@ -96,9 +96,13 @@
 	</update>
 
 	<update id="diffCommentCnt" parameterType="Long">
-		update post
-		set comment_cnt = GREATEST(0, comment_cnt - 1)
-		where post_id = #{postId}
+		UPDATE post
+		SET comment_cnt = GREATEST(0, comment_cnt - (
+			SELECT COUNT(*)
+			FROM comment
+			WHERE post_id = #{postId} AND (comment_id = #{commentId} OR parent_id = #{commentId})
+		))
+		WHERE post_id = #{postId}
 	</update>
 
 	<update id="addLikeCnt" parameterType="Long">

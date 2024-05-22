@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 public class CommentDetailResponseDto {
     private Long commentId;
     private Long parentId;
+    private Long memberId;
+    private Long postId;
     private String content;
     private String createdAt;
     private String nickname;
@@ -20,6 +22,8 @@ public class CommentDetailResponseDto {
     private CommentDetailResponseDto(Comment comment) {
         this.commentId = comment.getCommentId();
         this.parentId = comment.getParentId();
+        this.memberId = comment.getMember().getMemberId();
+        this.postId = comment.getPost().getPostId();
         this.content = comment.getContent();
         this.createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yy-MM-dd HH:mm"));
         this.nickname = comment.getMember().getNickname();

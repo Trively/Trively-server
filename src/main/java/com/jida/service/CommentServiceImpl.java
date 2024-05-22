@@ -79,8 +79,8 @@ public class CommentServiceImpl implements CommentService {
             throw new CustomException(COMMENT_CANT_DELETE);
         }
 
+        postMapper.diffCommentCnt(postId, commentId);
         commentMapper.delete(commentId);
-        postMapper.diffCommentCnt(postId);
     }
 
     @Override
