@@ -24,4 +24,5 @@ public interface MemberMapper {
 	long memberIdById(String id); //아이디를 pk로 변환
 	void editMember(Member member);
 	List<Member> findMessageMembers(long memberId, long attractionId, LocalDate date);
+	void deleteMember(long memberId);
 }
