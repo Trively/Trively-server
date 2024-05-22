@@ -83,9 +83,9 @@ public class PlanServiceImpl implements PlanService {
         Member member = getMember(memberId);
         PlanList planList = planListService.findById(requestDto.getPlanListId());
 
-        if (member.getMemberId() != planList.getMember().getMemberId()) {
-            throw new CustomException(PLAN_CANT_GET);
-        }
+//        if (member.getMemberId() != planList.getMember().getMemberId()) {
+//            throw new CustomException(PLAN_CANT_GET);
+//        }
 
         List<Plan> plans = requestDto.getPlans().stream()
                 .map(planDto -> {
