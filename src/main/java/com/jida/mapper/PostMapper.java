@@ -19,7 +19,7 @@ public interface PostMapper {
 
 	void addCommentCnt(Long postId);
 
-	void diffCommentCnt(Long postId);
+	void diffCommentCnt(Long postId, Long commentId);
 
 	void addLikeCnt(Long postId);
 
