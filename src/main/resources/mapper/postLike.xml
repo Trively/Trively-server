@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jida.mapper.PostLikeMapper">
+
+    <resultMap type="postLike" id="postLike">
+        <result column="member_id" property="memberId"/>
+        <result column="post_id" property="postId"/>
+    </resultMap>
+
+    <select id="findByUserAndPost" parameterType="map" resultMap = "postLike">
+        SELECT member_id, post_id
+        from post_like
+        where member_id=#{memberId} and post_id=#{postId}
+
+    </select>
+
+    <insert id="save" parameterType="postLike">
+        insert into post_like (member_id, post_id)
+        values (#{memberId}, #{postId})
+    </insert>
+
+    <delete id="delete" parameterType="postLike">
+        delete from post_like
+        where member_id = #{memberId} AND post_id = #{postId}
+    </delete>
+
+    <select id="isLiked" parameterType="long">
+        select 1
+        from post_like
+        where member_id = #{memberId} AND post_id = #{postId}
+    </select>
+</mapper>

@@ -1,5 +1,28 @@
 package com.jida.mapper;
 
-public interface MemberMapper {
+import com.jida.dto.res.member.MemberDetailResponseDto;
+import org.apache.ibatis.annotations.Mapper;
 
+import com.jida.domain.Member;
+import com.jida.dto.req.MemberRequestDto;
+import com.jida.dto.req.MemberSaveRequestDto;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+@Mapper
+public interface MemberMapper {
+	Member loginMember(Map<String, String> map);
+	Member findById(long memberId); //pk로 찾기
+	void joinMember(Member member);
+	Member findByCustomId(String id); //아이디로 찾기
+	void saveRefreshToken(Map<String, String> map);
+	Object getRefreshToken(String id);
+	void deleteRefreshToken(Map<String, String> map);
+	long memberIdById(String id); //아이디를 pk로 변환
+	void editMember(Member member);
+	List<Member> findMessageMembers(long memberId, long attractionId, LocalDate date);
+	void deleteMember(long memberId);
 }

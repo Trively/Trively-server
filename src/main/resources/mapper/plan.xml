@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jida.mapper.PlanMapper">
+
+    <resultMap type="plan" id="plan">
+        <result column="plan_id" property="planId"/>
+        <result column="plan_date" property="planDate"/>
+        <result column="attraction_id" property="attraction.attractionId"/>
+        <result column="planlist_id" property="planList.planListId"/>
+        <result column="open" property="open"/>
+        <result column="orders" property="orders"/>
+
+        <association property="planList" javaType="com.jida.domain.PlanList">
+            <result column="planlist_id" property="planListId"/>
+        </association>
+
+        <association property="attraction" javaType="com.jida.domain.Attraction">
+            <result column="attraction_id" property="attractionId"/>
+            <result column="type_id" property="typeId"/>
+            <result column="name" property="name"/>
+            <result column="address" property="address"/>
+            <result column="image1" property="image1"/>
+            <result column="image2" property="image2"/>
+            <result column="latitude" property="latitude"/>
+            <result column="longitude" property="longitude"/>
+            <result column="sido_code" property="sidoCode"/>
+            <result column="plan_cnt" property="planCnt"/>
+        </association>
+    </resultMap>
+
+    <insert id="save" parameterType="java.util.List">
+        insert into plan (plan_date, attraction_id, planlist_id, orders, open)
+        values
+            <foreach collection="plans" item="plan" separator=",">
+                (
+                 #{plan.planDate},
+                #{plan.attraction.attractionId},
+                #{plan.planList.planListId},
+                #{plan.orders},
+                 #{plan.open}
+                )
+            </foreach>
+    </insert>
+
+    <select id="selectAll" parameterType="long" resultMap="plan">
+        select p.*, a.*
+        from plan p
+        join attraction a on a.attraction_id = p.attraction_id
+        where p.planlist_id = #{planListId}
+        order by orders asc
+    </select>
+
+    <delete id="deleteAllPlan" parameterType = "long">
+        delete from plan
+        where planlist_id = #{planListId}
+    </delete>
+
+    <select id="findById" parameterType="long" resultMap="plan">
+        select *
+        from plan
+        where plan_id = #{planId}
+    </select>
+
+    <update id="clickOpen" parameterType="long">
+        update plan
+        set open = 1 - open
+        where plan_id = #{planId}
+    </update>
+
+</mapper>

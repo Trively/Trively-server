@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jida.mapper.MemberMapper">
+
+	<resultMap type="member" id="member">
+		<result column="member_id" property="memberId"/>
+		<result column="id" property="id"/>
+		<result column="password" property="password"/>
+		<result column="email" property="email"/>
+		<result column="nickname" property="nickname"/>
+		<result column="token" property="refreshToken"/>
+	</resultMap>
+
+	<select id="loginMember" parameterType="map" resultMap="member">
+		select *
+		from member
+		where id = #{id} and password = #{password}
+	</select>
+
+	<select id="findById" parameterType="long" resultMap="member">
+		select *
+		from member
+		where member_id=#{memberId}
+	</select>
+
+	<select id="findByCustomId" parameterType="string" resultMap="member">
+		select *
+		from member
+		where id=#{id}
+	</select>
+	
+	<insert id="joinMember" parameterType="member">
+		insert into member (id, password, email, nickname)
+		values (#{id},#{password},#{email},#{nickname})
+	</insert>
+
+	<update id="saveRefreshToken" parameterType="map">
+		update member
+		set token = #{token}
+		where id = #{userId}
+	</update>
+
+	<select id="getRefreshToken" parameterType="string" resultType="string">
+		select token
+		from member
+		where id = #{id}
+	</select>
+
+	<update id="deleteRefreshToken" parameterType="map">
+		update member
+		set token = #{token, jdbcType=VARCHAR}
+		where id = #{userId}
+	</update>
+
+	<select id="memberIdById" parameterType="string" resultType="long">
+		select member_id
+		from member
+		where id=#{id}
+	</select>
+
+	<update id="editMember" parameterType="member">
+		update member
+		set password = #{password}, nickname = #{nickname}
+		where member_id = #{memberId}
+	</update>
+
+	<select id="findMessageMembers" resultMap = "member">
+		select *
+		from plan p
+		join planlist pl on p.planlist_id = pl.planlist_id
+		join member m on pl.member_id = m.member_id
+		where p.plan_date between DATE_SUB(date_format(#{date}, "%Y-%m-%d"),INTERVAL 3 DAY) and DATE_ADD(date_format(#{date}, "%Y-%m-%d"), INTERVAL 3 DAY) and p.open = 1 and m.member_id != #{memberId} and p.attraction_id= #{attractionId}
+	</select>
+
+	<delete id="deleteMember" parameterType="long">
+		delete
+		from member
+		where member_id = #{memberId}
+	</delete>
+</mapper>

@@ -1,0 +1,75 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jida.mapper.AttractionMapper">
+
+    <resultMap type="attraction" id="attraction">
+        <result column="attraction_id" property="attractionId"/>
+        <result column="type_id" property="typeId"/>
+        <result column="name" property="name"/>
+        <result column="address" property="address"/>
+        <result column="image1" property="image1"/>
+        <result column="image2" property="image2"/>
+        <result column="latitude" property="latitude"/>
+        <result column="longitude" property="longitude"/>
+        <result column="sido_code" property="sidoCode"/>
+        <result column="plan_cnt" property="planCnt"/>
+    </resultMap>
+
+    <select id="showList" parameterType="map" resultMap="attraction">
+        select *
+        from attraction
+        <where>
+            <include refid="search"></include>
+        </where>
+        order by attraction_id asc
+        limit 10
+    </select>
+
+    <sql id="search">
+        <if test="sidoCode != null and sidoCode != ''">
+            and sido_code = #{sidoCode}
+        </if>
+        <if test="typeIds != null and typeIds.length > 0">
+            and type_id in
+            <foreach item="typeId" collection="typeIds" open="(" separator="," close=")">
+                #{typeId}
+            </foreach>
+        </if>
+        <if test="search != null and search != ''">
+            and (
+            name like CONCAT('%', #{search}, '%')
+            or address like CONCAT('%', #{search}, '%')
+            or replace(name, ' ', '') like CONCAT('%', replace(#{search}, ' ', ''), '%')
+            or replace(address, ' ', '') like CONCAT('%', replace(#{search}, ' ', ''), '%')
+            )
+        </if>
+        <if test="lastAttractId != null">
+            and attraction_id &gt; #{lastAttractId}
+        </if>
+    </sql>
+
+    <select id="findById" parameterType="Long" resultMap="attraction">
+        select *
+        from attraction
+        where attraction_id = #{attractionId}
+    </select>
+
+    <update id="addPlanCnt" parameterType="java.util.List">
+        UPDATE attraction
+        SET plan_cnt = plan_cnt + 1
+        WHERE attraction_id IN
+        <foreach collection="attractionIds" item="attractionId" open="(" separator="," close=")">
+            #{attractionId}
+        </foreach>
+    </update>
+
+    <select id="showListOrderByPlanCnt" resultMap="attraction">
+        select *
+        from attraction
+        where char_length(image1) > 1
+        order by plan_cnt desc
+        limit 15;
+    </select>
+
+</mapper>

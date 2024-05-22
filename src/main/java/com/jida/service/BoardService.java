@@ -1,10 +1,8 @@
 package com.jida.service;
 
-import java.util.List;
-
-import com.jida.domain.Board;
+import com.jida.dto.res.board.BoardListResponseDto;
 
 public interface BoardService {
-	List<Board> showList() throws Exception;
+	BoardListResponseDto showList();
 	
 }

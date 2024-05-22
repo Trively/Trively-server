@@ -1,5 +1,13 @@
 package com.jida.mapper;
 
-public interface BoardMapper {
+import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
+import com.jida.domain.Board;
+
+@Mapper
+public interface BoardMapper {
+	List<Board> showList();
+	Board findById(String boardName);
 }
