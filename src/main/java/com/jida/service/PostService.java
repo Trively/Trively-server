@@ -13,7 +13,7 @@ public interface PostService {
 	PostListResponseDto showList(String order, long boardId, int pageIndex, int pageSize);
 	long writePost(long memberId, PostSaveRequestDto postSaveRequestDto);
 	void updateHit(long postId);
-	PostDetailResponseDto viewPost(long postId);
+	PostDetailResponseDto viewPost(long memberId, long postId);
 	long modifyPost(long memberId,long postId, PostSaveRequestDto postSaveRequestDto);
 	void deletePost(long memberId,long postId);
 	boolean clickPostLike(long memberId,Long postId);

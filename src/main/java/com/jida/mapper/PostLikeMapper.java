@@ -10,4 +10,5 @@ public interface PostLikeMapper {
     Optional<PostLike> findByUserAndPost(@Param("memberId") Long memberId,@Param("postId") Long postId);
     void save(PostLike postLike);
     void delete(PostLike postLike);
+    Integer isLiked(Long memberId, Long postId);
 }

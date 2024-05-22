@@ -30,9 +30,11 @@ public class PostDetailResponseDto {
 		private long memberId;
 		private int commentCnt;
 		private int likeCnt;
+		private boolean isLiked;
+		private boolean isScraped;
 
 		public PostDetail(long postId, String title, String content, String createdAt, long hit, long boardId,
-						  String nickName, long memberId, int commentCnt, int likeCnt) {
+						  String nickName, long memberId, int commentCnt, int likeCnt, Integer isLiked, Integer isScraped) {
 			this.postId = postId;
 			this.title = title;
 			this.content = content;
@@ -43,6 +45,8 @@ public class PostDetailResponseDto {
 			this.memberId = memberId;
 			this.commentCnt = commentCnt;
 			this.likeCnt = likeCnt;
+			this.isLiked = isLiked != null;
+			this.isScraped = isScraped != null;
 		}
 		
 		

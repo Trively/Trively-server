@@ -72,4 +72,10 @@
             and p.board_id = #{boardId}
         </if>
     </select>
+
+    <select id="isScraped" parameterType="long">
+        select 1
+        from post_scrap
+        where member_id = #{memberId} AND post_id = #{postId}
+    </select>
 </mapper>

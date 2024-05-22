@@ -45,14 +45,15 @@ public class PostController {
     public ResponseEntity<PostDetailResponse> savePost(@RequestBody PostSaveRequestDto postSaveRequestDto, HttpServletRequest request) {
         long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
         long postId = postService.writePost(memberId,postSaveRequestDto);
-        PostDetailResponseDto responseDto = postService.viewPost(postId);
+        PostDetailResponseDto responseDto = postService.viewPost(memberId, postId);
 
         return PostDetailResponse.newResponse(POST_SAVE_SUCCESS, responseDto);
     }
 
     @GetMapping("/{postId}")
-    public ResponseEntity<PostDetailResponse> viewPost(@PathVariable("postId") long postId) {
-        PostDetailResponseDto responseDto = postService.viewPost(postId);
+    public ResponseEntity<PostDetailResponse> viewPost(@PathVariable("postId") long postId,  HttpServletRequest request) {
+        long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
+        PostDetailResponseDto responseDto = postService.viewPost(memberId, postId);
         postService.updateHit(postId);
         return PostDetailResponse.newResponse(POST_DETAIL_SUCCESS, responseDto);
     }
@@ -62,7 +63,7 @@ public class PostController {
                                                          @RequestBody PostSaveRequestDto postSaveRequestDto,HttpServletRequest request) {
         long memberId = jwtUtil.getUserId(request.getHeader("Authorization"));
         long updatedPostId = postService.modifyPost(memberId, postId, postSaveRequestDto);
-        PostDetailResponseDto responseDto = postService.viewPost(updatedPostId);
+        PostDetailResponseDto responseDto = postService.viewPost(memberId, updatedPostId);
 
         return PostDetailResponse.newResponse(POST_UPDATE_SUCCESS, responseDto);
     }
