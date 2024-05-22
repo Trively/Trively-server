@@ -29,7 +29,7 @@ public class CommentServiceImpl implements CommentService {
     private final PostMapper postMapper;
 
     @Override
-    public void save(long memberId, CommentSaveRequestDto commentSaveRequestDto) {
+    public CommentDetailResponseDto save(long memberId, CommentSaveRequestDto commentSaveRequestDto) {
         Member member = getMember(memberId);
         Long parentId = commentSaveRequestDto.getParentId();
         Long postId = commentSaveRequestDto.getPostId();
@@ -49,6 +49,8 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = Comment.createComment(post, member, parentId, commentSaveRequestDto.getContent());
         commentMapper.save(comment);
         postMapper.addCommentCnt(postId);
+
+        return CommentDetailResponseDto.of(comment);
     }
 
     @Override
