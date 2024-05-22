@@ -65,11 +65,13 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public PostDetailResponseDto viewPost(long postId) {
+	public PostDetailResponseDto viewPost(long memberId, long postId) {
 		Post post = postMapper.findById(postId)
 				.orElseThrow(() -> new CustomException(POST_NOT_FOUND));
+		Integer isLiked = postLikeMapper.isLiked(memberId, postId);
+		Integer isScraped = postScrapMapper.isScraped(memberId, postId);
 		PostDetail postDetail = new PostDetail(post.getPostId(), post.getTitle(), post.getContent(), post.getCreatedAt(), post.getHit(),
-				post.getBoard().getBoardId(), post.getMember().getNickname(), post.getMember().getMemberId(), post.getCommentCnt(), post.getLikeCnt());
+				post.getBoard().getBoardId(), post.getMember().getNickname(), post.getMember().getMemberId(), post.getCommentCnt(), post.getLikeCnt(), isLiked, isScraped);
 
 		return PostDetailResponseDto.of(postDetail);
 	}

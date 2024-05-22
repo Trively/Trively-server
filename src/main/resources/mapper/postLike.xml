@@ -25,4 +25,10 @@
         delete from post_like
         where member_id = #{memberId} AND post_id = #{postId}
     </delete>
+
+    <select id="isLiked" parameterType="long">
+        select 1
+        from post_like
+        where member_id = #{memberId} AND post_id = #{postId}
+    </select>
 </mapper>

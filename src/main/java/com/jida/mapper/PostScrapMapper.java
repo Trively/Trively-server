@@ -14,4 +14,5 @@ public interface PostScrapMapper {
     void delete(PostScrap postScrap);
     List<PostScrap> findScraps(String order, long boardId, long memberId, int offset, int limit);
     int countAllPosts(long boardId, long memberId);
+    Integer isScraped(long memberId, long postId);
 }
