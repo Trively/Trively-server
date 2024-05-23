@@ -67,7 +67,7 @@
 			<include refid="list"></include>
 		</where>
 		<if test="order == 'latest'">
-			order by p.created_at desc
+			order by p.post_id desc
 		</if>
 		<if test="order == 'popularity'">
 			order by p.hit desc
