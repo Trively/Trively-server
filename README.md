@@ -5,7 +5,7 @@
 
 ## 💻 프로젝트 소개
 SSAFY 1학기 파이널 관통 ***최우수 프로젝트***로, 사용자가 쉽게 국내 여행정보를 검색할 수 있고 여행동행을 추천받을 수 있는 웹 사이트입니다.
-<p align="center"><img src="https://github.com/Trively/Trively-server/assets/62243967/9747f252-7c7a-4f90-a552-0471d9da10fe" width="75%"></p>
+<p align="center"><img src="https://github.com/Trively/Trively-server/assets/62243967/917306b7-0421-4008-9fcc-24a956614ed0" width="75%"></p>
 
 https://github.com/Trively/Trively-server/assets/62243967/50e24b25-6588-4f21-a744-7052e386df92
 
@@ -19,7 +19,7 @@ https://github.com/Trively/Trively-server/assets/62243967/50e24b25-6588-4f21-a74
 
 <br>
 
-## 📚 STACK
+## 📚 Stack
 #### ✔Front-end️
 <img src="https://img.shields.io/badge/vue.js-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white"> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
 
