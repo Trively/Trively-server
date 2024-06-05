@@ -4,7 +4,7 @@
 <br>
 
 ## 💻 프로젝트 소개
-SSAFY 1학기 파이널 관통 ***최우수 프로젝트***로, 사용자가 쉽게 국내 여행 정보를 검색할 수 있는 웹 사이트입니다.
+SSAFY 1학기 파이널 관통 ***최우수 프로젝트***로, 사용자가 쉽게 국내 여행정보를 검색할 수 있고 여행동행을 추천받을 수 있는 웹 사이트입니다.
 <p align="center"><img src="https://github.com/Trively/Trively-server/assets/62243967/9747f252-7c7a-4f90-a552-0471d9da10fe" width="75%"></p>
 
 https://github.com/Trively/Trively-server/assets/62243967/50e24b25-6588-4f21-a744-7052e386df92
